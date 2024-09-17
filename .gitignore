@@ -1,0 +1,14 @@
+*.html
+*.log
+*.tex
+.quarto/
+_site/
+index_files/
+/background.svg
+/favicon-32x32.png
+/logo.svg
+
+site_libs/
+/.quarto/
+*.csv
+*.parquet
