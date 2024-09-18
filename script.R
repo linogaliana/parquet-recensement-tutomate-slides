@@ -119,4 +119,20 @@ ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
     caption = "Source: Insee, Fichiers détails du recensement de la population"
   )
 
-# Logements vacantes
+# Logements vacants
+ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
+  geom_sf(aes(fill = p), color = "white") +
+  scale_fill_fermenter(
+        n.breaks = 5, 
+        palette = "RdPu",
+        direction = 1,
+        labels = scales::label_percent(
+          scale_cut = scales::cut_short_scale()
+        )
+  ) +
+  theme_void() +
+  labs(
+    fill = "Part dans le\nparc de logement (%)",
+    title = "Cartographie des résidences secondaires",
+    caption = "Source: Insee, Fichiers détails du recensement de la population"
+  )
