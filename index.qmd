@@ -1,0 +1,62 @@
+---
+title: Atelier de découverte des données détaillées du RP
+subtitle: |
+  Prise en main
+author:
+    - Lino Galiana
+    - Mélina Hillion
+# date: 
+slide-number: true
+footer: |
+  CCCC
+# uncomment for French presentations:
+lang: fr-FR
+# for blind readers:
+slide-tone: false
+chalkboard: # press the B key to toggle chalkboard
+  theme: whiteboard
+# uncomment to use the multiplex mode:
+#multiplex: true
+format:
+  # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
+  onyxia-revealjs:
+  #onyxia-dark-revealjs:
+    incremental: true 
+    output-file: index.html
+controls: true
+css: custom.css
+from: markdown+emoji
+---
+
+# Introduction
+
+## Ressources associées
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Slides
+
+{{< qrcode https://ensae-reproductibilite.github.io/slides/ qr1 width=400 height=400 >}}
+
+:::
+
+::: {.column width="50%"}
+### Exercice
+
+{{< qrcode https://ensae-reproductibilite.github.io/website/ qr2 width=400 height=400 >}}
+
+:::
+
+::::
+
+
+## Idées
+
+- Tuto ssphub
+- Faire une carte des résidences secondaires en France
+- Modes de transport
+- Distribution par âge
+
+
+
