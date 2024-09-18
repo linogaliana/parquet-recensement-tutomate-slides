@@ -2,6 +2,8 @@ library(duckdb)
 library(dplyr)
 library(stringr)
 library(glue)
+library(dplyr)
+library(cartiflette)
 
 # TELECHARGEMENT DES FICHIERS -------------------------
 
@@ -38,8 +40,11 @@ dbExecute(
     .con=con
   )
 )
+
 table_logement <- tbl(con, "table_logement")
 table_individu <- tbl(con, glue('read_parquet("FD_INDCVI_2020.parquet")'))
+documentation_logement <- readr::read_csv2("dictionnaire_variables_logemt_2020.csv")
+
 
 
 # PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
@@ -61,5 +66,57 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
   labs(y = "Individus recensés", x = "Âge")
 
 # + 1 carte
+?tbl
+
+# Résidences principales et secondaires
+
+departements <- carti_download(
+    values="France",
+    crs=4326,
+    borders="DEPARTEMENT",
+    vectorfile_format="geojson",
+    filter_by="FRANCE_ENTIERE_DROM_RAPPROCHES",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022,
+)
+
+parc_locatif <- table_logement %>%
+  mutate(DEPT = substring(COMMUNE, 1, 2) ) %>%
+  group_by(DEPT, CATL) %>%
+  summarise(n = sum(IPONDL)) %>%
+  ungroup() %>%
+  collect()
 
 
+
+
+
+parc_locatif_sf <- departements %>%
+  inner_join(
+    parc_locatif,
+    by = c("INSEE_DEP" = "DEPT"),
+    relationship = "many-to-many" # on a des clés dupliquées dans le fond cartiflette (e.g. Ile de France) et dans le dataframe (4 valeurs par dep)
+  ) %>%
+  group_by(INSEE_DEP) %>%
+  mutate(p = n/sum(n)) %>%
+  ungroup
+
+# Résidences secondaires
+ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
+  geom_sf(aes(fill = p), color = "white") +
+  scale_fill_fermenter(
+        n.breaks = 5, 
+        palette = "RdPu",
+        direction = 1,
+        labels = scales::label_percent(
+          scale_cut = scales::cut_short_scale()
+        )
+  ) +
+  theme_void() +
+  labs(
+    fill = "Part dans le\nparc de logement (%)",
+    title = "Cartographie des résidences secondaires",
+    caption = "Source: Insee, Fichiers détails du recensement de la population"
+  )
+
+# Logements vacantes
