@@ -144,6 +144,44 @@ ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
     caption = "Source: Insee, Fichiers détails du recensement de la population"
   )
 
+# MODE DE TRANSPORT x AGE
+
+
+transports_age <- table_individu %>%
+  mutate(
+    DEPT = if_else(
+      starts_with(DEPT, "97"),
+      DEPT,
+      substring(DEPT, 1, 2)
+    )
+  ) %>%
+  filter(!(TRANS %in% c("1", "Z"))) %>% #on fait un parmi les transports
+  group_by(DEPT, AGEREVQ, TRANS) %>%
+  summarise(n = sum(IPONDI)) %>%
+  ungroup() %>%
+  collect()
+
+
+transports_age <- transports_age %>%
+  group_by(DEPT, AGEREVQ) %>%
+  mutate(p = n/sum(n))
+
+
+transports_age <- transports_age %>%
+  filter(DEPT == 75)
+  
+transports_age <- transports_age %>%
+  inner_join(
+    y = documentation_individus %>% filter(COD_VAR == "TRANS"),
+    by = c("TRANS" = "COD_MOD")
+  )
+  
+
+
+ggplot(transports_age) +
+  geom_line(aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MOD))) +
+  scale_x_continuous(limits = c(20,70))
+
 
 # 
 
