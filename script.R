@@ -44,7 +44,7 @@ dbExecute(
 table_logement <- tbl(con, "table_logement")
 table_individu <- tbl(con, glue('read_parquet("FD_INDCVI_2020.parquet")'))
 documentation_logement <- readr::read_csv2("dictionnaire_variables_logemt_2020.csv")
-
+documentation_individus <- readr::read_csv2("dictionnaire_variables_indcvi_2020.csv")
 
 
 # PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
@@ -66,7 +66,7 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
   labs(y = "Individus recensés", x = "Âge")
 
 # + 1 carte
-?tbl
+
 
 # Résidences principales et secondaires
 
@@ -81,7 +81,14 @@ departements <- carti_download(
 )
 
 parc_locatif <- table_logement %>%
-  mutate(DEPT = substring(COMMUNE, 1, 2) ) %>%
+  mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
+  mutate(
+    DEPT = if_else(
+      starts_with(DEPT, "97"),
+      DEPT,
+      substring(DEPT, 1, 2)
+    )
+  ) %>%
   group_by(DEPT, CATL) %>%
   summarise(n = sum(IPONDL)) %>%
   ungroup() %>%
@@ -136,3 +143,22 @@ ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
     title = "Cartographie des résidences secondaires",
     caption = "Source: Insee, Fichiers détails du recensement de la population"
   )
+
+
+# 
+
+iris_uu_marseille = carti_download(
+    values = c("00759"),
+    crs = 4326,
+    borders="IRIS",
+    vectorfile_format="geojson",
+    filter_by="UNITE_URBAINE",
+    source="CONTOUR-IRIS",
+    provider="Cartiflette",
+    path_within_bucket="test",
+    dataset_family="production",
+    simplification = "0",
+    territory="france", filename = "value",
+    year=2023)
+
+
