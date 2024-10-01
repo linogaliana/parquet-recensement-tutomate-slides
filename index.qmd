@@ -183,23 +183,88 @@ Une ou deux slides
 
 ::::
 
-# 
+## Une source idéale pour innover dans la diffusion {transition="fade" transition-speed="fast"}
 
-<h3>...now other organizations use `Parquet` for dissemination  !</h3>
+- D'autres institutions l'utilisent maintenant pour leur diffusion
 
 :::: {.columns}
 
 ::: {.column width="50%"}
-![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/loquet.png)
+![](https://raw.githubusercontent.com/linogaliana/prez-parquet-ocde-2024/main/img/loquet.png)
 :::
 
 ::: {.column width="50%"}
-[Detailed official crime statistics for France](https://www.linkedin.com/feed/update/urn:li:activity:7163227953928089601/)
+[Statistiques sur longue période des crimes et délis](https://www.linkedin.com/feed/update/urn:li:activity:7163227953928089601/)
 :::
 
 ::::
 
 # Pourquoi le format `Parquet` ?
+
+## Parquet : c'est quoi ?
+
+- Un [**format de données**]{.orange} adapté...
+    - Aux données volumineuses ;
+    - Aux données complexes (exemple: <b><ins>01</ins>004</b> pour le code commune d'Ambérieu-en-Bugey)
+
+. . .
+
+- Format léger, [**très compressé**]{.orange}:
+    - Entre 5 et 20 fois plus léger qu'un CSV
+    - Pas de perte d'efficacité en lecture
+
+
+## Parquet : c'est quoi ?
+
+
+- Plus pratique pour n'ouvrir qu'un sous-ensemble de variables
+    + Pas besoin de scanner tout le fichier pour étudier quelques variables ;
+    + Format [**orienté colonnes**]{.orange} par opposition aux csv qui sont orientés lignes
+
+<!---------
+https://www.datagrandest.fr/portail/sites/default/files/webinaire_datagrandest_parquet_2024.pdf
+---------->
+
+
+## Parquet : quels avantages ? {#section_2_2 .backgroundStandard}
+
+<br>
+
+- Un format utilisable avec un __[grand nombre de langages libres]{.orange}__ de traitement données:
+    + Format libre, _open source_, et indépendant du langage ;
+    + Devient un incontournable pour les _data scientists_, statisticiens et géomaticiens.
+
+- Une [**compression très efficace**]{.orange}
+    + Des fichiers beaucoup moins volumineux qu'en csv
+    + RP: 500 Mo en `Parquet` vs 5 Go en CSV
+
+
+- [__Plus de confort__]{.orange} pour les utilisateurs
+    + Des requêtes plus rapides et efficaces (seulement les données nécessaires sont lues, pas tout le fichier)
+    + Des données conformes à la mise à disposition par le producteur (plus de problème de codes communes...)
+
+
+## Parquet : quels usages ?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- Format privilégié pour la mise à disposition de données internes à l'Insee:
+    + Moins d'asymétries entre utilisateurs et producteurs.
+
+- Premières diffusions sur `data.gouv` avec les **bureaux de votes du REU et adresses des électeurs** ainsi que les **fichiers du recensement** 
+
+- Prévisualisations des fichiers Parquet possibles avec le nouvel __[explorateur de données](https://datalab.sspcloud.fr/data-explorer)__ du [SSP Cloud](https://datalab.sspcloud.fr)
+:::
+
+::: {.column width="40%"}
+![cf. [Newsletter #16](https://ssphub.netlify.app/infolettre/infolettre_16) du `SSPHub`](https://ssphub.netlify.app/infolettre/infolettre_16/viewer-sspcloud.png)
+:::
+
+::::
+
+
 
 ## Idées
 
