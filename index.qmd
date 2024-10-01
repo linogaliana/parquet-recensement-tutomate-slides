@@ -21,7 +21,6 @@ format:
   # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
   onyxia-revealjs:
   #onyxia-dark-revealjs:
-    incremental: true 
     output-file: index.html
 controls: true
 css: custom.css
@@ -50,6 +49,157 @@ from: markdown+emoji
 
 ::::
 
+## Slide(s) d'intro
+
+
+# Contexte sur le recensement de la population 
+
+## Le recensement de la population
+
+Une ou deux slides
+
+
+## Une diffusion sous plusieurs formes
+
+* Diffusion sur [insee.fr](https://www.insee.fr/fr/information/7619431) sous plusieurs formes
+  * Pages _"dynamiques"_ sur [insee.fr](https://www.insee.fr/fr/information/7619431)
+  * Exports d'agrégats depuis [statistiques-locales.insee.fr/](https://statistiques-locales.insee.fr/)
+  * Des données, des cartes, des publications, etc..
+
+. . .
+
+* Mais [**beaucoup de gestes manuels**]{.orange} pour obtenir un seul agrégat
+
+. . .
+
+* Une [**information parfois difficile à trouver**]{.orange} sur le site de l'Insee
+
+
+## Une diffusion sous plusieurs formes
+
+<h3>Les fichiers de données locales</h3>
+<br>
+
+- Structure type: une ligne [**par commune ou IRIS**]{.orange}
+
+. . .
+
+- Taille de chaque fichier relativement raisonnable
+  - CSV généralement de quelques Mo, jusqu'à **150** Mo
+  
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/telechargement_inseefr.png?ref_type=heads)
+
+
+## Une diffusion sous plusieurs formes
+
+<h3>Les micro-données anonymisées</h3>
+
+- Structure type: une ligne [**par observation**]{.orange}
+    + Un logement, un individu...
+
+. . .
+
+- Permet de construire d'autres croisements que ceux proposés sur [insee.fr](https://www.insee.fr/fr/accueil)
+
+. . .
+
+::: {.callout-warning}
+# Un format destiné à des [**utilisateurs avancés**]{.blue2}
+
+- Une source riche mais des [__précautions d'emploi__]{.orange} à respecter:
+  - Pondérations à prendre en compte
+  - Interprétation des petits effectifs...
+- Demande une certaine expertise
+:::
+
+## Défi
+
+- Ce sont des fichiers [__très volumineux__]{.orange}
+  - Jusqu'à 100 variables et [__25 millions__]{.blue2} de lignes
+  - Fichier CSV [**jusqu'à 5 Go**]{.blue2}
+
+. . .
+
+- **Pour l'Insee :** complexes à produire et valider avant diffusion 
+
+. . .
+
+- **Pour l'utilisateur :** complexes à télécharger, stocker et exploiter
+
+## Solution historique
+
+- Diffusion zippée (CSV) ou format DBase (format propriétaire)
+    + Découpage en fichiers par grandes zones de régions
+
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/decoupage_csv.png?ref_type=heads){fig-align="center"}
+
+
+## Une source idéale pour innover dans la diffusion
+
+- Montée en puissance du format pour les usages internes:
+    + Pourquoi ne pas offrir le même confort à l'externe ? 
+
+. . .
+
+- Une demande d'utilisateurs.trices averti.e.s
+    + Par exemple [Eric Mauvière](https://www.icem7.fr/cartographie/parquet-devrait-remplacer-le-format-csv/)
+
+
+## Une source idéale pour innover dans la diffusion {transition="slide" transition-speed="slow"}
+
+
+- Publication en octobre 2023 des données et d'[un guide d'utilisation](https://ssphub.netlify.app/post/parquetrp/)
+
+
+
+![](https://ssphub.netlify.app/post/parquetRP/ducks.png){fig-align="center"}
+
+
+## Une source idéale pour innover dans la diffusion {transition="fade" transition-speed="fast"}
+
+- Un accueil enthousiaste des utilisateurs.trices
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/retour_utilisateur_1.png){width=700px}
+:::
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/retour_utilisateur_2.png){width=700px}
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/img3.png){width=700px}
+:::
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/img4.png){width=700px}
+:::
+
+::::
+
+# 
+
+<h3>...now other organizations use `Parquet` for dissemination  !</h3>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/loquet.png)
+:::
+
+::: {.column width="50%"}
+[Detailed official crime statistics for France](https://www.linkedin.com/feed/update/urn:li:activity:7163227953928089601/)
+:::
+
+::::
+
+# Pourquoi le format `Parquet` ?
 
 ## Idées
 
