@@ -209,17 +209,84 @@ Une ou deux slides
 
 . . .
 
+- Un format de données _opensource_ bien intégré:
+    - A l'écosystème `R`, `Python` et `Observable`
+
+
+## Parquet : pourquoi ?
+
+:::: {.columns}
+
+
+::: {.column width="60%"}
+
 - Format léger, [**très compressé**]{.orange}:
     - Entre 5 et 20 fois plus léger qu'un CSV
     - Pas de perte d'efficacité en lecture
 
 
+:::::: {.callout-note}
+## Exemple: statistiques de la délinquance
+
+- 3.5 millions de lignes: 
+    - CSV: 400Mo
+    - Parquet: 11Mo
+
+::::::
+
+:::
+
+::: {.column width="40%"}
+![](https://raw.githubusercontent.com/linogaliana/prez-parquet-ocde-2024/main/img/loquet.png)
+:::
+
+::::
+
+## Le `CSV`: en apparence pratique
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+<br><br>
+
+- Facile à lire, facile à ouvrir, __mais__
+
+:::
+
+::: {.column width="30%"}
+![](img/parquet-table1.png)
+:::
+
+::::
+
+:::::: {.callout-caution}
+## Problème: il faut scanner tout le fichier pour avoir une seule colonne
+
+- Lent en lecture, pas compressé
+- Problème pour deviner le type d'une variable
+- Même si on ne veut que certaines colonnes, il faut lire tout le fichier
+::::::
+
+
+## `Parquet`: un format orienté colonne
+
+![](img/parquet-table2-enriched.png)
+
+- Plus pratique pour n'ouvrir qu'un sous-ensemble de variables
+
+. . .
+
+- Pas besoin de scanner tout le fichier pour étudier quelques variables ;
+
+
+## Illustration
+
+
+
 ## Parquet : c'est quoi ?
 
 
-- Plus pratique pour n'ouvrir qu'un sous-ensemble de variables
-    + Pas besoin de scanner tout le fichier pour étudier quelques variables ;
-    + Format [**orienté colonnes**]{.orange} par opposition aux csv qui sont orientés lignes
 
 <!---------
 https://www.datagrandest.fr/portail/sites/default/files/webinaire_datagrandest_parquet_2024.pdf
@@ -244,7 +311,7 @@ https://www.datagrandest.fr/portail/sites/default/files/webinaire_datagrandest_p
     + Des données conformes à la mise à disposition par le producteur (plus de problème de codes communes...)
 
 
-## Parquet : quels usages ?
+## `Parquet` : quels usages ?
 
 :::: {.columns}
 
@@ -255,7 +322,7 @@ https://www.datagrandest.fr/portail/sites/default/files/webinaire_datagrandest_p
 
 - Premières diffusions sur `data.gouv` avec les **bureaux de votes du REU et adresses des électeurs** ainsi que les **fichiers du recensement** 
 
-- Prévisualisations des fichiers Parquet possibles avec le nouvel __[explorateur de données](https://datalab.sspcloud.fr/data-explorer)__ du [SSP Cloud](https://datalab.sspcloud.fr)
+- Prévisualisations des fichiers `Parquet` possibles avec le nouvel __[explorateur de données](https://datalab.sspcloud.fr/data-explorer)__ du [SSP Cloud](https://datalab.sspcloud.fr)
 :::
 
 ::: {.column width="40%"}
