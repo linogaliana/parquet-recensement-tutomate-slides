@@ -4,6 +4,10 @@ library(stringr)
 library(glue)
 library(dplyr)
 library(cartiflette)
+library(ggplot2)
+library(sf)
+library(gt)
+
 
 # TELECHARGEMENT DES FICHIERS -------------------------
 
@@ -49,8 +53,17 @@ documentation_individus <- readr::read_csv2("dictionnaire_variables_indcvi_2020.
 
 # PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
 
-library(ggplot2)
+departements <- carti_download(
+    values="France",
+    crs=4326,
+    borders="DEPARTEMENT",
+    vectorfile_format="geojson",
+    filter_by="FRANCE_ENTIERE_DROM_RAPPROCHES",
+    source="EXPRESS-COG-CARTO-TERRITOIRE",
+    year=2022,
+)
 
+# Distribution des âges
 pyramide_ages <- table_individu %>%
   filter(DEPT %in% c('11', '31', '34')) %>%
   group_by(AGED, departement = DEPT) %>%
@@ -65,21 +78,39 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
   theme_minimal() +
   labs(y = "Individus recensés", x = "Âge")
 
-# + 1 carte
+# Répartition des plus de 60 ans
+  # Part des plus de 60 ans par département
+  population_60_plus <- table_individu %>%
+    group_by(DEPT) %>%
+    summarise(
+      total_population = sum(IPONDI), # Population totale
+      population_60_plus = sum(IPONDI[AGED > 60]) # Population de plus de 60 ans
+    ) %>%
+    mutate(pourcentage_60_plus = population_60_plus / total_population * 100) %>%
+    collect()
+
+  # Joindre les données au fond de carte des départements
+  departements_60_plus_sf <- departements %>%
+    inner_join(
+      population_60_plus,
+      by = c("INSEE_DEP" = "DEPT")
+    )
+
+  # Carte 
+  ggplot(departements_60_plus_sf) +
+    geom_sf(aes(fill = pourcentage_60_plus)) + 
+    scale_fill_viridis_c(option = "plasma", direction = -1) + 
+    theme_minimal() + 
+    labs(
+      title = "Part des personnes de plus de 60 ans par département",
+      caption = "Source: Insee, Fichiers détails du recensement de la population"
+    )
+
+  ggsave("carte_part_60ans_plus_dept.png", width = 10, height = 8)
+
 
 
 # Résidences principales et secondaires
-
-departements <- carti_download(
-    values="France",
-    crs=4326,
-    borders="DEPARTEMENT",
-    vectorfile_format="geojson",
-    filter_by="FRANCE_ENTIERE_DROM_RAPPROCHES",
-    source="EXPRESS-COG-CARTO-TERRITOIRE",
-    year=2022,
-)
-
 parc_locatif <- table_logement %>%
   mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
   mutate(
@@ -93,10 +124,6 @@ parc_locatif <- table_logement %>%
   summarise(n = sum(IPONDL)) %>%
   ungroup() %>%
   collect()
-
-
-
-
 
 parc_locatif_sf <- departements %>%
   inner_join(
@@ -145,8 +172,6 @@ ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
   )
 
 # MODE DE TRANSPORT x AGE
-
-
 transports_age <- table_individu %>%
   mutate(
     DEPT = if_else(
@@ -199,4 +224,94 @@ iris_uu_marseille = carti_download(
     territory="france", filename = "value",
     year=2023)
 
+
+# Un tableau de statistiques descriptives
+  # Part des plus de 60 ans
+  part_population_60_plus <- table_individu %>%
+    group_by(DEPT) %>%
+    summarise(
+      total_population = sum(IPONDI), # Population totale
+      population_60_plus = sum(IPONDI[AGED > 60]) # Population des plus de 60 ans
+    ) %>%
+    mutate(pourcentage_60_plus = population_60_plus / total_population * 100) %>%
+    collect()
+
+  # Résidences secondaires
+  part_residences_secondaires <- parc_locatif %>%
+    filter(CATL == "2") %>%
+    select(DEPT, n) %>%
+    group_by(DEPT) %>%
+    summarise(total_residences_secondaires = sum(n)) %>%
+    mutate(pourcentage_residences_secondaires = 100 * total_residences_secondaires / sum(total_residences_secondaires)) %>%
+    ungroup()
+
+  # Logements vacants
+  part_logements_vacants <- parc_locatif %>%
+    filter(CATL == "4") %>%
+    select(DEPT, n) %>%
+    group_by(DEPT) %>%
+    summarise(total_logements_vacants = sum(n)) %>%
+    mutate(pourcentage_logements_vacants = 100 * total_logements_vacants / sum(total_logements_vacants)) %>%
+    ungroup()
+
+  # Calcul des statistiques descriptives : moyenne, min, max pour chaque variable
+  statistiques_descriptives <- tibble(
+    variable = c("Part des 60 ans et plus (%)", "Part des résidences secondaires (%)", "Part des logements vacants (%)"),
+    moyenne = c(
+      mean(part_population_60_plus$pourcentage_60_plus, na.rm = TRUE),
+      mean(part_residences_secondaires$pourcentage_residences_secondaires, na.rm = TRUE),
+      mean(part_logements_vacants$pourcentage_logements_vacants, na.rm = TRUE)
+    ),
+    minimum = c(
+      min(part_population_60_plus$pourcentage_60_plus, na.rm = TRUE),
+      min(part_residences_secondaires$pourcentage_residences_secondaires, na.rm = TRUE),
+      min(part_logements_vacants$pourcentage_logements_vacants, na.rm = TRUE)
+    ),
+    maximum = c(
+      max(part_population_60_plus$pourcentage_60_plus, na.rm = TRUE),
+      max(part_residences_secondaires$pourcentage_residences_secondaires, na.rm = TRUE),
+      max(part_logements_vacants$pourcentage_logements_vacants, na.rm = TRUE)
+    )
+  )
+
+# Générer la table de stats desc avec gt
+table_stats_desc <- statistiques_descriptives %>%
+  gt() %>%
+  tab_header(
+    title = "",
+    subtitle = ""
+  ) %>%
+  cols_label(
+    variable = "",
+    moyenne = "Moy",
+    minimum = "Min",
+    maximum = "Max"
+  ) %>%
+  fmt_number(
+    columns = c(moyenne, minimum, maximum),
+    decimals = 1  # Formater toutes les colonnes avec 1 décimale
+  ) %>%
+  # Personnaliser l'apparence de la table
+  tab_options(
+    heading.title.font.size = px(18),  # Taille du titre réduite à 18px
+    table.border.top.color = "transparent",  # Bordure supérieure transparente (au-dessus du titre)
+    table.border.bottom.color = "black", # Bordure inférieure en noir
+    table.border.bottom.width = px(2),   # Épaisseur de la bordure inférieure
+    column_labels.border.bottom.color = "black", # Bordure sous les noms de colonnes
+    column_labels.border.bottom.width = px(1),   # Épaisseur de la bordure sous les noms de colonnes
+    table_body.hlines.style = "none",  # Supprimer les lignes horizontales dans le corps
+    table_body.vlines.style = "none"   # Supprimer les lignes verticales dans le corps
+  ) %>%
+  # Supprimer les bordures latérales internes
+  tab_style(
+    style = cell_borders(
+      sides = c("left", "right"),
+      color = "transparent",
+      weight = px(0)
+    ),
+    locations = cells_body()
+  )
+
+# Afficher la table
+table_stats_desc
 
