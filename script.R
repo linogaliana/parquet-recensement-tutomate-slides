@@ -33,7 +33,6 @@ if (!file.exists("dictionnaire_variables_indcvi_2020.csv")){
 
 
 # CREATION DE LA DATABASE ----------------------------------------
-
 con <- dbConnect(duckdb())
 
 dbExecute(
@@ -64,7 +63,7 @@ departements <- carti_download(
 
 # PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
 
-# Graphique distribution des âges
+# Bar chart: distribution des âges
 pyramide_ages <- table_individu %>%
   filter(DEPT %in% c('11', '31', '34')) %>%
   group_by(AGED, departement = DEPT) %>%
@@ -79,9 +78,9 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
   theme_minimal() +
   labs(y = "Individus recensés", x = "Âge")
 
-# Répartition des plus de 60 ans
+# Carte : Répartition des plus de 60 ans par département
   # Part des plus de 60 ans par département
-  population_60_plus <- table_individu %>%
+  part_population_60_plus <- table_individu %>%
     group_by(DEPT) %>%
     summarise(
       total_population = sum(IPONDI), # Population totale
@@ -93,7 +92,7 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
   # Joindre les données au fond de carte des départements
   departements_60_plus_sf <- departements %>%
     inner_join(
-      population_60_plus,
+      part_population_60_plus,
       by = c("INSEE_DEP" = "DEPT")
     )
 
@@ -107,105 +106,108 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
       caption = "Source: Insee, Fichiers détails du recensement de la population"
     )
 
-  ggsave("carte_part_60ans_plus_dept.png", width = 10, height = 8)
+  #ggsave("carte_part_60ans_plus_dept.png", width = 10, height = 8)
 
 
-# Résidences principales et secondaires
-parc_locatif <- table_logement %>%
-  mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
-  mutate(
-    DEPT = if_else(
-      starts_with(DEPT, "97"),
-      DEPT,
-      substring(DEPT, 1, 2)
+# Carte: part des résidences secondaires et des logements vacants 
+  # comptage des résidences principales et secondaires
+  parc_locatif <- table_logement %>%
+    mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
+    mutate(
+      DEPT = if_else(
+        starts_with(DEPT, "97"),
+        DEPT,
+        substring(DEPT, 1, 2)
+      )
+    ) %>%
+    group_by(DEPT, CATL) %>%
+    summarise(n = sum(IPONDL)) %>%
+    ungroup() %>%
+    collect()
+
+  # Jointure avec le fond de carte des départements
+  parc_locatif_sf <- departements %>%
+    inner_join(
+      parc_locatif,
+      by = c("INSEE_DEP" = "DEPT"),
+      relationship = "many-to-many" # on a des clés dupliquées dans le fond cartiflette (e.g. Ile de France) et dans le dataframe (4 valeurs par dep)
+    ) %>%
+    group_by(INSEE_DEP) %>%
+    mutate(p = n/sum(n)) %>%
+    ungroup
+
+  # Carte: Part des résidences secondaires
+  ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
+    geom_sf(aes(fill = p), color = "white") +
+    scale_fill_fermenter(
+          n.breaks = 5, 
+          palette = "RdPu",
+          direction = 1,
+          labels = scales::label_percent(
+            scale_cut = scales::cut_short_scale()
+          )
+    ) +
+    theme_void() +
+    labs(
+      fill = "Part dans le\nparc de logement (%)",
+      title = "Cartographie des résidences secondaires",
+      caption = "Source: Insee, Fichiers détails du recensement de la population"
     )
-  ) %>%
-  group_by(DEPT, CATL) %>%
-  summarise(n = sum(IPONDL)) %>%
-  ungroup() %>%
-  collect()
 
-parc_locatif_sf <- departements %>%
-  inner_join(
-    parc_locatif,
-    by = c("INSEE_DEP" = "DEPT"),
-    relationship = "many-to-many" # on a des clés dupliquées dans le fond cartiflette (e.g. Ile de France) et dans le dataframe (4 valeurs par dep)
-  ) %>%
-  group_by(INSEE_DEP) %>%
-  mutate(p = n/sum(n)) %>%
-  ungroup
-
-# Résidences secondaires
-ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
-  geom_sf(aes(fill = p), color = "white") +
-  scale_fill_fermenter(
-        n.breaks = 5, 
-        palette = "RdPu",
-        direction = 1,
-        labels = scales::label_percent(
-          scale_cut = scales::cut_short_scale()
-        )
-  ) +
-  theme_void() +
-  labs(
-    fill = "Part dans le\nparc de logement (%)",
-    title = "Cartographie des résidences secondaires",
-    caption = "Source: Insee, Fichiers détails du recensement de la population"
-  )
-
-# Logements vacants
-ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
-  geom_sf(aes(fill = p), color = "white") +
-  scale_fill_fermenter(
-        n.breaks = 5, 
-        palette = "RdPu",
-        direction = 1,
-        labels = scales::label_percent(
-          scale_cut = scales::cut_short_scale()
-        )
-  ) +
-  theme_void() +
-  labs(
-    fill = "Part dans le\nparc de logement (%)",
-    title = "Cartographie des résidences secondaires",
-    caption = "Source: Insee, Fichiers détails du recensement de la population"
-  )
-
-# MODE DE TRANSPORT x AGE
-transports_age <- table_individu %>%
-  mutate(
-    DEPT = if_else(
-      starts_with(DEPT, "97"),
-      DEPT,
-      substring(DEPT, 1, 2)
+  # Part des logements vacants
+  ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
+    geom_sf(aes(fill = p), color = "white") +
+    scale_fill_fermenter(
+          n.breaks = 5, 
+          palette = "RdPu",
+          direction = 1,
+          labels = scales::label_percent(
+            scale_cut = scales::cut_short_scale()
+          )
+    ) +
+    theme_void() +
+    labs(
+      fill = "Part dans le\nparc de logement (%)",
+      title = "Cartographie des résidences secondaires",
+      caption = "Source: Insee, Fichiers détails du recensement de la population"
     )
-  ) %>%
-  filter(!(TRANS %in% c("1", "Z"))) %>% #on fait un parmi les transports
-  group_by(DEPT, AGEREVQ, TRANS) %>%
-  summarise(n = sum(IPONDI)) %>%
-  ungroup() %>%
-  collect()
 
+# Graphique: MODE DE TRANSPORT x AGE
+  # Comptage des modes de transport principaux
+  transports_age <- table_individu %>%
+    mutate(
+      DEPT = if_else(
+        starts_with(DEPT, "97"),
+        DEPT,
+        substring(DEPT, 1, 2)
+      )
+    ) %>%
+    filter(!(TRANS %in% c("1", "Z"))) %>% #on fait un parmi les transports
+    group_by(DEPT, AGEREVQ, TRANS) %>%
+    summarise(n = sum(IPONDI)) %>%
+    ungroup() %>%
+    collect()
 
-transports_age <- transports_age %>%
-  group_by(DEPT, AGEREVQ) %>%
-  mutate(p = n/sum(n))
+  # Part des modes de transport par âge et département
+  transports_age <- transports_age %>%
+    group_by(DEPT, AGEREVQ) %>%
+    mutate(p = n/sum(n))
 
-
-transports_age <- transports_age %>%
-  filter(DEPT == 75)
-  
-transports_age <- transports_age %>%
-  inner_join(
-    y = documentation_individus %>% filter(COD_VAR == "TRANS"),
-    by = c("TRANS" = "COD_MOD")
-  )
-  
-
-
-ggplot(transports_age) +
-  geom_line(aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MOD))) +
-  scale_x_continuous(limits = c(20,70))
+  # Filtre sur un département
+  transports_age <- transports_age %>%
+    filter(DEPT == 75)
+    
+   # Ajout du libellé du mode de transport 
+  transports_age <- transports_age %>%
+    inner_join(
+      y = documentation_individus %>% filter(COD_VAR == "TRANS"),
+      by = c("TRANS" = "COD_MOD")
+    )
+    
+    # Graphique
+  ggplot(transports_age) +
+    geom_line(aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MOD))) +
+    scale_x_continuous(limits = c(20,70))
 
 
 # 
@@ -225,7 +227,7 @@ iris_uu_marseille = carti_download(
     year=2023)
 
 
-# Un tableau de statistiques descriptives
+# Tableau: statistiques descriptives
   # Part des plus de 60 ans
   part_population_60_plus <- table_individu %>%
     group_by(DEPT) %>%
