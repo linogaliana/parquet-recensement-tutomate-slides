@@ -51,8 +51,7 @@ documentation_logement <- readr::read_csv2("dictionnaire_variables_logemt_2020.c
 documentation_individus <- readr::read_csv2("dictionnaire_variables_indcvi_2020.csv")
 
 
-# PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
-
+# IMPORT DES DONNEES DE FOND DE CARTE AU NIVEAU DEPARTEMENT
 departements <- carti_download(
     values="France",
     crs=4326,
@@ -63,7 +62,9 @@ departements <- carti_download(
     year=2022,
 )
 
-# Distribution des âges
+# PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
+
+# Graphique distribution des âges
 pyramide_ages <- table_individu %>%
   filter(DEPT %in% c('11', '31', '34')) %>%
   group_by(AGED, departement = DEPT) %>%
@@ -107,7 +108,6 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
     )
 
   ggsave("carte_part_60ans_plus_dept.png", width = 10, height = 8)
-
 
 
 # Résidences principales et secondaires
@@ -254,7 +254,7 @@ iris_uu_marseille = carti_download(
     mutate(pourcentage_logements_vacants = 100 * total_logements_vacants / sum(total_logements_vacants)) %>%
     ungroup()
 
-  # Calcul des statistiques descriptives : moyenne, min, max pour chaque variable
+  # Calculer les statistiques descriptives : moyenne, min, max pour chaque variable
   statistiques_descriptives <- tibble(
     variable = c("Part des 60 ans et plus (%)", "Part des résidences secondaires (%)", "Part des logements vacants (%)"),
     moyenne = c(
