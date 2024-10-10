@@ -1,0 +1,556 @@
+COD_VAR;LIB_VAR;COD_MOD;LIB_MOD;TYPE_VAR;LONG_VAR
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;1;Avant 1919;CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;2;De 1919 à 1945;CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;3;De 1946 à 1970;CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;4;De 1971 à 1990;CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;5;De 1991 à 2005;CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;6;De 2006 à 2017;CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;7;Depuis 2018 (partiel);CHAR;1
+ACHLR;Période regroupée d'achèvement de la construction de la maison ou de l'immeuble;Z;Hors logement ordinaire;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);2;Emménagement entre 1900 et 1919;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);3;Emménagement entre 1920 et 1939;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);4;Emménagement entre 1940 et 1959;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);5;Emménagement entre 1960 et 1969;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);6;Emménagement entre 1970 et 1979;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);7;Emménagement entre 1980 et 1989;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);8;Emménagement entre 1990 et 1999;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);9;Emménagement après 1999;CHAR;1
+AEMMR;Année d'emménagement dans le logement (regroupée);Z;Hors logement ordinaire;CHAR;1
+AGED;Âge détaillé (en différence de millésimes);000;0 an (nés l'année de la collecte);CHAR;3
+AGED;Âge détaillé (en différence de millésimes);001;1 an;CHAR;3
+AGED;Âge détaillé (en différence de millésimes);...;...;CHAR;3
+AGED;Âge détaillé (en différence de millésimes);120;120 ans;CHAR;3
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;02;Deux ans et moins;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;05;3 à 5 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;10;6 à 10 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;14;11 à 14 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;17;15 à 17 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;19;18 à 19 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;24;20 à 24 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;29;25 à 29 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;39;30 à 39 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;54;40 à 54 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;64;55 à 64 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;79;65 à 79 ans;CHAR;2
+AGER20;Âge en années révolues (âge au dernier anniversaire) en 13 classes d'âge, détaillées autour de 20 ans;80;80 ans ou plus;CHAR;2
+AGEREV;Âge en années révolues détaillé;000;Moins de 1 an;CHAR;3
+AGEREV;Âge en années révolues détaillé;001;1 an;CHAR;3
+AGEREV;Âge en années révolues détaillé;...;...;CHAR;3
+AGEREV;Âge en années révolues détaillé;120;120 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;000;0 à 4 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;005;5 à 9 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;010;10 à 14 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;015;15 à 19 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;020;20 à 24 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;025;25 à 29 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;030;30 à 34 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;035;35 à 39 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;040;40 à 44 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;045;45 à 49 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;050;50 à 54 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;055;55 à 59 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;060;60 à 64 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;065;65 à 69 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;070;70 à 74 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;075;75 à 79 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;080;80 à 84 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;085;85 à 89 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;090;90 à 94 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;095;95 à 99 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;100;100 à 104 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;105;105 à 109 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;110;110 à 114 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;115;115 à 119 ans;CHAR;3
+AGEREVQ;Âge quinquennal en années révolues;120;120 ans;CHAR;3
+ANAI;Année de naissance;1896;Année  1896;CHAR;4
+ANAI;Année de naissance;1897;Année  1897;CHAR;4
+ANAI;Année de naissance;...;...;CHAR;4
+ANAI;Année de naissance;2022;Année 2022 (partiel);CHAR;4
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);00;Moins de 2 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);01;De 2 à 4 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);02;De 5 à 9 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);03;De 10 à 19 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);04;De 20 à 29 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);05;De 30 à 39 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);06;De 40 à 49 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);07;De 50 à 59 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);08;De 60 à 69 ans;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);09;70 ans ou plus;CHAR;2
+ANEMR;Ancienneté d'emménagement dans le logement (regroupée);ZZ;Hors logement ordinaire;CHAR;2
+APAF;Appartenance à une famille;0;Hors famille (personne seule ou isolée du ménage);CHAR;1
+APAF;Appartenance à une famille;1;Adulte de sexe masculin de la famille principale;CHAR;1
+APAF;Appartenance à une famille;2;Adulte de sexe féminin de la famille principale;CHAR;1
+APAF;Appartenance à une famille;3;Enfant de la famille principale;CHAR;1
+APAF;Appartenance à une famille;4;Adulte de sexe masculin de la famille secondaire;CHAR;1
+APAF;Appartenance à une famille;5;Adulte de sexe féminin de la famille secondaire;CHAR;1
+APAF;Appartenance à une famille;6;Enfant de la famille secondaire;CHAR;1
+APAF;Appartenance à une famille;Z;Hors logement ordinaire;CHAR;1
+ARM;Arrondissement municipal de résidence (Paris, Lyon et Marseille);13201;Marseille 1er Arrondissement (13201);CHAR;5
+ARM;Arrondissement municipal de résidence (Paris, Lyon et Marseille);...;...;CHAR;5
+ARM;Arrondissement municipal de résidence (Paris, Lyon et Marseille);ZZZZZ;Sans objet;CHAR;5
+ASCEN;Desserte par un ascenseur;1;Avec ascenseur;CHAR;1
+ASCEN;Desserte par un ascenseur;2;Sans ascenseur;CHAR;1
+ASCEN;Desserte par un ascenseur;Z;Hors logement ordinaire;CHAR;1
+BAIN;Baignoire ou douche (DOM);1;Avec baignoire ou douche;CHAR;1
+BAIN;Baignoire ou douche (DOM);2;Sans baignoire ni douche;CHAR;1
+BAIN;Baignoire ou douche (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+BAIN;Baignoire ou douche (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+BATI;Aspect du bâti (DOM);1;Habitations de fortune;CHAR;1
+BATI;Aspect du bâti (DOM);2;Cases traditionnelles;CHAR;1
+BATI;Aspect du bâti (DOM);3;Maisons ou immeubles en bois;CHAR;1
+BATI;Aspect du bâti (DOM);4;Maisons ou immeubles en dur;CHAR;1
+BATI;Aspect du bâti (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+BATI;Aspect du bâti (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+CANTVILLE;Département, canton-ou-ville du lieu de résidence (pseudo-canton);0101;Ambérieu-en-Bugey (0101);CHAR;5
+CANTVILLE;Département, canton-ou-ville du lieu de résidence (pseudo-canton);...;...;CHAR;5
+CATIRIS;Catégorie de l'IRIS;A;Activité;CHAR;1
+CATIRIS;Catégorie de l'IRIS;D;Divers;CHAR;1
+CATIRIS;Catégorie de l'IRIS;H;Habitat;CHAR;1
+CATIRIS;Catégorie de l'IRIS;X;"""IRIS de moins de 200 habitants (fichier individus ""localisation au canton-ou-ville"" uniquement)""";CHAR;1
+CATIRIS;Catégorie de l'IRIS;Z;Commune non découpée en IRIS;CHAR;1
+CATL;Catégorie de logement;1;Résidences principales;CHAR;1
+CATL;Catégorie de logement;Z;Hors logement ordinaire;CHAR;1
+CATPC;Catégorie de population condensée;0;Population des ménages;CHAR;1
+CATPC;Catégorie de population condensée;1;Population des communautés;CHAR;1
+CATPC;Catégorie de population condensée;2;Population des habitations mobiles, sans abri, bateliers;CHAR;1
+CHAU;Moyen de chauffage du logement (DOM);1;Présence de moyen de chauffage;CHAR;1
+CHAU;Moyen de chauffage du logement (DOM);2;Absence de moyen de chauffage;CHAR;1
+CHAU;Moyen de chauffage du logement (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+CHAU;Moyen de chauffage du logement (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+CHFL;Chauffage central du logement (France métropolitaine);1;Chauffage central collectif (y compris chauffage urbain);CHAR;1
+CHFL;Chauffage central du logement (France métropolitaine);2;Chauffage central individuel avec une chaudière propre au logement;CHAR;1
+CHFL;Chauffage central du logement (France métropolitaine);3;Chauffage tout électrique;CHAR;1
+CHFL;Chauffage central du logement (France métropolitaine);4;Autre moyen de chauffage;CHAR;1
+CHFL;Chauffage central du logement (France métropolitaine);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+CHFL;Chauffage central du logement (France métropolitaine);Z;Logement ordinaire DOM;CHAR;1
+CHOS;Chauffe-eau solaire (DOM);1;Présence de chauffe-eau solaire;CHAR;1
+CHOS;Chauffe-eau solaire (DOM);2;Absence de chauffe-eau solaire;CHAR;1
+CHOS;Chauffe-eau solaire (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+CHOS;Chauffe-eau solaire (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+CLIM;Existence d'au moins une pièce climatisée (DOM);1;Avec pièce climatisée;CHAR;1
+CLIM;Existence d'au moins une pièce climatisée (DOM);2;Sans pièce climatisée;CHAR;1
+CLIM;Existence d'au moins une pièce climatisée (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+CLIM;Existence d'au moins une pièce climatisée (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);1;Chauffage urbain;CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);2;Gaz de ville ou de réseau;CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);3;Fioul (mazout);CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);4;Électricité;CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);5;Gaz en bouteilles ou en citerne;CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);6;Autre;CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+CMBL;Combustible principal du logement (France métropolitaine);Z;Logement ordinaire DOM;CHAR;1
+COUPLE;Déclaration de vie en couple;1;A déclaré vivre en couple;CHAR;1
+COUPLE;Déclaration de vie en couple;2;A déclaré ne pas vivre en couple;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;1;Agriculteurs exploitants;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;2;Artisans, commerçants et chefs d'entreprise;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;3;Cadres et professions intellectuelles supérieures;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;4;Professions Intermédiaires;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;5;Employés;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;6;Ouvriers;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;7;Retraités;CHAR;1
+CS1;Catégorie socioprofessionnelle en 8 postes;8;Autres personnes sans activité professionnelle;CHAR;1
+CUIS;Cuisine intérieure avec évier (DOM);1;Présence de cuisine intérieure avec évier;CHAR;1
+CUIS;Cuisine intérieure avec évier (DOM);2;Absence de cuisine intérieure avec évier;CHAR;1
+CUIS;Cuisine intérieure avec évier (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+CUIS;Cuisine intérieure avec évier (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+DEPT;Département du lieu de résidence;01;Ain (01);CHAR;3
+DEPT;Département du lieu de résidence;...;...;CHAR;3
+DEROU;Nombre de deux-roues à moteur du ménage (DOM);0;Aucun deux-roues à moteur;CHAR;1
+DEROU;Nombre de deux-roues à moteur du ménage (DOM);1;Un seul deux-roues à moteur;CHAR;1
+DEROU;Nombre de deux-roues à moteur du ménage (DOM);2;Deux deux-roues à moteur;CHAR;1
+DEROU;Nombre de deux-roues à moteur du ménage (DOM);3;Trois deux-roues à moteur ou plus;CHAR;1
+DEROU;Nombre de deux-roues à moteur du ménage (DOM);U;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+DEROU;Nombre de deux-roues à moteur du ménage (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+DIPL;Diplôme le plus élevé;01;Pas de scolarité ou arrêt avant la fin du primaire;CHAR;2
+DIPL;Diplôme le plus élevé;02;Aucun diplôme et scolarité interrompue à la fin du primaire ou avant la fin du collège;CHAR;2
+DIPL;Diplôme le plus élevé;03;Aucun diplôme et scolarité jusqu’à la fin du collège ou au-delà;CHAR;2
+DIPL;Diplôme le plus élevé;11;CEP (certificat d’études primaires);CHAR;2
+DIPL;Diplôme le plus élevé;12;BEPC, brevet élémentaire, brevet des collèges, DNB;CHAR;2
+DIPL;Diplôme le plus élevé;13;CAP, BEP ou diplôme de niveau équivalent;CHAR;2
+DIPL;Diplôme le plus élevé;14;Baccalauréat général ou technologique, brevet supérieur, capacité en droit, DAEU, ESEU;CHAR;2
+DIPL;Diplôme le plus élevé;15;Baccalauréat professionnel, brevet professionnel, de technicien ou d’enseignement, diplôme équivalent;CHAR;2
+DIPL;Diplôme le plus élevé;16;BTS, DUT, Deug, Deust, diplôme de la santé ou du social de niveau bac+2, diplôme équivalent;CHAR;2
+DIPL;Diplôme le plus élevé;17;Licence, licence pro, maîtrise, diplôme équivalent de niveau bac+3 ou bac+4;CHAR;2
+DIPL;Diplôme le plus élevé;18;Master, DEA, DESS, diplôme grande école niveau bac+5, doctorat de santé;CHAR;2
+DIPL;Diplôme le plus élevé;19;Doctorat de recherche (hors santé);CHAR;2
+DIPL;Diplôme le plus élevé;ZZ;Hors champ (moins de 14 ans);CHAR;2
+DNAI;Département de naissance (si né en France);01;Ain (01);CHAR;3
+DNAI;Département de naissance (si né en France);...;...;CHAR;3
+DNAI;Département de naissance (si né en France);978;Saint-Martin (978);CHAR;3
+DNAI;Département de naissance (si né en France);98;Autres COM (Terres australes et antarctiques françaises, Wallis et Futuna, Polynésie Française, Nouvelle-Calédonie, Île de Clipperton)(98);CHAR;3
+DNAI;Département de naissance (si né en France);99;Étranger (99);CHAR;3
+EAU;Point d'eau potable à l'intérieur du logement (DOM);1;Eau froide seulement;CHAR;1
+EAU;Point d'eau potable à l'intérieur du logement (DOM);2;Eau froide et chaude;CHAR;1
+EAU;Point d'eau potable à l'intérieur du logement (DOM);3;Aucun point d'eau à l'intérieur du logement;CHAR;1
+EAU;Point d'eau potable à l'intérieur du logement (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+EAU;Point d'eau potable à l'intérieur du logement (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+EGOUL;Mode d'évacuation des eaux usées (DOM);1;Raccordement au réseau d'égouts;CHAR;1
+EGOUL;Mode d'évacuation des eaux usées (DOM);2;Raccordement à une fosse septique;CHAR;1
+EGOUL;Mode d'évacuation des eaux usées (DOM);3;Raccordement à un puisard;CHAR;1
+EGOUL;Mode d'évacuation des eaux usées (DOM);4;Évacuation des eaux usées à même le sol;CHAR;1
+EGOUL;Mode d'évacuation des eaux usées (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+EGOUL;Mode d'évacuation des eaux usées (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+ELEC;Électricité dans le logement (DOM);1;Avec électricité;CHAR;1
+ELEC;Électricité dans le logement (DOM);2;Sans électricité;CHAR;1
+ELEC;Électricité dans le logement (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+ELEC;Électricité dans le logement (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1
+EMPL;Condition d'emploi;11;En contrat d'apprentissage ou de professionnalisation;CHAR;2
+EMPL;Condition d'emploi;12;Placés par une agence d'intérim;CHAR;2
+EMPL;Condition d'emploi;13;Emplois aidés (contrat unique d'insertion, d'initiative emploi, d'accompagnement dans l'emploi, avenir, etc.);CHAR;2
+EMPL;Condition d'emploi;14;Stagiaires rémunérés en entreprise;CHAR;2
+EMPL;Condition d'emploi;15;Autres emplois à durée limitée, CDD, contrat court, saisonnier, vacataire, etc.;CHAR;2
+EMPL;Condition d'emploi;16;Emplois sans limite de durée, CDI, titulaire de la fonction publique;CHAR;2
+EMPL;Condition d'emploi;21;Non salariés : Indépendants;CHAR;2
+EMPL;Condition d'emploi;22;Non salariés : Employeurs;CHAR;2
+EMPL;Condition d'emploi;23;Non salariés : Aides familiaux;CHAR;2
+EMPL;Condition d'emploi;ZZ;Sans objet;CHAR;2
+ETUD;Inscription dans un établissement d'enseignement;1;Oui;CHAR;1
+ETUD;Inscription dans un établissement d'enseignement;2;Non;CHAR;1
+GARL;Emplacement réservé de stationnement;1;Avec emplacement(s) de stationnement;CHAR;1
+GARL;Emplacement réservé de stationnement;2;Sans emplacement de stationnement;CHAR;1
+GARL;Emplacement réservé de stationnement;Z;Hors logement ordinaire;CHAR;1
+HLML;Appartenance du logement à un organisme HLM;1;Logement appartenant à un organisme HLM;CHAR;1
+HLML;Appartenance du logement à un organisme HLM;2;Logement n'appartenant pas à un organisme HLM;CHAR;1
+HLML;Appartenance du logement à un organisme HLM;Z;Hors logement ordinaire;CHAR;1
+ILETUD;Indicateur du lieu d'études;1;Dans la commune de résidence actuelle;CHAR;1
+ILETUD;Indicateur du lieu d'études;2;Dans une autre commune du département de résidence;CHAR;1
+ILETUD;Indicateur du lieu d'études;3;Dans un autre département de la région de résidence;CHAR;1
+ILETUD;Indicateur du lieu d'études;4;Hors de la région de résidence actuelle : en métropole;CHAR;1
+ILETUD;Indicateur du lieu d'études;5;Hors de la région de résidence actuelle : dans un DOM;CHAR;1
+ILETUD;Indicateur du lieu d'études;6;Hors de la région de résidence actuelle : dans une COM;CHAR;1
+ILETUD;Indicateur du lieu d'études;7;À l'étranger;CHAR;1
+ILETUD;Indicateur du lieu d'études;Z;Sans objet (pas d'inscription dans un établissement d'enseignement);CHAR;1
+ILT;Indicateur du lieu de travail;1;Dans la commune de résidence actuelle;CHAR;1
+ILT;Indicateur du lieu de travail;2;Dans une autre commune du département de résidence;CHAR;1
+ILT;Indicateur du lieu de travail;3;Dans un autre département de la région de résidence;CHAR;1
+ILT;Indicateur du lieu de travail;4;Hors de la région de résidence actuelle : en métropole;CHAR;1
+ILT;Indicateur du lieu de travail;5;Hors de la région de résidence actuelle : dans un DOM;CHAR;1
+ILT;Indicateur du lieu de travail;6;Hors de la région de résidence actuelle : dans une COM;CHAR;1
+ILT;Indicateur du lieu de travail;7;À l'étranger;CHAR;1
+ILT;Indicateur du lieu de travail;Z;Sans objet;CHAR;1
+IMMI;Situation quant à l'immigration;1;Immigrés;CHAR;1
+IMMI;Situation quant à l'immigration;2;Non immigrés;CHAR;1
+INAI;Indicateur du lieu de naissance;1;Dans le département de résidence actuelle;CHAR;1
+INAI;Indicateur du lieu de naissance;2;Dans un autre département de la région de résidence actuelle;CHAR;1
+INAI;Indicateur du lieu de naissance;3;Hors de la région de résidence actuelle : en métropole;CHAR;1
+INAI;Indicateur du lieu de naissance;4;Hors de la région de résidence actuelle : dans un DOM;CHAR;1
+INAI;Indicateur du lieu de naissance;5;Hors de la région de résidence actuelle : dans un TOM-COM;CHAR;1
+INAI;Indicateur du lieu de naissance;6;À l'étranger;CHAR;1
+INATC;Indicateur de nationalité condensé (Français/Étranger);1;Français;CHAR;1
+INATC;Indicateur de nationalité condensé (Français/Étranger);2;Etrangers;CHAR;1
+INFAM;Nombre de familles du ménage;0;0 famille;CHAR;1
+INFAM;Nombre de familles du ménage;1;1 famille;CHAR;1
+INFAM;Nombre de familles du ménage;2;2 familles;CHAR;1
+INFAM;Nombre de familles du ménage;Z;Hors logement ordinaire;CHAR;1
+INPER;Nombre de personnes du ménage;1;1 personne;CHAR;2
+INPER;Nombre de personnes du ménage;10;10 personnes;CHAR;2
+INPER;Nombre de personnes du ménage;...;...;CHAR;2
+INPER;Nombre de personnes du ménage;Z;Hors logement ordinaire;CHAR;2
+INPERF;Nombre de personnes de la famille;10;10 personnes;CHAR;2
+INPERF;Nombre de personnes de la famille;11;11 personnes;CHAR;2
+INPERF;Nombre de personnes de la famille;...;...;CHAR;2
+INPERF;Nombre de personnes de la famille;Z;Hors famille ou hors logement ordinaire;CHAR;2
+IPONDI;Poids de l'individu;NA;NA;CHAR;1715
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;0;Commune ou arrondissement de rattachement;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;1;Dans le même logement;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;2;Dans un autre logement de la même commune;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;3;Dans une autre commune du département;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;4;Dans un autre département de la région;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;5;Hors de la région de résidence actuelle : en métropole;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;6;Hors de la région de résidence actuelle : dans un DOM;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;7;Hors de la région de résidence actuelle : dans un TOM-COM;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;8;À l'étranger dans l'Union Européenne (28 pays membres);CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;9;À l'étranger hors Union Européenne;CHAR;1
+IRAN;Indicateur de résidence antérieure au 1er janvier de l'année précédente;Z;Individu né après le 01/01/N-1 (N étant l'année de collecte);CHAR;1
+IRIS;Code IRIS du lieu de résidence;010040101;Les Pérouses-Triangle d'Activités (010040101);CHAR;9
+IRIS;Code IRIS du lieu de résidence;...;...;CHAR;9
+IRIS;Code IRIS du lieu de résidence;ZZZZZZZZZ;Commune non découpée en IRIS;CHAR;9
+LIENF;Lien familial;0;Hors famille;CHAR;1
+LIENF;Lien familial;1;Adulte de sexe masculin d'une famille;CHAR;1
+LIENF;Lien familial;2;Adulte de sexe féminin d'une famille;CHAR;1
+LIENF;Lien familial;3;Enfant d'une famille;CHAR;1
+LIENF;Lien familial;Z;Hors logement ordinaire;CHAR;1
+LPRF;Lien à la personne de référence de la famille;0;Hors famille;CHAR;1
+LPRF;Lien à la personne de référence de la famille;1;Personne de référence de la famille;CHAR;1
+LPRF;Lien à la personne de référence de la famille;2;Conjoint de la personne de référence de la famille;CHAR;1
+LPRF;Lien à la personne de référence de la famille;3;Enfant de la famille;CHAR;1
+LPRF;Lien à la personne de référence de la famille;4;Père ou mère de la personne de référence de la famille;CHAR;1
+LPRF;Lien à la personne de référence de la famille;5;Frère ou soeur de la personne de référence de la famille;CHAR;1
+LPRF;Lien à la personne de référence de la famille;Z;Hors logement ordinaire;CHAR;1
+LPRM;Lien à la personne de référence du ménage;1;Personne de référence du ménage;CHAR;1
+LPRM;Lien à la personne de référence du ménage;2;Conjoint de la personne de référence du ménage;CHAR;1
+LPRM;Lien à la personne de référence du ménage;3;Enfant de la personne de référence du ménage ou de son conjoint;CHAR;1
+LPRM;Lien à la personne de référence du ménage;4;Petit-enfant;CHAR;1
+LPRM;Lien à la personne de référence du ménage;5;Ascendant;CHAR;1
+LPRM;Lien à la personne de référence du ménage;6;Autre parent;CHAR;1
+LPRM;Lien à la personne de référence du ménage;7;Ami;CHAR;1
+LPRM;Lien à la personne de référence du ménage;8;Pensionnaire ou sous-locataire;CHAR;1
+LPRM;Lien à la personne de référence du ménage;9;Domestique ou salarié logé;CHAR;1
+LPRM;Lien à la personne de référence du ménage;Z;Hors logement ordinaire;CHAR;1
+METRODOM;Indicateur Métropole ou DOM du lieu de résidence;D;DOM;CHAR;1
+METRODOM;Indicateur Métropole ou DOM du lieu de résidence;M;France métropolitaine;CHAR;1
+MOCO;Mode de cohabitation;11;Enfants d'un couple;CHAR;2
+MOCO;Mode de cohabitation;12;Enfants d'une famille monoparentale;CHAR;2
+MOCO;Mode de cohabitation;21;Adultes d'un couple sans enfant;CHAR;2
+MOCO;Mode de cohabitation;22;Adultes d'un couple avec enfant(s);CHAR;2
+MOCO;Mode de cohabitation;23;Adultes d'une famille monoparentale;CHAR;2
+MOCO;Mode de cohabitation;31;Hors famille dans ménage de plusieurs personnes;CHAR;2
+MOCO;Mode de cohabitation;32;Personnes vivant seules;CHAR;2
+MOCO;Mode de cohabitation;40;Personnes vivant hors ménage;CHAR;2
+MODV;Mode de vie;11;Enfants d'un couple;CHAR;2
+MODV;Mode de vie;12;Enfants d'une famille monoparentale;CHAR;2
+MODV;Mode de vie;20;Personnes seules de moins de 40 ans;CHAR;2
+MODV;Mode de vie;31;Membres de moins de 40 ans d'un couple sans enfant;CHAR;2
+MODV;Mode de vie;32;Membres d'un couple avec enfants;CHAR;2
+MODV;Mode de vie;33;Parents d'une famille monoparentale;CHAR;2
+MODV;Mode de vie;40;Membres de 40 ans ou plus d'un couple sans enfant;CHAR;2
+MODV;Mode de vie;50;Personnes seules de 40 ans ou plus;CHAR;2
+MODV;Mode de vie;60;Personnes vivant hors famille dans un ménage de plusieurs personnes;CHAR;2
+MODV;Mode de vie;70;Personnes vivant hors ménage;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);AZ;Agriculture, sylviculture et pêche;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);C1;Fabrication de denrées alimentaires, de boissons et  de produits à base de tabac;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);C2;Cokéfaction et raffinage;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);C3;"Fabrication d'équipements électriques, électroniques, informatiques ; fabrication de machines";CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);C4;Fabrication de matériels de transport;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);C5;Fabrication d'autres produits industriels;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);DE;Industries extractives, énergie, eau, gestion des déchets et dépollution;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);FZ;Construction;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);GZ;"Commerce ; réparation d'automobiles et de motocycles";CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);HZ;Transports et entreposage;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);IZ;Hébergement et restauration;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);JZ;Information et communication;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);KZ;Activités financières et d'assurance;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);LZ;Activités immobilières;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);MN;"Activités scientifiques et techniques ; services administratifs et de soutien";CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);OQ;Administration publique, enseignement, santé humaine et action sociale;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);RU;Autres activités de services;CHAR;2
+"NA17";Activité économique en 17 postes (NA - A17);ZZ;Sans objet;CHAR;2
+"NA5";Activité économique regroupée en 5 postes;AZ;Agriculture, sylviculture et pêche;CHAR;2
+"NA5";Activité économique regroupée en 5 postes;BE;Industrie manufacturière, industries extractives  et autres;CHAR;2
+"NA5";Activité économique regroupée en 5 postes;FZ;Construction;CHAR;2
+"NA5";Activité économique regroupée en 5 postes;GU;Commerce, transports et services divers;CHAR;2
+"NA5";Activité économique regroupée en 5 postes;OQ;Administration publique, enseignement, santé humaine et action sociale;CHAR;2
+"NA5";Activité économique regroupée en 5 postes;ZZ;Sans objet;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;00;Né en France métropolitaine;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;11;Né en Guadeloupe;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;12;Né en Martinique;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;13;Né en Guyane;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;14;Né à la Réunion;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;15;Né à Saint-Pierre-et-Miquelon;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;16;Né à Mayotte;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;17;Né en Polynésie française;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;18;Né en Nouvelle-Calédonie;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;19;Né à Wallis-et-Futuna;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;20;Né à Saint-Barthélemy;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;21;Né à Saint-Martin;CHAR;2
+"NAIDT";Naissance dans un DOM-TOM-COM;30;Hors France métropolitaine et hors DOM-TOM-COM;CHAR;2
+NBPI;Nombre de pièces du logement;01;1 pièce;CHAR;2
+NBPI;Nombre de pièces du logement;02;2 pièces;CHAR;2
+NBPI;Nombre de pièces du logement;...;...;CHAR;2
+NBPI;Nombre de pièces du logement;ZZ;Hors logement ordinaire;CHAR;2
+NE17FR;Nombre d'enfants âgés de 17 ans ou moins de la famille (regroupé);0;0 enfant;CHAR;1
+NE17FR;Nombre d'enfants âgés de 17 ans ou moins de la famille (regroupé);1;1 enfant;CHAR;1
+NE17FR;Nombre d'enfants âgés de 17 ans ou moins de la famille (regroupé);2;2 enfants;CHAR;1
+NE17FR;Nombre d'enfants âgés de 17 ans ou moins de la famille (regroupé);3;3 enfants;CHAR;1
+NE17FR;Nombre d'enfants âgés de 17 ans ou moins de la famille (regroupé);4;4 enfants ou plus;CHAR;1
+NE17FR;Nombre d'enfants âgés de 17 ans ou moins de la famille (regroupé);Z;Personne hors famille ou hors logement ordinaire;CHAR;1
+NE24FR;Nombre d'enfants âgés de 24 ans ou moins de la famille (regroupé);0;0 enfant;CHAR;1
+NE24FR;Nombre d'enfants âgés de 24 ans ou moins de la famille (regroupé);1;1 enfant;CHAR;1
+NE24FR;Nombre d'enfants âgés de 24 ans ou moins de la famille (regroupé);2;2 enfants;CHAR;1
+NE24FR;Nombre d'enfants âgés de 24 ans ou moins de la famille (regroupé);3;3 enfants;CHAR;1
+NE24FR;Nombre d'enfants âgés de 24 ans ou moins de la famille (regroupé);4;4 enfants ou plus;CHAR;1
+NE24FR;Nombre d'enfants âgés de 24 ans ou moins de la famille (regroupé);Z;Personne hors famille ou hors logement ordinaire;CHAR;1
+NE3FR;Nombre d'enfants âgés de 3 ans ou moins de la famille (regroupé);0;0 enfant;CHAR;1
+NE3FR;Nombre d'enfants âgés de 3 ans ou moins de la famille (regroupé);1;1 enfant;CHAR;1
+NE3FR;Nombre d'enfants âgés de 3 ans ou moins de la famille (regroupé);2;2 enfants;CHAR;1
+NE3FR;Nombre d'enfants âgés de 3 ans ou moins de la famille (regroupé);3;3 enfants;CHAR;1
+NE3FR;Nombre d'enfants âgés de 3 ans ou moins de la famille (regroupé);4;4 enfants ou plus;CHAR;1
+NE3FR;Nombre d'enfants âgés de 3 ans ou moins de la famille (regroupé);Z;Personne hors famille ou hors logement ordinaire;CHAR;1
+NE5FR;Nombre d'enfants âgés de 5 ans ou moins de la famille (regroupé);0;0 enfant;CHAR;1
+NE5FR;Nombre d'enfants âgés de 5 ans ou moins de la famille (regroupé);1;1 enfant;CHAR;1
+NE5FR;Nombre d'enfants âgés de 5 ans ou moins de la famille (regroupé);2;2 enfants;CHAR;1
+NE5FR;Nombre d'enfants âgés de 5 ans ou moins de la famille (regroupé);3;3 enfants;CHAR;1
+NE5FR;Nombre d'enfants âgés de 5 ans ou moins de la famille (regroupé);4;4 enfants ou plus;CHAR;1
+NE5FR;Nombre d'enfants âgés de 5 ans ou moins de la famille (regroupé);Z;Personne hors famille ou hors logement ordinaire;CHAR;1
+NENFR;Nombre d'enfants de la famille (regroupé);0;0 enfant;CHAR;1
+NENFR;Nombre d'enfants de la famille (regroupé);1;1 enfant;CHAR;1
+NENFR;Nombre d'enfants de la famille (regroupé);2;2 enfants;CHAR;1
+NENFR;Nombre d'enfants de la famille (regroupé);3;3 enfants;CHAR;1
+NENFR;Nombre d'enfants de la famille (regroupé);4;4 enfants ou plus;CHAR;1
+NENFR;Nombre d'enfants de la famille (regroupé);Z;Personne hors famille ou hors logement ordinaire;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);1;Une personne;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);2;2 personnes;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);3;3 personnes;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);4;4 personnes;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);5;5 personnes;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);6;6 personnes ou plus;CHAR;1
+NPERR;Nombre de personnes du ménage (regroupé);Z;Hors logement ordinaire;CHAR;1
+NUMF;Numéro de famille;1;Membre de la famille principale;CHAR;1
+NUMF;Numéro de famille;2;Membre de la famille secondaire;CHAR;1
+NUMF;Numéro de famille;Z;Personne hors famille ou hors logement ordinaire;CHAR;1
+NUMMI;Numéro du ménage dans le canton-ou-ville (anonymisé);Z;Individu hors ménage;CHAR;6
+ORIDT;Originaire d'un DOM-TOM-COM;00;Non originaire d'un DOM-TOM-COM;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;11;Originaire de Guadeloupe;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;12;Originaire de Martinique;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;13;Originaire de Guyane;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;14;Originaire de la Réunion;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;15;Originaire de Saint-Pierre-et-Miquelon;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;16;Originaire de Mayotte;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;17;Originaire de Polynésie française;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;18;Originaire de Nouvelle-Calédonie;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;19;Originaire de Wallis-et-Futuna;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;20;Originaire de Saint-Barthélemy;CHAR;2
+ORIDT;Originaire d'un DOM-TOM-COM;21;Originaire de Saint-Martin;CHAR;2
+RECH;Ancienneté de recherche d'emploi;0;Ne recherche pas d'emploi;CHAR;1
+RECH;Ancienneté de recherche d'emploi;1;Cherche un emploi depuis moins d'un an;CHAR;1
+RECH;Ancienneté de recherche d'emploi;2;Cherche un emploi depuis plus d'un an;CHAR;1
+RECH;Ancienneté de recherche d'emploi;9;Non déclaré (inactif);CHAR;1
+RECH;Ancienneté de recherche d'emploi;Z;Sans objet (dont personnes en emploi ou âgées de moins de 14 ans);CHAR;1
+REGION;Région du lieu de résidence;01;Guadeloupe;CHAR;2
+REGION;Région du lieu de résidence;02;Martinique;CHAR;2
+REGION;Région du lieu de résidence;03;Guyane;CHAR;2
+REGION;Région du lieu de résidence;04;La Réunion;CHAR;2
+REGION;Région du lieu de résidence;11;Île-de-France;CHAR;2
+REGION;Région du lieu de résidence;24;Centre-Val de Loire;CHAR;2
+REGION;Région du lieu de résidence;27;Bourgogne-Franche-Comté;CHAR;2
+REGION;Région du lieu de résidence;28;Normandie;CHAR;2
+REGION;Région du lieu de résidence;32;Hauts-de-France;CHAR;2
+REGION;Région du lieu de résidence;44;Grand Est;CHAR;2
+REGION;Région du lieu de résidence;52;Pays de la Loire;CHAR;2
+REGION;Région du lieu de résidence;53;Bretagne;CHAR;2
+REGION;Région du lieu de résidence;75;Nouvelle-Aquitaine;CHAR;2
+REGION;Région du lieu de résidence;76;Occitanie;CHAR;2
+REGION;Région du lieu de résidence;84;Auvergne-Rhône-Alpes;CHAR;2
+REGION;Région du lieu de résidence;93;Provence-Alpes-Côte d'Azur;CHAR;2
+REGION;Région du lieu de résidence;94;Corse;CHAR;2
+SANI;Installations sanitaires (France métropolitaine);0;Ni baignoire, ni douche;CHAR;1
+SANI;Installations sanitaires (France métropolitaine);1;Baignoire ou douche hors pièce réservée;CHAR;1
+SANI;Installations sanitaires (France métropolitaine);2;Salle(s) de bains (avec douche ou baignoire);CHAR;1
+SANI;Installations sanitaires (France métropolitaine);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+SANI;Installations sanitaires (France métropolitaine);Z;Logement ordinaire DOM;CHAR;1
+SANIDOM;Installations sanitaires (DOM);11;Avec baignoire ou douche et avec WC à l'intérieur;CHAR;2
+SANIDOM;Installations sanitaires (DOM);12;Avec baignoire ou douche mais sans WC à l'intérieur;CHAR;2
+SANIDOM;Installations sanitaires (DOM);21;Sans baignoire ni douche mais avec WC à l'intérieur;CHAR;2
+SANIDOM;Installations sanitaires (DOM);22;Sans baignoire ni douche, ni WC à l'intérieur;CHAR;2
+SANIDOM;Installations sanitaires (DOM);XX;Hors logement ordinaire (DOM et France métropolitaine);CHAR;2
+SANIDOM;Installations sanitaires (DOM);ZZ;Logement ordinaire France métropolitaine;CHAR;2
+SEXE;Sexe;1;Hommes;CHAR;1
+SEXE;Sexe;2;Femmes;CHAR;1
+SFM;Structure familiale du ménage;11;Personne vivant seule : homme;CHAR;2
+SFM;Structure familiale du ménage;12;Personne vivant seule : femme;CHAR;2
+SFM;Structure familiale du ménage;21;Une famille principale monoparentale sans isolé : homme avec enfant(s);CHAR;2
+SFM;Structure familiale du ménage;22;Une famille principale monoparentale sans isolé : femme avec enfant(s);CHAR;2
+SFM;Structure familiale du ménage;30;Famille principale un couple sans isolé sans enfant;CHAR;2
+SFM;Structure familiale du ménage;31;Famille principale un couple sans isolé avec 1 enfant;CHAR;2
+SFM;Structure familiale du ménage;32;Famille principale un couple sans isolé avec 2 enfants;CHAR;2
+SFM;Structure familiale du ménage;33;Famille principale un couple sans isolé avec 3 enfants;CHAR;2
+SFM;Structure familiale du ménage;34;Famille principale un couple sans isolé avec 4 enfants ou plus;CHAR;2
+SFM;Structure familiale du ménage;40;Une famille principale monoparentale avec isolé(s);CHAR;2
+SFM;Structure familiale du ménage;51;Famille principale un couple sans enfant avec isolé(s) tous ascendant(s) ou descendant(s);CHAR;2
+SFM;Structure familiale du ménage;52;Famille principale un couple sans enfant avec autre(s) isolé(s);CHAR;2
+SFM;Structure familiale du ménage;53;Famille principale un couple avec enfant(s) avec isolé(s) tous ascendant(s) ou descendant(s);CHAR;2
+SFM;Structure familiale du ménage;54;Famille principale un couple avec enfant(s) avec autre(s) isolé(s);CHAR;2
+SFM;Structure familiale du ménage;61;Deux familles avec ou sans isolé(s) : deux couples avec ou sans enfant(s);CHAR;2
+SFM;Structure familiale du ménage;62;Deux familles avec ou sans isolé(s) : autres cas;CHAR;2
+SFM;Structure familiale du ménage;70;Autre ménage sans famille;CHAR;2
+SFM;Structure familiale du ménage;ZZ;Hors logement ordinaire;CHAR;2
+STAT_CONJ;Statut conjugal;1;Marié(e);CHAR;1
+STAT_CONJ;Statut conjugal;2;Pacsé(e);CHAR;1
+STAT_CONJ;Statut conjugal;3;En concubinage ou union libre;CHAR;1
+STAT_CONJ;Statut conjugal;4;Veuf, veuve;CHAR;1
+STAT_CONJ;Statut conjugal;5;Divorcé(e);CHAR;1
+STAT_CONJ;Statut conjugal;6;Célibataire;CHAR;1
+STATR;Statut professionnel regroupé;1;Salariés;CHAR;1
+STATR;Statut professionnel regroupé;2;Non salariés;CHAR;1
+STATR;Statut professionnel regroupé;Z;Sans objet;CHAR;1
+STOCD;Statut d'occupation détaillé du logement;10;Propriétaire;CHAR;2
+STOCD;Statut d'occupation détaillé du logement;21;Locataire ou sous-locataire d'un logement loué vide non HLM;CHAR;2
+STOCD;Statut d'occupation détaillé du logement;22;Locataire ou sous-locataire d'un logement loué vide HLM;CHAR;2
+STOCD;Statut d'occupation détaillé du logement;23;Locataire ou sous-locataire d'un logement loué meublé ou d'une chambre d'hôtel;CHAR;2
+STOCD;Statut d'occupation détaillé du logement;30;Logé gratuitement;CHAR;2
+STOCD;Statut d'occupation détaillé du logement;ZZ;Hors logement ordinaire;CHAR;2
+SURF;Superficie du logement;1;Moins de 30 m²;CHAR;1
+SURF;Superficie du logement;2;De 30 à moins de 40 m²;CHAR;1
+SURF;Superficie du logement;3;De 40 à moins de 60 m²;CHAR;1
+SURF;Superficie du logement;4;De 60 à moins de 80 m²;CHAR;1
+SURF;Superficie du logement;5;De 80 à moins de 100 m²;CHAR;1
+SURF;Superficie du logement;6;De 100 à moins de 120 m²;CHAR;1
+SURF;Superficie du logement;7;120 m² ou plus;CHAR;1
+SURF;Superficie du logement;Z;Hors logement ordinaire;CHAR;1
+TACT;Type d'activité;11;Actifs ayant un emploi, y compris sous apprentissage ou en stage rémunéré.;CHAR;2
+TACT;Type d'activité;12;Chômeurs;CHAR;2
+TACT;Type d'activité;21;Retraités ou préretraités;CHAR;2
+TACT;Type d'activité;22;Élèves, étudiants, stagiaires non rémunéré de 14 ans ou plus;CHAR;2
+TACT;Type d'activité;23;Moins de 14 ans;CHAR;2
+TACT;Type d'activité;24;Femmes ou hommes au foyer;CHAR;2
+TACT;Type d'activité;25;Autres inactifs;CHAR;2
+TACTD16;Type d'activité détaillé en 16 postes;111;Actifs ayant un emploi exclusivement;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;112;Actifs ayant un emploi s'étant déclaré chômeur;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;113;Actifs ayant un emploi s'étant déclaré retraité;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;114;Actifs ayant un emploi s'étant déclaré élève;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;115;Actifs ayant un emploi s'étant déclaré homme ou femme au foyer;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;116;Actifs ayant un emploi s'étant déclaré en autre situation;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;122;Chômeurs exclusivement;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;123;Chômeurs s'étant déclaré retraité ou préretraité;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;124;Chômeurs s'étant déclaré élève, étudiant;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;125;Chômeurs s'étant déclaré homme ou femme au foyer;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;126;Chômeurs s'étant déclaré en autre situation;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;210;Retraités ou préretraités;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;220;Élèves, étudiants, stagiaires non rémunérés de 14 ans ou plus;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;230;Personnes âgées de moins de 14 ans;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;240;Hommes ou femmes au foyer;CHAR;3
+TACTD16;Type d'activité détaillé en 16 postes;250;Autres inactifs;CHAR;3
+TP;Temps de travail;1;Temps complet;CHAR;1
+TP;Temps de travail;2;Temps partiel;CHAR;1
+TP;Temps de travail;Z;Sans objet;CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;1;Pas de transport;CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;2;Marche à pied (ou rollers, patinette);CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;3;Vélo (y compris à assistance électrique);CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;4;Deux-roues motorisé;CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;5;Voiture, camion, fourgonnette;CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;6;Transports en commun;CHAR;1
+TRANS;Mode de transport principal le plus souvent utilisé pour aller travailler;Z;Sans objet;CHAR;1
+TRIRIS;Code TRIRIS du lieu de résidence;010011;TRIRIS 010011 (010011);CHAR;6
+TRIRIS;Code TRIRIS du lieu de résidence;...;...;CHAR;6
+TRIRIS;Code TRIRIS du lieu de résidence;XXXXXX;IRIS comptant moins de 200 habitants;CHAR;6
+TRIRIS;Code TRIRIS du lieu de résidence;ZZZZZZ;Commune non découpée en TRIRIS;CHAR;6
+TYPC;Type de construction;1;Bâtiment d'habitation d'un seul logement isolé;CHAR;1
+TYPC;Type de construction;2;Bâtiment d'habitation d'un seul logement jumelé ou groupé de toute autre façon;CHAR;1
+TYPC;Type de construction;3;Bâtiment d'habitation de 2 logements ou plus;CHAR;1
+TYPC;Type de construction;4;Bâtiment à usage autre qu'habitation;CHAR;1
+TYPC;Type de construction;5;Construction provisoire;CHAR;1
+TYPC;Type de construction;Z;Hors logement ordinaire;CHAR;1
+TYPFC;Type de famille condensé;1;Famille monoparentale;CHAR;1
+TYPFC;Type de famille condensé;2;Famille comprenant un couple;CHAR;1
+TYPFC;Type de famille condensé;Z;Hors famille ou hors logement ordinaire;CHAR;1
+TYPL;Type de logement;1;Maison;CHAR;1
+TYPL;Type de logement;2;Appartement;CHAR;1
+TYPL;Type de logement;3;Logement-foyer;CHAR;1
+TYPL;Type de logement;4;Chambre d'hôtel;CHAR;1
+TYPL;Type de logement;5;Habitation de fortune;CHAR;1
+TYPL;Type de logement;6;Pièce indépendante (ayant sa propre entrée);CHAR;1
+TYPL;Type de logement;Z;Hors logement ordinaire;CHAR;1
+TYPMC;Type de ménage regroupé (en 4 postes);1;Ménages d'une personne seule sans famille;CHAR;1
+TYPMC;Type de ménage regroupé (en 4 postes);2;Ménages de plusieurs personnes sans famille;CHAR;1
+TYPMC;Type de ménage regroupé (en 4 postes);3;Ménages avec famille principale monoparentale;CHAR;1
+TYPMC;Type de ménage regroupé (en 4 postes);4;Ménages avec famille principale composée d'un couple;CHAR;1
+TYPMC;Type de ménage regroupé (en 4 postes);Z;Hors logement ordinaire;CHAR;1
+TYPMR;Type de ménage regroupé (en 9 postes);11;Homme vivant seul;CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);12;Femme vivant seule;CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);20;Ménage de plusieurs personnes sans famille;CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);31;Ménage dont la famille principale est monoparentale (un homme avec enfant(s));CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);32;Ménage dont la famille principale est monoparentale (une femme avec enfant(s));CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);41;Ménage dont la famille principale est un couple de deux actifs occupés;CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);42;Ménage dont la famille principale est un couple composé d'un homme actif occupé et d'un conjoint 'autre';CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);43;Ménage dont la famille principale est un couple composé d'une femme active occupée et d'un conjoint 'autre';CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);44;Ménage dont la famille principale est un couple de deux personnes 'autres';CHAR;2
+TYPMR;Type de ménage regroupé (en 9 postes);ZZ;Hors logement ordinaire;CHAR;2
+VOIT;Nombre de voitures du ménage;0;Aucune voiture;CHAR;1
+VOIT;Nombre de voitures du ménage;1;Une seule voiture;CHAR;1
+VOIT;Nombre de voitures du ménage;2;Deux voitures;CHAR;1
+VOIT;Nombre de voitures du ménage;3;Trois voitures ou plus;CHAR;1
+VOIT;Nombre de voitures du ménage;Z;Hors logement ordinaire;CHAR;1
+WC;Présence de W.-C. à l'intérieur du logement (DOM);1;Avec W.-C. à l'intérieur du logement;CHAR;1
+WC;Présence de W.-C. à l'intérieur du logement (DOM);2;Sans W.-C. à l'intérieur du logement;CHAR;1
+WC;Présence de W.-C. à l'intérieur du logement (DOM);X;Hors logement ordinaire (DOM et France métropolitaine);CHAR;1
+WC;Présence de W.-C. à l'intérieur du logement (DOM);Z;Logement ordinaire France métropolitaine;CHAR;1

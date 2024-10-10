@@ -1,0 +1,9 @@
+duckdb
+tqdm
+geopandas
+folium
+matplotlib
+seaborn
+requests
+seaborn
+shapely
