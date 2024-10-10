@@ -154,7 +154,7 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
       caption = "Source: Insee, Fichiers détails du recensement de la population"
     )
 
-  # Part des logements vacants
+  # Carte: Part des logements vacants
   ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
     geom_sf(aes(fill = p), color = "white") +
     scale_fill_fermenter(

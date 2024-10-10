@@ -7,3 +7,5 @@ seaborn
 requests
 seaborn
 shapely
+cartiflette
+prettytable
