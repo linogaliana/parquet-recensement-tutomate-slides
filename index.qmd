@@ -215,30 +215,40 @@ Une ou deux slides
 
 ## Parquet : pourquoi ?
 
-:::: {.columns}
-
-
-::: {.column width="60%"}
-
 - Format léger, [**très compressé**]{.orange}:
     - Entre 5 et 20 fois plus léger qu'un CSV
     - Pas de perte d'efficacité en lecture
 
 
-:::::: {.callout-note}
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::::: {.callout-note}
+## Exemple: recensement de la population
+
+- 20 millions de lignes, 88 colonnes
+    - CSV: > 5Go
+    - Parquet: 508Mo
+
+:::::
+
+:::
+
+::: {.column width="50%"}
+
+::::: {.callout-note}
 ## Exemple: statistiques de la délinquance
 
 - 3.5 millions de lignes: 
     - CSV: 400Mo
     - Parquet: 11Mo
 
-::::::
+:::::
+
 
 :::
 
-::: {.column width="40%"}
-![](https://raw.githubusercontent.com/linogaliana/prez-parquet-ocde-2024/main/img/loquet.png)
-:::
 
 ::::
 
