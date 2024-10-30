@@ -2,3 +2,5 @@ project:
   type: website
   render:
     - index.qmd
+
+css: custom.css

@@ -1,26 +1,20 @@
 ---
-title: Atelier de découverte des données détaillées du RP
+title: Le format de données Parquet
 subtitle: |
-  Prise en main
+  Une découverte à travers l'exemple des données du recensement
 author:
     - Lino Galiana
     - Mélina Hillion
-# date: 
+date: "2024-11-05"
+date-format: long
 slide-number: true
 footer: |
-  CCCC
-# uncomment for French presentations:
+  Atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/)
 lang: fr-FR
-# for blind readers:
-slide-tone: false
 chalkboard: # press the B key to toggle chalkboard
   theme: whiteboard
-# uncomment to use the multiplex mode:
-#multiplex: true
 format:
-  # pick the light mode (onyxia-revealjs) or the dark mode (onyxia-dark-revealjs)
   onyxia-revealjs:
-  #onyxia-dark-revealjs:
     output-file: index.html
 controls: true
 css: custom.css
@@ -29,39 +23,44 @@ from: markdown+emoji
 
 # Introduction
 
-## Ressources associées
+## Plan
 
-:::: {.columns}
-
-::: {.column width="50%"}
-### Slides
-
-{{< qrcode https://ensae-reproductibilite.github.io/slides/ qr1 width=400 height=400 >}}
-
-:::
-
-::: {.column width="50%"}
-### Exercice
-
-{{< qrcode https://ensae-reproductibilite.github.io/website/ qr2 width=400 height=400 >}}
-
-:::
-
-::::
-
-## Slide(s) d'intro
-
+1. Contexte
+2. Pourquoi le format `Parquet` ?
+3. 
 
 # Contexte sur le recensement de la population 
 
-## Le recensement de la population
+## Le recensement de la population {.smaller}
 
-Une ou deux slides
+* [__Mission historique__]{.orange} de l'Insee depuis 1946
+    + L'Insee organise, les communes réalisent la collecte
+
+. . .
+
+
+* Une source d'__[utilité publique](https://www.le-recensement-et-moi.fr/cest-utile/)__ :
+    + Populations légales: dotations de l'État aux communes, organisation des scrutins, équipements publics, etc.
+    + Recherche: caractéristiques socio-démographiques, mobilités...
+
+
+::: {.callout-note}
+## Enquêtes annuelles de recensement (EAR) depuis 2004
+
+* Pour une commune de __[moins de 10 000 habitants]{.blue2}__:
+    + Collecte exhaustive une fois tous les 5 ans.
+* Pour une commune de __[plus de 10 000 habitants]{.blue2}__:
+    + Chaque année, 8% des logements sont recensés ;
+    + Le résultat du recensement est calculé à partir des 5 dernières années (=40% logements)
+
+_[Documentation technique sur le recensement](https://www.insee.fr/fr/information/2383410)_
+
+:::
 
 
 ## Une diffusion sous plusieurs formes
 
-* Diffusion sur [insee.fr](https://www.insee.fr/fr/information/7619431) sous plusieurs formes
+* Diffusion sur [insee.fr](https://www.insee.fr/fr/information/7619431) sous plusieurs formes:
   * Pages _"dynamiques"_ sur [insee.fr](https://www.insee.fr/fr/information/7619431)
   * Exports d'agrégats depuis [statistiques-locales.insee.fr/](https://statistiques-locales.insee.fr/)
   * Des données, des cartes, des publications, etc..
@@ -77,7 +76,7 @@ Une ou deux slides
 
 ## Une diffusion sous plusieurs formes
 
-<h3>Les fichiers de données locales</h3>
+<h3>Les fichiers agrégés</h3>
 <br>
 
 - Structure type: une ligne [**par commune ou IRIS**]{.orange}
@@ -87,7 +86,7 @@ Une ou deux slides
 - Taille de chaque fichier relativement raisonnable
   - CSV généralement de quelques Mo, jusqu'à **150** Mo
   
-![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/telechargement_inseefr.png?ref_type=heads)
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/telechargement_inseefr.png?ref_type=heads){fig-align="center"}
 
 
 ## Une diffusion sous plusieurs formes
@@ -124,19 +123,19 @@ Une ou deux slides
 
 . . .
 
-- **Pour l'utilisateur :** complexes à télécharger, stocker et exploiter
+- **Pour l'utilisateur.trice :** complexes à télécharger, stocker et exploiter
 
 ## Solution historique
 
-- Diffusion zippée (CSV) ou format DBase (format propriétaire)
+- __[Diffusion zippée (CSV)]{.orange}__ ou format DBase (format propriétaire)
     + Découpage en fichiers par grandes zones de régions
 
 ![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/decoupage_csv.png?ref_type=heads){fig-align="center"}
 
 
-## Une source idéale pour innover dans la diffusion
+## Une source idéale pour innover dans la diffusion {transition="slide" transition-speed="slow"}
 
-- Montée en puissance du format pour les usages internes:
+- Montée en puissance du format `Parquet` pour les usages internes à l'Insee:
     + Pourquoi ne pas offrir le même confort à l'externe ? 
 
 . . .
@@ -281,65 +280,77 @@ Une ou deux slides
 
 ## `Parquet`: un format orienté colonne
 
-![](img/parquet-table2-enriched.png)
+![](img/parquet-table2-enriched.png){fig-align="center"}
 
-- Plus pratique pour n'ouvrir qu'un sous-ensemble de variables
+- Plus pratique pour n'ouvrir qu'un sous-ensemble de variables ;
+    + Pas besoin de scanner tout le fichier pour étudier quelques variables ;
+
+
+## `Parquet` : quels avantages ?
+<br>
+
+
+- Format libre, _open source_, et indépendant du langage ;
 
 . . .
 
-- Pas besoin de scanner tout le fichier pour étudier quelques variables ;
-
-
-## Illustration
-
-
-
-## Parquet : c'est quoi ?
-
-
-
-<!---------
-https://www.datagrandest.fr/portail/sites/default/files/webinaire_datagrandest_parquet_2024.pdf
----------->
-
-
-## Parquet : quels avantages ? {#section_2_2 .backgroundStandard}
-
-<br>
-
-- Un format utilisable avec un __[grand nombre de langages libres]{.orange}__ de traitement données:
-    + Format libre, _open source_, et indépendant du langage ;
-    + Devient un incontournable pour les _data scientists_, statisticiens et géomaticiens.
-
-- Une [**compression très efficace**]{.orange}
-    + Des fichiers beaucoup moins volumineux qu'en csv
-    + RP: 500 Mo en `Parquet` vs 5 Go en CSV
-
-
-- [__Plus de confort__]{.orange} pour les utilisateurs
-    + Des requêtes plus rapides et efficaces (seulement les données nécessaires sont lues, pas tout le fichier)
+- [__Plus de confort__]{.orange} pour les utilisateurs:
+    + Des requêtes plus rapides et efficaces (seulement les données nécessaires sont lues)
     + Des données conformes à la mise à disposition par le producteur (plus de problème de codes communes...)
 
 
 ## `Parquet` : quels usages ?
 
-:::: {.columns}
-
-::: {.column width="60%"}
-
 - Format privilégié pour la mise à disposition de données internes à l'Insee:
     + Moins d'asymétries entre utilisateurs et producteurs.
 
-- Premières diffusions sur `data.gouv` avec les **bureaux de votes du REU et adresses des électeurs** ainsi que les **fichiers du recensement** 
+. . .
 
-- Prévisualisations des fichiers `Parquet` possibles avec le nouvel __[explorateur de données](https://datalab.sspcloud.fr/data-explorer)__ du [SSP Cloud](https://datalab.sspcloud.fr)
-:::
+- Premières diffusions :
+    + Bureaux de votes du __[répertoire électoral unique (REU)]{.orange}__:
+    + [**Recensement de la population (RP)**]{.orange} 
+    + Plus récemment, la __[base permanente des équipements (BPE)](https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537)__
 
-::: {.column width="40%"}
-![cf. [Newsletter #16](https://ssphub.netlify.app/infolettre/infolettre_16) du `SSPHub`](https://ssphub.netlify.app/infolettre/infolettre_16/viewer-sspcloud.png)
-:::
 
-::::
+## `Parquet` : quels usages ?
+
+
+```{ojs}
+viewof source = Inputs.radio([
+  "Recensement", "Répertoire électoral unique"
+], {value: "Recensement"})
+```
+
+<br>
+
+```{ojs}
+Inputs.table(data)
+```
+
+```{ojs}
+data = (source == "Recensement") ? rp : reu
+```
+
+```{ojs}
+db = DuckDBClient.of({})
+
+rp = db.query(
+  "SELECT AGED, CATL, SEXE, CANTVILLE, IPONDI FROM read_parquet('https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet') LIMIT 5"
+)
+reu = db.query(
+  "SELECT geo_adresse, id_brut_bv_reu FROM read_parquet('https://static.data.gouv.fr/resources/bureaux-de-vote-et-adresses-de-leurs-electeurs/20230626-135723/table-adresses-reu.parquet') LIMIT 5"
+)
+```
+
+## Pourquoi `DuckDB` ?
+
+* `Parquet` ne résout pas tout
+  * L’espace disque est optimisé
+  * Les données décompressées doivent passer en RAM
+
+_Comment analyser ces données sur un PC avec 8 GB de RAM ?_
+
+## Pourquoi `DuckDB` ?
 
 
 
