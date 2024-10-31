@@ -493,7 +493,8 @@ part_population_60_plus <- table_individu %>%
     total_population = sum(IPONDI), # Population totale
     population_60_plus = sum(IPONDI[AGED > 60]) # Population de plus de 60 ans
   ) %>%
-  mutate(pourcentage_60_plus = population_60_plus / total_population * 100)
+  mutate(pourcentage_60_plus = population_60_plus / total_population * 100) %>%
+  collect()
 
 part_population_60_plus
 ```
@@ -566,8 +567,13 @@ parc_locatif_sf <- departements %>%
 
 
 ```{r}
+#| layout-ncol: 2
+#| fig-cap: 
+#|   - "Résidences secondaires"
+#|   - "Logements vacants"
+
 # Carte: Part des résidences secondaires
-ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
+carte1 <- ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
   geom_sf(aes(fill = p), color = "white") +
   scale_fill_fermenter(
     n.breaks = 5, 
@@ -585,7 +591,7 @@ ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
   )
 
 # Carte: Part des logements vacants
-ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
+carte2 <- ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
   geom_sf(aes(fill = p), color = "white") +
   scale_fill_fermenter(
     n.breaks = 5, 
@@ -601,6 +607,10 @@ ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
     title = "Cartographie des résidences secondaires",
     caption = "Source: Insee, Fichiers détails du recensement de la population"
   )
+
+
+carte1
+carte2
 ```
 
 
