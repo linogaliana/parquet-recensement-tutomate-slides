@@ -12,3 +12,4 @@ site_libs/
 /.quarto/
 *.csv
 *.parquet
+.Rproj.user
