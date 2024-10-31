@@ -16,6 +16,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up quarto
         uses: quarto-dev/quarto-actions/setup@v2
+      - name: Install system dependencies
+        run: |
+          sudo apt-get install libudunits2-dev
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         with:
