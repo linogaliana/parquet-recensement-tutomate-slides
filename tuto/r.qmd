@@ -1,0 +1,140 @@
+---
+title: "Exemples d'utilisation des données du recensement au format `Parquet`"
+author:
+    - Lino Galiana
+    - Mélina Hillion
+---
+
+Ce tutoriel vise à offrir une approche complémentaire
+au guide d'utilisation des données du recensement au format `Parquet`
+publié sur [https://ssphub.netlify.app](https://ssphub.netlify.app/post/parquetrp/)
+pour accompagner la diffusion de celles-ci par l'Insee. 
+
+Il s'agit d'un tutoriel préparé pour l'atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/) à l'EHESS le 5 novembre 2024. Ce tutoriel est exclusivement en `R`. Les slides de la présentation sont disponibles ci-dessous:
+
+<details>
+<summary>
+
+Dérouler les _slides_ ci-dessous ou [cliquer ici](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/complete.html#/partie-1-contr%C3%B4le-de-version-avec-git) pour afficher les slides en plein écran.
+
+</summary>
+
+```{=html}
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><iframe class="sourceCode yaml code-with-copy" src="https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/complete.html#/partie-1-contr%C3%B4le-de-version-avec-git"></iframe></div>
+```
+
+
+</details>
+
+
+# Librairies utilisées
+
+Ce tutoriel utilisera plusieurs librairies {{< fa brands r-project >}}. Celles-ci peuvent être importées ainsi[^renv]
+
+[^renv]: Si vous avez clôné le dépôt {{< fa brands github >}} disponible sur https://github.com/linogaliana/parquet-recensement-tutomate.git, un environnement virtuel `renv` vous permet de recréer la même configuration logicielle que celle utilisée pour générer cette page. Pour cela, il suffit de faire `renv::restore()`. 
+
+
+```{r}
+library(duckdb)
+library(dplyr)
+library(stringr)
+library(glue)
+library(dplyr)
+library(cartiflette)
+library(ggplot2)
+library(sf)
+library(gt)
+```
+
+
+# Téléchargement des fichiers
+
+Pour commencer, nous allons télécharger les fichiers depuis internet pour limiter les échanges réseaux. Comme nous le verrons ultérieurement, ce n'est en fait pas indispensable car `duckdb` optimise les données téléchargées à chaque requête. 
+
+
+```{r}
+#| message: false
+
+options(timeout = max(300, getOption("timeout"))) #<1>
+
+download_if_not_exists <- function(url, filename) {
+  if (!file.exists(filename)) {
+    download.file(url, filename)
+    message(paste("Downloaded:", filename))
+  } else {
+    message(paste("File already exists:", filename))
+  }
+}
+
+
+url_table_logement <- "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-logements-ordinaires-en-2020-1/20231023-123618/fd-logemt-2020.parquet"
+url_table_individu <- "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet"
+url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198"
+url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
+
+
+filename_table_logement <- str_split_i(url_table_logement, "/", -1)
+filename_table_individu <- str_split_i(url_table_individu, "/", -1)
+
+# Télécharge les fichiers
+download_if_not_exists(url_table_logement, filename_table_logement)
+download_if_not_exists(url_table_individu, filename_table_individu)
+download_if_not_exists(url_doc_logement, "dictionnaire_variables_logemt_2020.csv")
+download_if_not_exists(url_doc_individu, "dictionnaire_variables_indcvi_2020.csv")
+
+```
+1. Ceci est nécessaire pour éviter une erreur si le téléchargement est un peu lent.
+
+```{r}
+#| message: false
+departements <- carti_download(
+  values="France",
+  crs=4326,
+  borders="DEPARTEMENT",
+  vectorfile_format="geojson",
+  filter_by="FRANCE_ENTIERE_DROM_RAPPROCHES",
+  source="EXPRESS-COG-CARTO-TERRITOIRE",
+  year=2022,
+)
+```
+
+```{r}
+ggplot(departements) + geom_sf() + theme_void()
+```
+
+
+# Création de la base de données
+
+En principe, `duckdb` fonctionne à la manière d'une base de données. Autrement dit, on définit une base de données et effectue des requêtes (SQL ou verbes `tidyverse`) dessus. Pour créer une base de données, il suffit de faire un `read_parquet` avec le chemin du fichier.  
+
+La base de données se crée tout simplement de la manière suivante:
+
+```{r}
+con <- dbConnect(duckdb()) 
+```
+
+Celle-ci peut être utilisée directement par `duckdb`
+
+
+```{r}
+dbExecute(
+  con,
+  glue(  
+    'SELECT * FROM read_parquet("{filename_table_individu}") LIMIT 5'
+  )
+)
+```
+
+
+```{r}
+table_logement <- tbl(con, glue('read_parquet("{filename_table_logement}")'))
+table_individu <- tbl(con, glue('read_parquet("{filename_table_individu}")'))
+```
+
+
+
+documentation_logement <- readr::read_csv2("dictionnaire_variables_logemt_2020.csv")
+documentation_individus <- readr::read_csv2("dictionnaire_variables_indcvi_2020.csv")
+```
+
+
