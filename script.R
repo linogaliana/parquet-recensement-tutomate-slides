@@ -13,48 +13,8 @@
 
 # PREMIERES EXPLORATIONS GRAPHIQUES ------------------------------
 
-# Bar chart: distribution des âges
-pyramide_ages <- table_individu %>%
-  filter(DEPT %in% c('11', '31', '34')) %>%
-  group_by(AGED, departement = DEPT) %>%
-  summarise(individus = sum(IPONDI), .groups = "drop") %>%
-  arrange(departement, AGED) %>%
-  collect()
 
-ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
-  geom_bar(aes(fill = departement), stat = "identity") +
-  geom_vline(xintercept = 18, color = "grey", linetype = "dashed") +
-  facet_wrap(~departement, scales = "free_y", nrow = 3) +
-  theme_minimal() +
-  labs(y = "Individus recensés", x = "Âge")
 
-# Carte : Répartition des plus de 60 ans par département
-# Part des plus de 60 ans par département
-part_population_60_plus <- table_individu %>%
-  group_by(DEPT) %>%
-  summarise(
-    total_population = sum(IPONDI), # Population totale
-    population_60_plus = sum(IPONDI[AGED > 60]) # Population de plus de 60 ans
-  ) %>%
-  mutate(pourcentage_60_plus = population_60_plus / total_population * 100) %>%
-  collect()
-
-# Joindre les données au fond de carte des départements
-departements_60_plus_sf <- departements %>%
-  inner_join(
-    part_population_60_plus,
-    by = c("INSEE_DEP" = "DEPT")
-  )
-
-# Carte 
-ggplot(departements_60_plus_sf) +
-  geom_sf(aes(fill = pourcentage_60_plus)) + 
-  scale_fill_fermenter(n.breaks = 5, palette = "RdPu") + 
-  theme_void() + 
-  labs(
-    title = "Part des personnes de plus de 60 ans par département",
-    caption = "Source: Insee, Fichiers détails du recensement de la population"
-  )
 
 
 

@@ -388,6 +388,20 @@ dbGetQuery(
 
 La fonction `DISTINCT` appliquée à la variable `ARM` permet d’extraire la liste des codes arrondissements présents dans la base de données.
 
+
+::: {.panel-tabset}
+
+## `DuckDB` via `tidyverse`
+
+```{r}
+table_logement %>%
+  filter(str_detect(ARM, "ZZZZZ", negate = TRUE)) %>%
+  summarise(ARM = distinct(ARM)) %>%
+  arrange(ARM)
+```
+
+## `DuckDB` exclusivement
+
 ```{r}
 query <- glue_sql(
     "FROM read_parquet({filename_table_logement}) ",
@@ -399,11 +413,86 @@ query <- glue_sql(
 paste(dbGetQuery(con, query)$ARM, collapse = ", ")
 ```
 
+:::
+
+Il est possible d’extraire des statistiques beaucoup plus raffinées par le biais d’une requête SQL plus complexe. Par exemple pour calculer le nombre d’habitants de Toulouse qui ont changé de logement en un an:
+
+
+::: {.panel-tabset}
+
+## `DuckDB` via `tidyverse`
 
 ```{r}
 table_logement %>%
-  filter(str_detect(ARM, "ZZZZZ", negate = TRUE)) %>%
-  summarise(ARM = distinct(ARM)) %>%
-  arrange(ARM)
+  filter(COMMUNE == '31555', !IRANM %in% c('1', 'Z'), INPER != "Y") %>%
+  mutate(INPER = as.integer(INPER)) %>%
+  summarise(habitants_toulouse_demenagement = as.integer(sum(IPONDL * INPER)))
+```
+
+## `DuckDB` exclusivement
+
+```{r}
+query <- paste(
+  glue("FROM read_parquet(\"{filename_table_logement}\")"),
+  "SELECT CAST(SUM(IPONDL*CAST(INPER AS INT)) AS INT) ",
+  "AS habitants_toulouse_demenagement",
+  "WHERE COMMUNE == '31555' AND IRANM NOT IN ('1', 'Z') AND INPER != 'Y'",
+  sep = " ")
+dbGetQuery(con, query)
+```
+
+:::
+
+## Statistiques par groupe
+
+```{r}
+# Bar chart: distribution des âges
+pyramide_ages <- table_individu %>%
+  filter(DEPT %in% c('11', '31', '34')) %>%
+  group_by(AGED, departement = DEPT) %>%
+  summarise(individus = sum(IPONDI), .groups = "drop") %>%
+  arrange(departement, AGED) %>%
+  collect()
+
+ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
+  geom_bar(aes(fill = departement), stat = "identity") +
+  geom_vline(xintercept = 18, color = "grey", linetype = "dashed") +
+  facet_wrap(~departement, scales = "free_y", nrow = 3) +
+  theme_minimal() +
+  labs(y = "Individus recensés", x = "Âge")
+```
+
+
+
+### Exemple 2
+
+```{r}
+# Carte : Répartition des plus de 60 ans par département
+# Part des plus de 60 ans par département
+part_population_60_plus <- table_individu %>%
+  group_by(DEPT) %>%
+  summarise(
+    total_population = sum(IPONDI), # Population totale
+    population_60_plus = sum(IPONDI[AGED > 60]) # Population de plus de 60 ans
+  ) %>%
+  mutate(pourcentage_60_plus = population_60_plus / total_population * 100) %>%
+  collect()
+
+# Joindre les données au fond de carte des départements
+departements_60_plus_sf <- departements %>%
+  inner_join(
+    part_population_60_plus,
+    by = c("INSEE_DEP" = "DEPT")
+  )
+
+# Carte 
+ggplot(departements_60_plus_sf) +
+  geom_sf(aes(fill = pourcentage_60_plus)) + 
+  scale_fill_fermenter(n.breaks = 5, palette = "RdPu") + 
+  theme_void() + 
+  labs(
+    title = "Part des personnes de plus de 60 ans par département",
+    caption = "Source: Insee, Fichiers détails du recensement de la population"
+  )
 ```
 
