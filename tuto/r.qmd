@@ -614,4 +614,45 @@ carte2
 ```
 
 
+# Enrichissement grâce aux jointures
+
+Un autre cas d'usage classique est l'association de sources de données pour enrichir celles-ci à partir d'informations communes. Pour illustrer cette approche, nous allons montrer comment faire ceci en associant notre source de données aux modalités de la variable sur le mode de transport issue de la documentation de notre source. 
+
+```{r}
+transports_age <- table_individu %>%
+  mutate(
+    DEPT = if_else(
+      starts_with(DEPT, "97"),
+      DEPT,
+      substring(DEPT, 1, 2)
+    )
+  ) %>%
+  filter(!(TRANS %in% c("1", "Z"))) %>% #on fait un parmi les transports
+  group_by(DEPT, AGEREVQ, TRANS) %>%
+  summarise(n = sum(IPONDI)) %>%
+  ungroup() %>%
+  collect()
+
+# Part des modes de transport par âge et département
+transports_age <- transports_age %>%
+  group_by(DEPT, AGEREVQ) %>%
+  filter(DEPT == 75) %>%
+  mutate(p = n/sum(n))
+
+# Ajout du libellé du mode de transport 
+transports_age <- transports_age %>%
+  inner_join(
+    y = documentation_individus %>% filter(COD_VAR == "TRANS"),
+    by = c("TRANS" = "COD_MOD")
+  )
+
+# Graphique
+ggplot(transports_age) +
+  geom_line(aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MOD))) +
+  scale_x_continuous(limits = c(20,70))
+```
+
+# Vers le `geoparquet`
+
+Exemples à partir de la BPE
 
