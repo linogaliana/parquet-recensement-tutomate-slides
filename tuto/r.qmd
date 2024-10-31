@@ -2,7 +2,6 @@
 title: "Exemples d'utilisation des données du recensement au format `Parquet`"
 author:
     - Lino Galiana
-    - Mélina Hillion
 format: 
    html:
      df-print: paged
@@ -423,6 +422,8 @@ Il est possible d’extraire des statistiques beaucoup plus raffinées par le bi
 ## `DuckDB` via `tidyverse`
 
 ```{r}
+#| lst-label: lst-toulouse-logements
+#| lst-cap: "Nombre de Toulousains qui ont changé de logement en un an"
 table_logement %>%
   filter(COMMUNE == '31555', !IRANM %in% c('1', 'Z'), INPER != "Y") %>%
   mutate(INPER = as.integer(INPER)) %>%
@@ -445,14 +446,30 @@ dbGetQuery(con, query)
 
 ## Statistiques par groupe
 
+`SQL` et `dplyr` permettent d'aller loin dans la finesse des statistiques descriptives mises en oeuvre. 
+Cela sera illustré à l'aide de plusieurs exemples réflétant des statistiques pouvant être construites grâce à ces données détaillées. 
+
+
+### Exemple 1: pyramide des âges dans l'Aude, l'Hérault et le Gard
+
+Le premier exemple est un comptage sur trois départements. Il illustre la démarche suivante:
+
+1. On se restreint aux observations d'intérêt (ici 3 départements)
+2. On applique la fonction `summarise` pour calculer une statistique par groupe, en l'occurrence la somme des pondérations
+3. On retravaille les données
+
+Ensuite, une fois que nos données sont récupérées dans `R`, on peut faire la figure avec `ggplot`
+
 ```{r}
-# Bar chart: distribution des âges
+#| lst-label: lst-sud-pyramide
+#| lst-cap: "Pyramide des âges dans l'Aude, l'Hérault et le Gard"
+
 pyramide_ages <- table_individu %>%
   filter(DEPT %in% c('11', '31', '34')) %>%
   group_by(AGED, departement = DEPT) %>%
   summarise(individus = sum(IPONDI), .groups = "drop") %>%
-  arrange(departement, AGED) %>%
-  collect()
+  arrange(departement, AGED)
+
 
 ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
   geom_bar(aes(fill = departement), stat = "identity") +
@@ -463,29 +480,40 @@ ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
 ```
 
 
+### Exemple 2: répartition des plus de 60 ans par département
 
-### Exemple 2
+L'objectif de ce deuxième exemple est d'illustrer la construction d'une statistique un peu plus complexe et la manière de projeter celle-ci sur une carte.
+
+Pour avoir la répartition des plus de 60 ans par département, quelques lignes de `dplyr` suffisent:
 
 ```{r}
-# Carte : Répartition des plus de 60 ans par département
-# Part des plus de 60 ans par département
 part_population_60_plus <- table_individu %>%
   group_by(DEPT) %>%
   summarise(
     total_population = sum(IPONDI), # Population totale
     population_60_plus = sum(IPONDI[AGED > 60]) # Population de plus de 60 ans
   ) %>%
-  mutate(pourcentage_60_plus = population_60_plus / total_population * 100) %>%
-  collect()
+  mutate(pourcentage_60_plus = population_60_plus / total_population * 100)
 
+part_population_60_plus
+```
+
+Il ne reste plus qu'à projeter ceci sur une carte. Pour cela, un _join_ à notre fond de carte suffit. Comme les données sont agrégées et déjà dans `R`, il n'y a rien de spécifique à `duckdb` ici. 
+
+```{r}
+#| code-fold: true
+#| code-summary: Association de part_population_60_plus au fond de carte des départements
 # Joindre les données au fond de carte des départements
 departements_60_plus_sf <- departements %>%
   inner_join(
     part_population_60_plus,
     by = c("INSEE_DEP" = "DEPT")
   )
+```
 
-# Carte 
+Finalement, il ne reste plus qu'à produire la carte:
+
+```{r}
 ggplot(departements_60_plus_sf) +
     geom_sf(aes(fill = pourcentage_60_plus)) + 
     scale_fill_fermenter(n.breaks = 5, palette = "PuBuGn", direction = 1) + 
@@ -495,6 +523,84 @@ ggplot(departements_60_plus_sf) +
         caption = "Source: Insee, Fichiers détails du recensement de la population",
         fill = "Part (%)"
     )
+```
+
+
+### Exemple 3: part des résidences secondaires et des logements vacants 
+
+Il est tout à fait possible de faire des étapes antérieures de préparation de données, notamment de création de variables avec `mutate`.
+
+L'exemple suivant illustre la préparation de données avant la construction de statistiques descriptives de la manière suivante:
+
+1. Création d'une variable de département à partir du code commune
+2. Décompte des logements par département
+
+```{r}
+parc_locatif <- table_logement %>%
+  mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
+  mutate(
+    DEPT = if_else(
+      starts_with(DEPT, "97"),
+      DEPT,
+      substring(DEPT, 1, 2)
+    )
+  ) %>%
+  group_by(DEPT, CATL) %>%
+  summarise(n = sum(IPONDL)) %>%
+  ungroup() %>%
+  collect()
+```
+
+```{r}
+# Jointure avec le fond de carte des départements
+parc_locatif_sf <- departements %>%
+  inner_join(
+    parc_locatif,
+    by = c("INSEE_DEP" = "DEPT"),
+    relationship = "many-to-many" # on a des clés dupliquées dans le fond cartiflette (e.g. Ile de France) et dans le dataframe (4 valeurs par dep)
+  ) %>%
+  group_by(INSEE_DEP) %>%
+  mutate(p = n/sum(n)) %>%
+  ungroup
+```
+
+
+```{r}
+# Carte: Part des résidences secondaires
+ggplot(parc_locatif_sf %>% filter(CATL == "3")) +
+  geom_sf(aes(fill = p), color = "white") +
+  scale_fill_fermenter(
+    n.breaks = 5, 
+    palette = "RdPu",
+    direction = 1,
+    labels = scales::label_percent(
+      scale_cut = scales::cut_short_scale()
+    )
+  ) +
+  theme_void() +
+  labs(
+    fill = "Part dans le\nparc de logement (%)",
+    title = "Cartographie des résidences secondaires",
+    caption = "Source: Insee, Fichiers détails du recensement de la population"
+  )
+
+# Carte: Part des logements vacants
+ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
+  geom_sf(aes(fill = p), color = "white") +
+  scale_fill_fermenter(
+    n.breaks = 5, 
+    palette = "RdPu",
+    direction = 1,
+    labels = scales::label_percent(
+      scale_cut = scales::cut_short_scale()
+    )
+  ) +
+  theme_void() +
+  labs(
+    fill = "Part dans le\nparc de logement (%)",
+    title = "Cartographie des résidences secondaires",
+    caption = "Source: Insee, Fichiers détails du recensement de la population"
+  )
 ```
 
 

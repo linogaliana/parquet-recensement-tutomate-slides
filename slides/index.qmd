@@ -4,7 +4,6 @@ subtitle: |
   Une découverte à travers l'exemple des données du recensement
 author:
     - Lino Galiana
-    - Mélina Hillion
 date: "2024-11-05"
 date-format: long
 slide-number: true
