@@ -304,13 +304,14 @@ _[Documentation technique sur le recensement](https://www.insee.fr/fr/informatio
 - Format privilégié pour la mise à disposition de données internes à l'Insee:
     + Moins d'asymétries entre utilisateurs et producteurs.
 
-. . .
+::: {.callout-note}
+## Premières diffusions à l'externe
 
-- Premières diffusions :
-    + Bureaux de votes du __[répertoire électoral unique (REU)]{.orange}__:
-    + [**Recensement de la population (RP)**]{.orange} 
-    + Plus récemment, la __[base permanente des équipements (BPE)](https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537)__
+- Bureaux de votes du __[répertoire électoral unique (REU)]{.blue2}__:
+- [**Recensement de la population (RP)**]{.blue2} 
+- Plus récemment, la [__[base permanente des équipements (BPE)](https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537)__]{.blue2}
 
+:::
 
 ## `Parquet` : quels usages ?
 
@@ -344,13 +345,55 @@ reu = db.query(
 
 ## Pourquoi `DuckDB` ?
 
-* `Parquet` ne résout pas tout
-  * L’espace disque est optimisé
-  * Les données décompressées doivent passer en RAM
+* `Parquet` ne résout pas tout:
+  + L’espace disque est optimisé
+  + Les données décompressées doivent passer en RAM
 
-_Comment analyser ces données sur un PC avec 8 GB de RAM ?_
+
+❓️ _Comment analyser ces données sur un PC avec 8 GB de RAM ?_
 
 ## Pourquoi `DuckDB` ?
+
+![](img/librairies2.png){fig-align="center"}
+
+
+## Pourquoi `DuckDB` ? {.smaller}
+
+:::: {.columns}
+
+::: {.column width="83%"}
+
+* `DuckDB` est un utilitaire _open source_
+    + Un logiciel en ligne de commande tout simple (20Mo)...
+    + Des librairies {{< fa brands r-project >}}, {{< fa brands python >}} et `Observable` pour simplifier l'usage
+    + Requêtes SQL mais aussi intégration `tidyverse` pour {{< fa brands r-project >}}
+
+:::
+
+::: {.column width="2%"}
+:::
+
+
+::: {.column width="15%"}
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/DuckDB_logo.svg/1200px-DuckDB_logo.svg.png)
+
+:::
+
+::::
+
+. . .
+
+* `DuckDB` est très efficace:
+    + Moteur SQL enrichi avec des fonctions très pratiques pour l'analyse
+    + Optimisations automatiques
+    + Visualisations sans exécuter sur toute la base
+
+. . .
+
+💡 Les __[avantages du monde des bases de données sans ses inconvénients]{.orange}__
+
+# Démonstrations
 
 
 
