@@ -537,6 +537,7 @@ L'exemple suivant illustre la préparation de données avant la construction de 
 2. Décompte des logements par département
 
 ```{r}
+#| output: false
 parc_locatif <- table_logement %>%
   mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
   mutate(
@@ -558,15 +559,18 @@ parc_locatif_sf <- departements %>%
   inner_join(
     parc_locatif,
     by = c("INSEE_DEP" = "DEPT"),
-    relationship = "many-to-many" # on a des clés dupliquées dans le fond cartiflette (e.g. Ile de France) et dans le dataframe (4 valeurs par dep)
+    relationship = "many-to-many" #<1>
   ) %>%
   group_by(INSEE_DEP) %>%
   mutate(p = n/sum(n)) %>%
   ungroup
 ```
+1. On a des clés dupliquées dans le fond `cartiflette` (le zoom pour l'Ile de France) et dans le _dataframe_ (4 valeurs par dep)
 
 
 ```{r}
+#| code-fold: true
+#| code-summary: Code pour produire la carte
 #| layout-ncol: 2
 #| fig-cap: 
 #|   - "Résidences secondaires"
@@ -604,7 +608,7 @@ carte2 <- ggplot(parc_locatif_sf %>% filter(CATL == "4")) +
   theme_void() +
   labs(
     fill = "Part dans le\nparc de logement (%)",
-    title = "Cartographie des résidences secondaires",
+    title = "Cartographie des logements vacants",
     caption = "Source: Insee, Fichiers détails du recensement de la population"
   )
 
