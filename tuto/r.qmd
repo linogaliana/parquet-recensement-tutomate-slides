@@ -487,12 +487,13 @@ departements_60_plus_sf <- departements %>%
 
 # Carte 
 ggplot(departements_60_plus_sf) +
-  geom_sf(aes(fill = pourcentage_60_plus)) + 
-  scale_fill_fermenter(n.breaks = 5, palette = "RdPu") + 
-  theme_void() + 
-  labs(
-    title = "Part des personnes de plus de 60 ans par département",
-    caption = "Source: Insee, Fichiers détails du recensement de la population"
-  )
+    geom_sf(aes(fill = pourcentage_60_plus)) + 
+    scale_fill_fermenter(n.breaks = 5, palette = "PuBuGn", direction = 1) + 
+    theme_void() + 
+    labs(
+        title = "Part des personnes de plus de 60 ans par département",
+        caption = "Source: Insee, Fichiers détails du recensement de la population",
+        fill = "Part (%)"
+    )
 ```
 
