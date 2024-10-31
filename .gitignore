@@ -13,3 +13,4 @@ site_libs/
 *.csv
 *.parquet
 .Rproj.user
+tuto/r_files
