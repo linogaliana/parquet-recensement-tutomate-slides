@@ -382,4 +382,28 @@ dbGetQuery(
 :::
 
 
+# Statistiques agrégées
+
+## Exemples sans groupes
+
+La fonction `DISTINCT` appliquée à la variable `ARM` permet d’extraire la liste des codes arrondissements présents dans la base de données.
+
+```{r}
+query <- glue_sql(
+    "FROM read_parquet({filename_table_logement}) ",
+    "SELECT DISTINCT(ARM) ",
+    "WHERE NOT CONTAINS(ARM, 'ZZZZZ') ",
+    "ORDER BY ARM",
+    .con=con
+)
+paste(dbGetQuery(con, query)$ARM, collapse = ", ")
+```
+
+
+```{r}
+table_logement %>%
+  filter(str_detect(ARM, "ZZZZZ", negate = TRUE)) %>%
+  summarise(ARM = distinct(ARM)) %>%
+  arrange(ARM)
+```
 
