@@ -29,6 +29,10 @@ Dérouler les _slides_ ci-dessous ou [cliquer ici](https://inseefrlab.github.io/
 
 </details>
 
+Il propose des exemples variés pour illustrer la simplicité d'usage du format `Parquet`. Parmi ceux-ci:
+
+- Recenser les Niçois qui ont emménagé depuis 2021 (@lst-nice-emmenagement)
+
 
 # Librairies utilisées
 
@@ -58,6 +62,8 @@ Pour commencer, nous allons télécharger les fichiers depuis internet pour limi
 
 ```{r}
 #| output: false
+#| code-fold: true
+#| code-summary: "Voir le code pour télécharger les données"
 
 options(timeout = max(300, getOption("timeout"))) #<1>
 
@@ -178,9 +184,11 @@ documentation_individus <- readr::read_csv2("dictionnaire_variables_indcvi_2020.
 
 ## Requêtes sur les colonnes (`SELECT`)
 
-L'une des forces du format `Parquet` est de simplifier
+L'une des forces du format `Parquet` est de simplifier l'import de fichiers volumineux qui ne comportent que quelques colonnes nous intéressant. Par exemple, la table des individus comporte 88 colonnes, il est peu probable qu'une seule analyse s'intéresse à toutes celles-ci (ou elle risque d'être fort indigeste).
 
-![](/img/parquet_table2_enriched.parquet)
+![](/img/parquet-table2-enriched.png)
+
+Comme cela est illustré dans @tip-optimisation-duckdb, la différence de volumétrie entre un fichier non filtré et un fichier filtré est importante. 
 
 ::: {.panel-tabset}
 
@@ -197,9 +205,9 @@ table_individu %>%
 
 ```{r}
 query <- glue(
-"FROM read_parquet(\"{filename_table_individu}\") ",
-"SELECT IPONDI AS poids, AGED, VOIT ",
-"LIMIT 10"
+  "FROM read_parquet(\"{filename_table_individu}\") ",
+  "SELECT IPONDI AS poids, AGED, VOIT ",
+  "LIMIT 10"
 )
 dbGetQuery(
   con,
@@ -209,7 +217,7 @@ dbGetQuery(
 
 :::
 
-::: {.callout-tip}
+::: {#tip-optimisation-duckdb .callout-tip collapse="true"}
 ## Comprendre l'optimisation permise par `Parquet` et `DuckDB`
 
 Pour réduire la volumétrie des données importées, il est possible de mettre en oeuvre deux stratégies:
@@ -224,7 +232,7 @@ Comme cela a été évoqué dans les _slides_, le format `Parquet` est particuli
 
 Pour cela, nous utilisons la fonction SQL `EXPLAIN ANALYZE` disponible dans `duckdb`. Elle décompose le plan d'exécution de `duckdb`, ce qui nous permettra de comprendre la stratégie d'optimisation. Elle permet aussi de connaître le volume de données importées lorsqu'on récupère un fichier d'internet. En effet, `duckdb` est malin: plutôt que de télécharger un fichier entier pour n'en lire qu'une partie, la librairie est capable de n'importer que les blocs du fichier qui l'intéresse. 
 
-Ceci nécessite l'utilisation de l'extension `httpfs` (un peu l'équivalent des `library` de `R` en `duckdb`). 
+Ceci nécessite l'utilisation de l'extension `httpfs` (un peu l'équivalent des `library` de `R` en `duckdb`). Elle s'installe et s'utilise de la manière suivante
 
 ```{r}
 #| output: false
@@ -237,8 +245,17 @@ dbExecute(
 )
 ```
 
+Demandons à `DuckDB` d'exécuter la requête _"beaucoup de colonnes, pas beaucoup de lignes"_
+et regardons le plan d'exécution et les informations données par `DuckDB`:
+
+<details>
+
+<summary>
+Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
+</summary>
+
 ```{r}
-dbGetQuery(
+plan <- dbGetQuery(
   con,
   glue(  
     'EXPLAIN ANALYZE ',
@@ -248,18 +265,19 @@ dbGetQuery(
 ```
 
 ```{r}
-dbGetQuery(
-  con,
-  glue(  
-    'EXPLAIN ANALYZE ',
-    'SELECT * FROM read_parquet("{url_table_logement}") LIMIT 5'
-  )
-)
+print(plan)
 ```
 
+</details>
+
+<details>
+
+<summary>
+Voir le plan : _"pas de colonnes, beaucoup de lignes"_
+</summary>
 
 ```{r}
-dbGetQuery(
+plan <- dbGetQuery(
   con,
   glue(  
     'EXPLAIN ANALYZE ',
@@ -268,18 +286,100 @@ dbGetQuery(
 )
 ```
 
+```{r}
+print(plan)
+```
+
+</details>
+
+La comparaison de ces plans d'exécution montre l'intérêt de faire un filtre sur les colonnes : les besoins computationnels sont drastiquement diminués. Le filtre sur les lignes n'arrive que dans un second temps, une fois les colonnes sélectionnées. 
+
+Pourquoi seulement un rapport de 1 à 4 entre le poids des deux fichiers ? C'est parce que nos requêtes comportent toute deux la variable `IPONDI` (les poids à utiliser pour extrapoler l'échantillon à la population) qui est à haute précision là où beaucoup d'autres colonnes comportent un nombre réduit de modalités et sont donc peu volumineuses.
+
+:::
+
+DuckDB propose également des fonctionnalités pour extraire des colonnes à travers des [expressions régulières](https://fr.wikipedia.org/wiki/Expression_r%C3%A9guli%C3%A8re). Cette approche est également possible avec le `tidyverse`
+
+::: {.panel-tabset}
+
+## `DuckDB` via `tidyverse`
+
+```{r}
+table_individu %>%
+  select(poids = IPONDI, contains("AGE")) %>%
+  head(10)
+```
+
+## `DuckDB` exclusivement
+
+```{r}
+dbGetQuery(
+  con,
+  glue(
+    "FROM read_parquet(\"{filename_table_individu}\") ",
+    "SELECT IPONDI AS poids, COLUMNS('.*AGE.*') ",
+    "LIMIT 10"
+  )
+)
+```
+
+:::
+
+## Requêtes sur les lignes (`WHERE`)
+
+::: {.panel-tabset}
+
+## `DuckDB` via `tidyverse`
+
+```{r}
+table_individu %>%
+  filter(DEPT %in% c("11", "31", "34")) %>%
+  head(10)
+```
+
+## `DuckDB` exclusivement
+
+```{r}
+dbGetQuery(
+  con,
+  glue(
+    "FROM read_parquet(\"{filename_table_individu}\") ",
+    "SELECT IPONDI, AGED, DEPT ",
+    "WHERE DEPT IN ('11', '31', '34') ",
+    "LIMIT 10")
+)
+```
+
 :::
 
 
+Les filtres sur les observations peuvent être faits à partir de critères sur plusieurs colonnes. Par exemple, pour ne conserver que les observations de la ville de Nice où la date d’emménagement est postérieure à 2020, la requête suivante peut être utilisée :
 
-print(duckdb.sql(
-    """
-        EXPLAIN ANALYZE
-        SELECT *
-        FROM read_parquet('https://www.data.gouv.fr/fr/datasets/r/f314175a-6d33-4ee4-b5eb-2cb6c29df2c2')
-    """
-).to_df()['explain_value'].iloc[0]
+::: {.panel-tabset}
+
+## `DuckDB` via `tidyverse`
+
+```{r}
+#| lst-label: lst-nice-emmenagement
+#| lst-cap: "Ne conserver que les Niçois qui ont emménagé depuis 2021"
+table_logement %>% filter(COMMUNE == "06088", AEMM > 2020)
+```
+
+## `DuckDB` exclusivement
+
+```{r}
+dbGetQuery(
+  con,
+  glue(
+    "FROM read_parquet(\"{filename_table_logement}\") ",
+    "SELECT * ",
+    "WHERE COMMUNE = '06088' and AEMM > 2020 ",
+    "LIMIT 10"
+  )
 )
+```
+
+:::
 
 
 
