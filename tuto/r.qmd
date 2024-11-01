@@ -51,6 +51,7 @@ library(cartiflette)
 library(ggplot2)
 library(sf)
 library(gt)
+library(gtExtras)
 ```
 
 
@@ -526,6 +527,40 @@ ggplot(departements_60_plus_sf) +
     )
 ```
 
+Si on préfère représenter ceci sous forme de tableau, on peut utiliser le _package_ [`gt`](https://gt.rstudio.com/).
+
+```{r}
+#| code-fold: true
+#| code-summary: "Code pour avoir le classement des départements pour lesquels la population de plus de 60 ans est la plus importante"
+top_population <- part_population_60_plus %>%
+  arrange(desc(pourcentage_60_plus)) %>%
+  head(10)
+
+gt(
+  top_population
+) %>%
+  gt_plt_bar_pct(
+    column = pourcentage_60_plus,
+    scaled = TRUE,
+    labels = TRUE
+  ) %>%
+    fmt_number(
+    columns = c("total_population", "population_60_plus"),
+    decimals = 0,
+    sep_mark = " "
+  ) %>%
+  fmt_number(
+      columns = c("pourcentage_60_plus"),
+      decimals = 1
+    ) %>%
+  cols_label(
+    DEPT = md("**Département**"),
+    total_population = md("**Population**"),
+    population_60_plus = md("**Population de plus de 60 ans**"),
+    pourcentage_60_plus = md("*Part (%)*")
+  )
+```
+
 
 ### Exemple 3: part des résidences secondaires et des logements vacants 
 
@@ -620,7 +655,9 @@ carte2
 
 # Enrichissement grâce aux jointures
 
-Un autre cas d'usage classique est l'association de sources de données pour enrichir celles-ci à partir d'informations communes. Pour illustrer cette approche, nous allons montrer comment faire ceci en associant notre source de données aux modalités de la variable sur le mode de transport issue de la documentation de notre source. 
+Un autre cas d'usage classique est l'association de sources de données pour enrichir celles-ci à partir d'informations communes à partir de dimensions communes.
+
+Pour illustrer cette approche, nous allons montrer comment faire ceci en associant notre source de données aux modalités de la variable sur le mode de transport issue de la documentation de notre source. Cela nous permet d'enrichir notre jeu de données d'informations intéressantes pour la représentation graphique et l'analyse. 
 
 ```{r}
 transports_age <- table_individu %>%
