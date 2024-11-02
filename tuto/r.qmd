@@ -540,7 +540,14 @@ Si on préfère représenter ceci sous forme de tableau, on peut utiliser le _pa
 #| code-fold: true
 #| code-summary: "Code pour avoir le classement des départements pour lesquels la population de plus de 60 ans est la plus importante"
 top_population <- part_population_60_plus %>%
+  left_join(
+    departements %>% select(INSEE_DEP, LIBELLE_DEPARTEMENT ) %>% st_set_geometry(NULL),
+    by = c("DEPT" = "INSEE_DEP")
+  ) %>%
+  mutate(departement = paste0(LIBELLE_DEPARTEMENT, " (", DEPT , ")")) %>%
+  select(-DEPT, -LIBELLE_DEPARTEMENT) %>%
   arrange(desc(pourcentage_60_plus)) %>%
+  select(DEPT = departement, everything()) %>%
   head(10)
 
 gt(
