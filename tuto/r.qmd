@@ -31,7 +31,11 @@ Dérouler les _slides_ ci-dessous ou [cliquer ici](https://inseefrlab.github.io/
 Il propose des exemples variés pour illustrer la simplicité d'usage du format `Parquet`. Parmi ceux-ci:
 
 - Recenser les Niçois qui ont emménagé depuis 2021 (@lst-nice-emmenagement)
-
+- Compter les Toulousains qui ont déménagé dans l'année (@lst-toulouse-logements)
+- Pyramide des âges dans l'Aude, l'Hérault et la Haute-Garonne (@lst-sud-pyramide)
+- Part des plus de 60 ans dans la population de chaque département (@lst-plus-60ans)
+- Part des résidences secondaires et des logements vacants dans le parc de chaque logement (@lst-logement)
+- Modes de transport pour chaque classe d'âge vivant dans Paris intra-muros (@lst-transport)
 
 # Librairies utilisées
 
@@ -488,6 +492,9 @@ L'objectif de ce deuxième exemple est d'illustrer la construction d'une statist
 Pour avoir la répartition des plus de 60 ans par département, quelques lignes de `dplyr` suffisent:
 
 ```{r}
+#| lst-label: lst-plus-60ans
+#| lst-cap: "Calculer la part des plus de 60 ans dans la population de chaque département"
+
 part_population_60_plus <- table_individu %>%
   group_by(DEPT) %>%
   summarise(
@@ -572,6 +579,9 @@ L'exemple suivant illustre la préparation de données avant la construction de 
 2. Décompte des logements par département
 
 ```{r}
+#| lst-label: lst-logement
+#| lst-cap: "Part des logements vacants et résidences secondaires dans le parc de logement"
+
 #| output: false
 parc_locatif <- table_logement %>%
   mutate(DEPT = substring(COMMUNE, 1, 3)) %>%
@@ -660,6 +670,9 @@ Un autre cas d'usage classique est l'association de sources de données pour enr
 Pour illustrer cette approche, nous allons montrer comment faire ceci en associant notre source de données aux modalités de la variable sur le mode de transport issue de la documentation de notre source. Cela nous permet d'enrichir notre jeu de données d'informations intéressantes pour la représentation graphique et l'analyse. 
 
 ```{r}
+#| lst-label: lst-transport
+#| lst-cap: "Type de transport utilisé par les différentes cohortes"
+
 transports_age <- table_individu %>%
   mutate(
     DEPT = if_else(
@@ -688,9 +701,15 @@ transports_age <- transports_age %>%
   )
 
 # Graphique
-ggplot(transports_age) +
-  geom_line(aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MOD))) +
-  scale_x_continuous(limits = c(20,70))
+ggplot(transports_age, aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MOD))) +
+  geom_line() +
+  geom_point(shape = 17) +
+  scale_x_continuous(limits = c(20,70)) +
+  labs(color = "", x = "Age", y = "Proportion de la classe d'âge\nutilisant ce moyen") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  guides(color=guide_legend(nrow=3,byrow=TRUE))
 ```
 
 # Vers le `geoparquet`

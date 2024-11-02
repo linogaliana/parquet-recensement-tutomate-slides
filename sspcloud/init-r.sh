@@ -27,6 +27,7 @@ setHook('rstudio.sessionInit', function(newSession) {
   {
     message('Activation du projet RStudio')
     rstudioapi::openProject('${FORMATION_DIR}')
+    renv::restore()
   }
 }, action = 'append')
 " >> /home/onyxia/.Rprofile
