@@ -9,7 +9,6 @@ chown -R onyxia:users $FORMATION_DIR
 
 # Install dependencies
 install2.r here
-Rscript -e "renv::restore()"
 
 
 # Open the project
@@ -27,7 +26,6 @@ setHook('rstudio.sessionInit', function(newSession) {
   {
     message('Activation du projet RStudio')
     rstudioapi::openProject('${FORMATION_DIR}')
-    renv::restore()
   }
 }, action = 'append')
 " >> /home/onyxia/.Rprofile
