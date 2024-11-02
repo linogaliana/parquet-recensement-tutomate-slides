@@ -9,6 +9,8 @@ chown -R onyxia:users $FORMATION_DIR
 
 # Install dependencies
 install2.r here
+Rscript -e "renv::restore()"
+
 
 # Open the project
 echo \
