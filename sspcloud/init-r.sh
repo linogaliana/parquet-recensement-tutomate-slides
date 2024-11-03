@@ -17,6 +17,7 @@ setHook('rstudio.sessionInit', function(newSession) {
  if (newSession)
   {
     rstudioapi::navigateToFile('tp/${QUARTO_FILE}')
+    renv::restore()
   }
 }, action = 'append')
 
