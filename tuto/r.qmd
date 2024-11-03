@@ -85,7 +85,7 @@ url_table_logement <- "https://static.data.gouv.fr/resources/recensement-de-la-p
 url_table_individu <- "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet"
 url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198"
 url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
-
+url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
 
 filename_table_logement <- str_split_i(url_table_logement, "/", -1)
 filename_table_individu <- str_split_i(url_table_individu, "/", -1)
@@ -95,6 +95,7 @@ download_if_not_exists(url_table_logement, filename_table_logement)
 download_if_not_exists(url_table_individu, filename_table_individu)
 download_if_not_exists(url_doc_logement, "dictionnaire_variables_logemt_2020.csv")
 download_if_not_exists(url_doc_individu, "dictionnaire_variables_indcvi_2020.csv")
+download_if_not_exists(url_bpe, "BPE2023.parquet")
 ```
 1. Ceci est nécessaire pour éviter une erreur si le téléchargement est un peu lent.
 
@@ -438,12 +439,12 @@ table_logement %>%
 ## `DuckDB` exclusivement
 
 ```{r}
-query <- paste(
-  glue("FROM read_parquet(\"{filename_table_logement}\")"),
+query <- glue(
+  "FROM read_parquet(\"{filename_table_logement}\") ",
   "SELECT CAST(SUM(IPONDL*CAST(INPER AS INT)) AS INT) ",
-  "AS habitants_toulouse_demenagement",
-  "WHERE COMMUNE == '31555' AND IRANM NOT IN ('1', 'Z') AND INPER != 'Y'",
-  sep = " ")
+  "AS habitants_toulouse_demenagement ",
+  "WHERE COMMUNE == '31555' AND IRANM NOT IN ('1', 'Z') AND INPER != 'Y'"
+)
 dbGetQuery(con, query)
 ```
 
@@ -719,7 +720,46 @@ ggplot(transports_age, aes(x = as.numeric(AGEREVQ), y = p, color = factor(LIB_MO
   guides(color=guide_legend(nrow=3,byrow=TRUE))
 ```
 
-# Vers le `geoparquet`
+# Le format `Parquet` pour les données géographiques
 
-Exemples à partir de la BPE
+Pour illustrer l'intérêt de la diffusion de données géographiques, nous allons utiliser la [base permanente des équipements](https://www.insee.fr/fr/metadonnees/source/serie/s1161), une source qui recense les équipements publics sur le territoire. Le millésime 2023 est, pour la première fois, diffusé au format `Parquet`. Le dictionnaire des variables de cette source est disponible [ici](https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537#consulter).
+
+
+::: {.callout-tip}
+## Le format `GeoParquet`
+
+Il existe une extension du format `Parquet` pour les données géographiques: le [`GeoParquet`](https://geoparquet.org/). Ce format de fichier permet de gérer nativement les opérations sur les _bounding box_ des géométries de chaque observation. Cela permet, par exemple, de filtrer les géométries appartenant à un certain rayon. Pour cela, il faut installer l'[extension `SPATIAL`](https://duckdb.org/docs/extensions/spatial/overview.html) de `duckdb`.
+
+Lorsque la géométrie des données se restreint à des coordonnées ponctuelles, c'est-à-dire à un couple longitude-latitude, le format `GeoParquet` n'apporte pas de gain particulier. Un `Parquet` classique, avec les longitudes et latitudes dans deux colonnes, suffit. C'est pour cette raison que la BPE est diffusée sous la forme classique d'un `Parquet` et non d'un `GeoParquet`.
+
+:::
+
+```{r}
+#| echo: false
+# Pour éviter de saturer l'espace disque de Github
+file.remove(filename_table_individu)
+file.remove(filename_table_logement)
+```
+
+En premier lieu, pour illustrer que ce fichier fonctionne de manière identique à précédemment, faisons un filtre à partir des variables de cette base (les géomaticiens parleraient de filtre attributaire). Récupérons exclusivement les établissements d'enseignement dans Aubervilliers:
+
+```{r}
+query <- glue(
+  "FROM read_parquet('BPE2023.parquet') ",
+  "SELECT * ",
+  "WHERE DEPCOM = '93001' ",
+  "      AND starts_with(TYPEQU, 'C')",
+  "      AND NOT (starts_with(TYPEQU, 'C6') OR starts_with(TYPEQU, 'C7'))"
+)
+
+etab_enseignement_auber <- dbGetQuery(con, query)
+```
+
+
+
+```{r}
+#| echo: false
+# Pour éviter de saturer l'espace disque de Github
+file.remove('BPE2023.parquet')
+```
 
