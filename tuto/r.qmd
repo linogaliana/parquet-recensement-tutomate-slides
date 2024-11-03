@@ -755,6 +755,22 @@ query <- glue(
 etab_enseignement_auber <- dbGetQuery(con, query)
 ```
 
+```{r}
+etab_enseignement_auber <- etab_enseignement_auber %>%
+  st_as_sf(coords = c("LONGITUDE", "LATITUDE"))
+
+bounds <- etab_enseignement_auber %>% 
+  st_bbox() %>% 
+  as.character()
+```
+
+
+```{r}
+leaflet(etab_enseignement_auber) %>%
+  addTiles() %>%
+  addMarkers(popup = ~paste0(NOMRS, "<br>", "Type d'établissement: ", TYPEQU)) %>%
+  fitBounds(bounds[1], bounds[2], bounds[3], bounds[4])
+```
 
 
 ```{r}
