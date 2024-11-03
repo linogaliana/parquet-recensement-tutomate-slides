@@ -36,6 +36,8 @@ Il propose des exemples variés pour illustrer la simplicité d'usage du format 
 - Part des plus de 60 ans dans la population de chaque département (@lst-plus-60ans)
 - Part des résidences secondaires et des logements vacants dans le parc de chaque logement (@lst-logement)
 - Modes de transport pour chaque classe d'âge vivant dans Paris intra-muros (@lst-transport)
+- Les établissements d'enseignement à Aubervilliers (@lst-etab-enseignement)
+
 
 # Librairies utilisées
 
@@ -766,6 +768,8 @@ bounds <- etab_enseignement_auber %>%
 
 
 ```{r}
+#| lst-label: lst-etab-enseignement
+#| lst-cap: "Les établissements d'enseignement à Aubervilliers"
 leaflet(etab_enseignement_auber) %>%
   addTiles() %>%
   addMarkers(popup = ~paste0(NOMRS, "<br>", "Type d'établissement: ", TYPEQU)) %>%
