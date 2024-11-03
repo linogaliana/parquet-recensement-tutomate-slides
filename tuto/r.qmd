@@ -28,7 +28,7 @@ Dérouler les _slides_ ci-dessous ou [cliquer ici](https://inseefrlab.github.io/
 
 </details>
 
-Il propose des exemples variés pour illustrer la simplicité d'usage du format `Parquet`. Parmi ceux-ci:
+Il propose des exemples variés pour illustrer la simplicité d'usage du format `Parquet`. Parmi ceux-ci, à partir du recensement de la population:
 
 - Recenser les Niçois qui ont emménagé depuis 2021 (@lst-nice-emmenagement)
 - Compter les Toulousains qui ont déménagé dans l'année (@lst-toulouse-logements)
@@ -36,6 +36,9 @@ Il propose des exemples variés pour illustrer la simplicité d'usage du format 
 - Part des plus de 60 ans dans la population de chaque département (@lst-plus-60ans)
 - Part des résidences secondaires et des logements vacants dans le parc de chaque logement (@lst-logement)
 - Modes de transport pour chaque classe d'âge vivant dans Paris intra-muros (@lst-transport)
+
+A partir de la base permanent des équipements (BPE):
+
 - Les établissements d'enseignement à Aubervilliers (@lst-etab-enseignement)
 
 
@@ -58,6 +61,7 @@ library(ggplot2)
 library(sf)
 library(gt)
 library(gtExtras)
+library(leaflet)
 ```
 
 
@@ -743,19 +747,43 @@ file.remove(filename_table_individu)
 file.remove(filename_table_logement)
 ```
 
-En premier lieu, pour illustrer que ce fichier fonctionne de manière identique à précédemment, faisons un filtre à partir des variables de cette base (les géomaticiens parleraient de filtre attributaire). Récupérons exclusivement les établissements d'enseignement dans Aubervilliers:
+Nous allons mettre en oeuvre une série d'opérations pour montrer que ce fichier fonctionne de manière identique à précédemment.
+
+1. En premier lieu, pour illustrer que ce fichier fonctionne de manière identique à précédemment, faisons un filtre à partir des variables de cette base (les géomaticiens parleraient de filtre attributaire). Récupérons exclusivement les établissements d'enseignement dans Aubervilliers[^docBPE]. On crée une variable temporaire `parquet_data` dans SQL.
+2. On joint, directement depuis SQL, au fichier de documentation.
+
+[^docBPE]: Ce filtre est construit après lecture du dictionnaire des variables de la BPE. 
+
+La requête est un petit peu plus complexe que précédemment, la voici:
 
 ```{r}
 query <- glue(
-  "FROM read_parquet('BPE2023.parquet') ",
-  "SELECT * ",
-  "WHERE DEPCOM = '93001' ",
-  "      AND starts_with(TYPEQU, 'C')",
-  "      AND NOT (starts_with(TYPEQU, 'C6') OR starts_with(TYPEQU, 'C7'))"
+  "WITH parquet_data AS (",
+    "FROM read_parquet('BPE2023.parquet')",
+    "SELECT * ",
+    "WHERE DEPCOM = '93001'",
+    "      AND starts_with(TYPEQU, 'C')",
+    "      AND NOT (starts_with(TYPEQU, 'C6') OR starts_with(TYPEQU, 'C7'))",
+  ")",
+  "SELECT parquet_data.*, csv_data.Libelle_TYPEQU",
+  "FROM parquet_data",
+  "JOIN read_csv_auto('https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv') AS csv_data",
+  "     ON parquet_data.TYPEQU = csv_data.TYPEQU",
+  .sep = "\n"
 )
 
-etab_enseignement_auber <- dbGetQuery(con, query)
+query
 ```
+
+On peut directement l'exécuter avec `duckdb` et obtenir le _dataframe_ suivant:
+
+```{r}
+etab_enseignement_auber <- dbGetQuery(con, query)
+head(etab_enseignement_auber)
+```
+
+Nous avons `r nrow(etab_enseignement_auber)` établissements d'enseignement recensés dans Aubervilliers. 
+Transformons en _dataframe_ géographique pour pouvoir les représenter sur une carte:
 
 ```{r}
 etab_enseignement_auber <- etab_enseignement_auber %>%
@@ -772,7 +800,10 @@ bounds <- etab_enseignement_auber %>%
 #| lst-cap: "Les établissements d'enseignement à Aubervilliers"
 leaflet(etab_enseignement_auber) %>%
   addTiles() %>%
-  addMarkers(popup = ~paste0(NOMRS, "<br>", "Type d'établissement: ", TYPEQU)) %>%
+  addMarkers(popup = ~paste0(
+    "<b>", NOMRS, "</b><br>",
+    "<b>Type d'établissement</b>: ", tolower(Libelle_TYPEQU), " (", TYPEQU, ")")
+  ) %>%
   fitBounds(bounds[1], bounds[2], bounds[3], bounds[4])
 ```
 
