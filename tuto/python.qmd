@@ -53,50 +53,67 @@ Pour commencer, nous allons télécharger les fichiers depuis internet pour limi
 #| output: false
 #| code-fold: true
 #| code-summary: "Voir le code pour télécharger les données"
-import requests
-from tqdm import tqdm
 
-url_table_logement = "https://www.data.gouv.fr/fr/datasets/r/f314175a-6d33-4ee4-b5eb-2cb6c29df2c2"
-url_table_individu = "https://www.data.gouv.fr/fr/datasets/r/c8e1b241-75fe-43e9-a266-830fc30ec61d"
-url_doc_logement = "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198"
-url_doc_individu = "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
-url_bpe = "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
+import requests
+import os
+from tqdm import tqdm
 
 def download_file(url: str, filename: str) -> None:
     try:
-        # Send a GET request to the URL
+        # Envoyer une requête GET à l'URL
         response = requests.get(url, stream=True)
-        # Raise an exception for HTTP errors
+        
+        # Vérifier si la requête a réussi
         response.raise_for_status()
         
-        # Get the total file size from the headers (if available)
+        # Récupérer la taille totale du fichier depuis les headers (si disponible)
         total_size = int(response.headers.get('content-length', 0))
         block_size = 1024  # 1 Kilobyte
 
-        # Progress bar setup
-        progress_bar = tqdm(total=total_size, unit='iB', unit_scale=True, desc=filename)
+        # Afficher un message si le content-length n'est pas disponible
+        if total_size == 0:
+            print(f"Impossible de déterminer la taille du fichier {filename}, téléchargement sans barre de progression.")
         
-        # Write the content to the file
+        # Configuration de la barre de progression
+        progress_bar = tqdm(total=total_size, unit='iB', unit_scale=True, desc=filename) if total_size > 0 else None
+        
+        # Écrire le contenu dans le fichier
         with open(filename, 'wb') as file:
             for chunk in response.iter_content(chunk_size=block_size):
-                progress_bar.update(len(chunk))
+                if progress_bar:
+                    progress_bar.update(len(chunk))
                 file.write(chunk)
         
-        progress_bar.close()
-        print(f"File downloaded successfully: {filename}")
+        if progress_bar:
+            progress_bar.close()
+        print(f"Fichier téléchargé avec succès: {filename}")
     
     except requests.exceptions.RequestException as e:
-        print(f"Failed to download the file: {e}")
+        print(f"Le téléchargement a échoué: {e}")
 
 
 filename_table_logement = "RPlogement.parquet"
 filename_table_individu = "RPindividus.parquet"
 
-download_file(url_table_logement, filename_table_logement)
-download_file(url_table_individu, filename_table_individu)
-download_file(url_doc_logement, "RPlogement_doc.csv")
-download_file(url_doc_individu, "RPindividus_doc.csv")
-download_file(url_bpe, "BPE23.parquet")
+files_to_download = {
+    "logements": {"url": "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-logements-ordinaires-en-2020-1/20231023-123618/fd-logemt-2020.parquet", "filename": filename_table_logement},
+    "individus": {"url": "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet", "filename": filename_table_individu},
+    "documentation_logement": {"url": "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198", "filename": "RPindividus_doc.csv"},
+    "documentation_individus": {"url": "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1", "filename": "Dictionnaire_RP_individus_2020.csv"},
+    "table_bpe": {"url": "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet", "filename": "BPE_2023.parquet"}
+}
+
+# Boucle pour télécharger les fichiers avec des noms personnalisés (s'ils ne sont pas déjà enregistrés)
+for key, file_info in files_to_download.items():
+    url = file_info["url"]
+    filename = file_info["filename"]
+    
+    # Débogage : vérifier si le fichier existe déjà
+    if os.path.exists(filename):
+        print(f"Le fichier {filename} existe déjà, pas de téléchargement.")
+    else:
+        print(f"Téléchargement de {filename}...")
+        download_file(url, filename)
 ```
 
 
@@ -164,8 +181,8 @@ Enfin, nous pouvons importer les dictionnaires des variables qui pourront nous s
 #| output: false
 import pandas as pd
 
-documentation_logement = pd.read_csv("dictionnaire_variables_logemt_2020.csv")
-documentation_individus = pd.read_csv("dictionnaire_variables_indcvi_2020.csv")
+documentation_logement = pd.read_csv("RPlogement_doc.csv")
+documentation_individus = pd.read_csv("RPindividus_doc.csv")
 ```
 
 # Ouvrir un fichier `Parquet`
@@ -222,6 +239,8 @@ Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
 </summary>
 
 ```{python}
+url_table_logement = files_to_download.get("logements").get("url")
+
 plan = duckdb.query(
 f"""
 EXPLAIN ANALYZE
@@ -450,7 +469,7 @@ departements_60_plus_gpd['pourcentage_60_plus_d'] = pd.qcut(
 (
   ggplot(departements_60_plus_gpd) +
     geom_map(aes(fill = "pourcentage_60_plus_d")) + 
-    scale_fill_brewer(palet te = "PuBuGn", direction = 1) + 
+    scale_fill_brewer(palette = "PuBuGn", direction = 1) + 
     theme_void() + 
     labs(
         title = "Part des personnes de plus de 60 ans par département",
