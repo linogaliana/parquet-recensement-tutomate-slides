@@ -1,5 +1,5 @@
 ---
-title: "Utilisation du format `Parquet` avec {{< fa brands python >}} illustré à partir de quelques exemples"
+title: "Utilisation du format `Parquet` avec `Python` illustré à partir de quelques exemples"
 author:
     - Lino Galiana
 format: 
@@ -38,7 +38,7 @@ Il propose des exemples variés pour illustrer la simplicité d'usage du format 
 
 # Librairies utilisées
 
-Ce tutoriel utilisera plusieurs librairies {{< fa brands python >}}. Celles-ci peuvent être importées ainsi
+Ce tutoriel utilisera plusieurs librairies `Python`. Celles-ci peuvent être importées ainsi
 
 ```{.bash}
 pip install -r requirements.txt
@@ -240,6 +240,7 @@ Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
 
 ```{python}
 url_table_logement = files_to_download.get("logements").get("url")
+url_table_individu = files_to_download.get("individus").get("url")
 
 plan = duckdb.query(
 f"""

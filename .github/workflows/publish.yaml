@@ -37,6 +37,7 @@ jobs:
         run: |
           rm _quarto.yml
           cp _quarto-complete.yml _quarto.yml
+          quarto render tuto/python.qmd --to ipynb
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
