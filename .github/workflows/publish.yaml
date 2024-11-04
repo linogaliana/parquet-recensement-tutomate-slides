@@ -37,7 +37,7 @@ jobs:
         run: |
           quarto render --to html --profile complete
       - name: Publish to GitHub Pages
-        run: quarto-dev/quarto-actions/publish@v2
+        uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
           render: false
