@@ -11,3 +11,4 @@ cartiflette
 great_tables
 nbformat
 nbclient
+ipykernel
