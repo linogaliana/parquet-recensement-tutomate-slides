@@ -1,0 +1,13 @@
+---
+title: "Utilisation du format `Parquet` avec {{< fa brands python >}} illustré à partir de quelques exemples"
+author:
+    - Lino Galiana
+format: 
+   html:
+     df-print: paged
+description: "Tutoriel `Python`"
+image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/701px-Python-logo-notext.svg.png"
+priority: 3
+---
+
+Tutoriel à venir

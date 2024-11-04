@@ -1,12 +1,15 @@
 ---
-title: "Atelier `tuto@mate` sur le format `Parquet`"
+title: "Atelier tuto@mate sur le format Parquet"
 listing:
   id: sample-listings
-  contents: posts
-  sort: "date desc"
-  type: table
+  contents:
+    - "tuto/*.qmd"
+    - "slides/index.qmd"
+  sort: "priority"
+  type: grid
 ---
 
+Un ensemble de ressources pour présenter les enjeux de l'utilisation du format `Parquet` illustré à partir des données du recensement. 
 
 ::: {#sample-listings}
 :::

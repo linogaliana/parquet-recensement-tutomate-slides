@@ -1,9 +1,10 @@
 ---
-title: Le format de données Parquet
+title: "Le format de données `Parquet`"
 subtitle: |
   Une découverte à travers l'exemple des données du recensement
 author:
     - Lino Galiana
+description: "Slides présentant les enjeux de l'utilisation du format `Parquet` et l'écosystème associé"
 date: "2024-11-05"
 date-format: long
 slide-number: true
@@ -18,6 +19,8 @@ format:
 controls: true
 css: custom.css
 from: markdown+emoji
+image: "/img/librairies2.png"
+priority: 1
 ---
 
 # Introduction
@@ -353,7 +356,7 @@ reu = db.query(
 
 ## Pourquoi `DuckDB` ?
 
-![](img/librairies2.png){fig-align="center"}
+![](/img/librairies2.png){fig-align="center"}
 
 
 ## Pourquoi `DuckDB` ? {.smaller}

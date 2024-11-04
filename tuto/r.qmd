@@ -1,12 +1,13 @@
 ---
-title: "Utiliser le format `Parquet` avec {{< fa brands r-project >}} illustré à partir de quelques exemples"
+title: "Utilisation du format `Parquet` avec {{< fa brands r-project >}} illustré à partir de quelques exemples"
 author:
     - Lino Galiana
 format: 
    html:
      df-print: paged
-description: "Tutoriel R"
+description: "Tutoriel `R`"
 image: "https://iconape.com/wp-content/png_logo_vector/r-project.png"
+priority: 2
 ---
 
 Ce tutoriel vise à offrir une approche complémentaire
