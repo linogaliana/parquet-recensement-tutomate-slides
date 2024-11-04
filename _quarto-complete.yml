@@ -2,9 +2,9 @@ project:
   type: website
   render:
     - index.qmd
-    - /slides/index.qmd
-    - /tuto/python.qmd
-    - /tuto/r.qmd
+    - "/slides/index.qmd"
+    - "/tuto/python.qmd"
+    - "/tuto/r.qmd"
 
 css: custom.css
 
@@ -16,9 +16,9 @@ website:
         text: Home
       - href: slides/index.qmd
         text: Slides
-      - href: tuto/r.qmd
+      - href: "tuto/r.qmd"
         text: Tutoriel R
-      - href: tuto/python.qmd
+      - href: "tuto/python.qmd"
         text: Tutoriel Python
 
 format:
