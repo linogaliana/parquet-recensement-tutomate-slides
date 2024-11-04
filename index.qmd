@@ -1,4 +1,13 @@
-# Atelier tutomate
+---
+title: "Atelier `tuto@mate` sur le format `Parquet`"
+listing:
+  id: sample-listings
+  contents: posts
+  sort: "date desc"
+  type: table
+---
 
-vffffjfj
+
+::: {#sample-listings}
+:::
 

@@ -1,10 +1,12 @@
 ---
-title: "Exemples d'utilisation des données du recensement au format `Parquet`"
+title: "Utiliser le format `Parquet` avec {{< fa brands r-project >}} illustré à partir de quelques exemples"
 author:
     - Lino Galiana
 format: 
    html:
      df-print: paged
+description: "Tutoriel R"
+image: "https://iconape.com/wp-content/png_logo_vector/r-project.png"
 ---
 
 Ce tutoriel vise à offrir une approche complémentaire
@@ -62,6 +64,7 @@ library(sf)
 library(gt)
 library(gtExtras)
 library(leaflet)
+library(fontawesome)
 ```
 
 
@@ -172,6 +175,7 @@ Même si `DuckDB` simplifie l'utilisation du SQL en proposant de nombreux verbes
 #| message: false
 table_logement <- tbl(con, glue('read_parquet("{filename_table_logement}")'))
 table_individu <- tbl(con, glue('read_parquet("{filename_table_individu}")'))
+bpe2023 <- tbl(con, glue('read_parquet("BPE2023.parquet")'))
 ```
 
 L'équivalent `tidyverse` de la requête précédente est la fonction `head`
@@ -757,6 +761,9 @@ Nous allons mettre en oeuvre une série d'opérations pour montrer que ce fichie
 La requête est un petit peu plus complexe que précédemment, la voici:
 
 ```{r}
+#| lst-label: lst-etab-enseignement
+#| lst-cap: "Les établissements d'enseignement à Aubervilliers"
+
 query <- glue(
   "WITH parquet_data AS (",
     "FROM read_parquet('BPE2023.parquet')",
@@ -796,8 +803,6 @@ bounds <- etab_enseignement_auber %>%
 
 
 ```{r}
-#| lst-label: lst-etab-enseignement
-#| lst-cap: "Les établissements d'enseignement à Aubervilliers"
 leaflet(etab_enseignement_auber) %>%
   addTiles() %>%
   addMarkers(popup = ~paste0(
@@ -808,9 +813,102 @@ leaflet(etab_enseignement_auber) %>%
 ```
 
 
+Pour ce fichier, la mise en oeuvre de filtres géographiques revient à faire un filtre classique.
+
+
+::: {.panel-tabset}
+
+## `DuckDB` via `tidyverse`
+
+```{r}
+metadata_bpe <- readr::read_csv2(
+  "https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv"
+)
+
+equipements_sportifs_saint_denis <- bpe2023 %>%
+  filter(
+    starts_with(TYPEQU, "F1"), #<1>
+    between(LONGITUDE, 2.327943, 2.399054),
+    between(LATITUDE, 48.912967, 48.939077)
+  ) %>%
+  collect() %>%
+  left_join(metadata_bpe, by = "TYPEQU")
+```
+1. La magie de `DuckDB` en action ! La fonction `starts_with` vient du _package_ `duckdb` (cf. @tip-fonction-duckdb)
+
+::: {#tip-fonction-duckdb .callout-tip}
+## D'où vient cette fonction `starts_with` ?
+
+Quand `dbplyr` ne connait pas une fonction, il la passe telle qu'elle à `duckdb`. Ce dernier _package_ va alors essayer d'utiliser une fonction ayant ce nom dans `duckdb`. En l'occurrence, `starts_with` existe dans `duckdb`, cette fonction sera donc utilisée et on n'aura pas d'erreur ? 
+
+Pourquoi faire ceci plutôt qu'utiliser une fonction pré-implémentée de `stringr` ? Car les calculs sont faits hors de `R`, directement par `duckdb`. Utiliser une fonction `R` impliquerait de changer l'ordre d'exécution de nos requêtes pour faire le `collect` avant le `filter`. 
+
+:::
+
+## `DuckDB` exclusivement
+
+```{r}
+query <- glue(
+  "WITH parquet_data AS (",
+  "   FROM read_parquet('BPE2023.parquet')",
+  "   SELECT *",
+  "   WHERE",
+  "       starts_with(TYPEQU, 'F1')",
+  "       AND longitude BETWEEN 2.327943 AND 2.399054",
+  "       AND latitude BETWEEN 48.912967 AND 48.939077",
+  ")",
+  "SELECT parquet_data.*, csv_data.Libelle_TYPEQU",
+  "FROM parquet_data",
+  "JOIN read_csv_auto('https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv') AS csv_data",
+  "ON parquet_data.TYPEQU = csv_data.TYPEQU",
+  .sep = "\n"
+)
+```
+
+```{r}
+equipements_sportifs_saint_denis <- dbGetQuery(con, query)
+head(equipements_sportifs_saint_denis)
+```
+
+:::
+
+```{r}
+equipements_sportifs_saint_denis <- equipements_sportifs_saint_denis %>%
+  st_as_sf(coords = c("LONGITUDE", "LATITUDE"))
+
+bounds <- equipements_sportifs_saint_denis %>% 
+  st_bbox() %>% 
+  as.character()
+```
+
+
+
+```{r}
+icons <- awesomeIconList(
+  running = makeAwesomeIcon(text = fa("running"), markerColor = "red")
+)
+
+leaflet(equipements_sportifs_saint_denis) %>%
+  addTiles() %>%
+  addAwesomeMarkers(
+    icon=icons['running'],
+    popup = ~paste0(
+      "<b>", NOMRS, "</b><br>",
+      "<b>Type d'établissement</b>: ", tolower(Libelle_TYPEQU), " (", TYPEQU, ")")
+  ) %>%
+  fitBounds(bounds[1], bounds[2], bounds[3], bounds[4])
+```
+
+Pour aller plus loin sur les filtres géographiques mis en oeuvre, il serait pratique d'utiliser l'extension spatiale qui implémente de [nombreuses fonctions](https://duckdb.org/docs/extensions/spatial/functions#st_intersects) de manipulation de données spatiales. Nous laisserons les curieux creuser.
+
+
 ```{r}
 #| echo: false
 # Pour éviter de saturer l'espace disque de Github
 file.remove('BPE2023.parquet')
 ```
+
+# Conclusion
+
+
 

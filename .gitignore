@@ -14,3 +14,6 @@ site_libs/
 *.parquet
 .Rproj.user
 tuto/r_files
+
+*/r.markdown
+index-listing.json
