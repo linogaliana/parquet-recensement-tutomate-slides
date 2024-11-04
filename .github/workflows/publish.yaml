@@ -28,7 +28,16 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
-      - name: Publish to GitHub Pages (and render)
-        uses: quarto-dev/quarto-actions/publish@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' 
+          cache: 'pip' # caching pip dependencies          
+      - run: pip install -r requirements.txt
+      - name: Render website
+        run: |
+          quarto render --to html --profile complete
+      - name: Publish to GitHub Pages
+        run: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false

@@ -43,6 +43,7 @@ Il propose des exemples variés pour illustrer la simplicité d'usage du format 
 A partir de la base permanent des équipements (BPE):
 
 - Les établissements d'enseignement à Aubervilliers (@lst-etab-enseignement)
+- Les établissements de sports à Saint Denis (@lst-etab-sport)
 
 
 # Librairies utilisées
@@ -822,6 +823,9 @@ Pour ce fichier, la mise en oeuvre de filtres géographiques revient à faire un
 ## `DuckDB` via `tidyverse`
 
 ```{r}
+#| lst-label: lst-etab-sport
+#| lst-cap: "Les établissements sporifs à Saint-Denis (93)"
+
 metadata_bpe <- readr::read_csv2(
   "https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv"
 )

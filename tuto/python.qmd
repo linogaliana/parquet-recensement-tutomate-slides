@@ -10,4 +10,495 @@ image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-no
 priority: 3
 ---
 
-Tutoriel à venir
+Ce tutoriel vise à offrir une approche complémentaire
+au guide d'utilisation des données du recensement au format `Parquet`
+publié sur [https://ssphub.netlify.app](https://ssphub.netlify.app/post/parquetrp/)
+pour accompagner la diffusion de celles-ci par l'Insee. 
+
+Il s'agit d'un tutoriel préparé pour l'atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/) à l'EHESS le 5 novembre 2024. Ce tutoriel est exclusivement en `R`. Les slides de la présentation sont disponibles ci-dessous:
+
+<details>
+<summary>
+
+Dérouler les _slides_ ci-dessous ou [cliquer ici](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/complete.html#/partie-1-contr%C3%B4le-de-version-avec-git) pour afficher les slides en plein écran.
+
+</summary>
+
+```{=html}
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><iframe class="sourceCode yaml code-with-copy" src="https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/complete.html#/partie-1-contr%C3%B4le-de-version-avec-git"></iframe></div>
+```
+
+
+</details>
+
+Il propose des exemples variés pour illustrer la simplicité d'usage du format `Parquet`. Parmi ceux-ci, à partir du recensement de la population:
+
+* Liste des exemples à venir
+
+
+# Librairies utilisées
+
+Ce tutoriel utilisera plusieurs librairies {{< fa brands python >}}. Celles-ci peuvent être importées ainsi
+
+```{.bash}
+pip install -r requirements.txt
+```
+
+# Téléchargement des fichiers
+
+
+Pour commencer, nous allons télécharger les fichiers depuis internet pour limiter les échanges réseaux. Comme nous le verrons ultérieurement, ce n'est en fait pas indispensable car `duckdb` optimise les données téléchargées à chaque requête. 
+
+```{python}
+#| output: false
+#| code-fold: true
+#| code-summary: "Voir le code pour télécharger les données"
+import requests
+from tqdm import tqdm
+
+url_table_logement = "https://www.data.gouv.fr/fr/datasets/r/f314175a-6d33-4ee4-b5eb-2cb6c29df2c2"
+url_table_individu = "https://www.data.gouv.fr/fr/datasets/r/c8e1b241-75fe-43e9-a266-830fc30ec61d"
+url_doc_logement = "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198"
+url_doc_individu = "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
+url_bpe = "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
+
+def download_file(url: str, filename: str) -> None:
+    try:
+        # Send a GET request to the URL
+        response = requests.get(url, stream=True)
+        # Raise an exception for HTTP errors
+        response.raise_for_status()
+        
+        # Get the total file size from the headers (if available)
+        total_size = int(response.headers.get('content-length', 0))
+        block_size = 1024  # 1 Kilobyte
+
+        # Progress bar setup
+        progress_bar = tqdm(total=total_size, unit='iB', unit_scale=True, desc=filename)
+        
+        # Write the content to the file
+        with open(filename, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=block_size):
+                progress_bar.update(len(chunk))
+                file.write(chunk)
+        
+        progress_bar.close()
+        print(f"File downloaded successfully: {filename}")
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to download the file: {e}")
+
+
+filename_table_logement = "RPlogement.parquet"
+filename_table_individu = "RPindividus.parquet"
+
+download_file(url_table_logement, filename_table_logement)
+download_file(url_table_individu, filename_table_individu)
+download_file(url_doc_logement, "RPlogement_doc.csv")
+download_file(url_doc_individu, "RPindividus_doc.csv")
+download_file(url_bpe, "BPE23.parquet")
+```
+
+
+Nous aurons également besoin pour quelques illustrations d'un fond de carte des départements. 
+Celui-ci peut être simplement récupéré grâce au _package_ `cartiflette`[^cartiflette]
+
+[^cartiflette]: Pour en savoir plus sur ce projet, se rendre sur la [documentation](https://inseefrlab.github.io/cartiflette-website/) du projet.
+
+```{python}
+#| output: false
+#| code-fold: true
+#| code-summary: "Voir le code pour récupérer ce fond de carte"
+from cartiflette import carti_download
+
+departements = carti_download(
+  values="France",
+  crs=4326,
+  borders="DEPARTEMENT",
+  vectorfile_format="geojson",
+  filter_by="FRANCE_ENTIERE_DROM_RAPPROCHES",
+  source="EXPRESS-COG-CARTO-TERRITOIRE",
+  year=2022,
+)
+```
+
+```{python}
+from plotnine import *
+(
+  ggplot(departements) +
+  geom_map() +
+  theme_void()
+)
+```
+
+# Création de la base de données
+
+En principe, `duckdb` fonctionne à la manière d'une base de données. Autrement dit, on définit une base de données et effectue des requêtes (SQL ou verbes `tidyverse`) dessus. Pour créer une base de données, il suffit de faire un `read_parquet` avec le chemin du fichier.  
+
+La base de données se crée tout simplement de la manière suivante:
+
+
+```{python}
+import duckdb
+
+duckdb.sql(
+  f"""
+  FROM read_parquet(\"{filename_logement}\")
+  SELECT *
+  LIMIT 5
+  """).to_df()
+```
+
+La chaîne d'exécution ressemble ainsi à celle-ci:
+
+![](/img/duckdb-delegation1.png){fig-align="center"}
+
+Les calculs ont lieu dans `duckdb` et le résultat est transformé en _DataFrame_ `Pandas` avec la méthode `to_df`. 
+
+Le fait de passer par l'intermédiaire de `duckdb` et un fichier `Parquet` permet d'optimiser les besoins mémoire de `Python`. En effet, il n'est pas nécessaire d'ouvrir un fichier dans son ensemble, le transformer en objet `Python` pour n'utiliser qu'une partie des données. Nous verrons ultérieurement la manière dont les besoins mémoires sont minimisés grâce au combo `duckdb` & `Parquet`.
+
+Enfin, nous pouvons importer les dictionnaires des variables qui pourront nous servir ultérieurement:
+
+
+```{python}
+#| output: false
+import pandas as pd
+
+documentation_logement = pd.read_csv("dictionnaire_variables_logemt_2020.csv")
+documentation_individus = pd.read_csv("dictionnaire_variables_indcvi_2020.csv")
+```
+
+# Ouvrir un fichier `Parquet`
+
+## Requêtes sur les colonnes (`SELECT`)
+
+L'une des forces du format `Parquet` est de simplifier l'import de fichiers volumineux qui ne comportent que quelques colonnes nous intéressant. Par exemple, la table des individus comporte 88 colonnes, il est peu probable qu'une seule analyse s'intéresse à toutes celles-ci (ou elle risque d'être fort indigeste).
+
+![](/img/parquet-table2-enriched.png)
+
+Comme cela est illustré dans @tip-optimisation-duckdb, la différence de volumétrie entre un fichier non filtré et un fichier filtré est importante. 
+
+
+
+```{python}
+query = (
+  f"FROM read_parquet(\"{filename_table_individu}\") "
+  "SELECT IPONDI AS poids, AGED, VOIT "
+  "LIMIT 10"
+)
+duckdb.sql(query).to_df()
+```
+
+
+::: {#tip-optimisation-duckdb .callout-tip collapse="true"}
+## Comprendre l'optimisation permise par `Parquet` et `DuckDB`
+
+Pour réduire la volumétrie des données importées, il est possible de mettre en oeuvre deux stratégies:
+
+- N'importer qu'un nombre limité de colonnes
+- N'importer qu'un nombre limité de lignes
+
+Comme cela a été évoqué dans les _slides_, le format `Parquet` est particulièrement optimisé pour le premier besoin. C'est donc généralement la première optimisation mise en oeuvre. Pour s'en convaincre on peut regarder la taille des données importées dans deux cas:
+
+- On utilise beaucoup de lignes mais peu de colonnes
+- On utilise beaucoup de colonnes mais peu de lignes
+
+Pour cela, nous utilisons la fonction SQL `EXPLAIN ANALYZE` disponible dans `duckdb`. Elle décompose le plan d'exécution de `duckdb`, ce qui nous permettra de comprendre la stratégie d'optimisation. Elle permet aussi de connaître le volume de données importées lorsqu'on récupère un fichier d'internet. En effet, `duckdb` est malin: plutôt que de télécharger un fichier entier pour n'en lire qu'une partie, la librairie est capable de n'importer que les blocs du fichier qui l'intéresse. 
+
+Ceci nécessite l'utilisation de l'extension `httpfs` (un peu l'équivalent des `library` de `R` en `duckdb`). Elle s'installe et s'utilise de la manière suivante
+
+```{python}
+#| output: false
+duckdb.sql("INSTALL httpfs; LOAD httpfs;")
+```
+
+Demandons à `DuckDB` d'exécuter la requête _"beaucoup de colonnes, pas beaucoup de lignes"_
+et regardons le plan d'exécution et les informations données par `DuckDB`:
+
+<details>
+
+<summary>
+Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
+</summary>
+
+```{python}
+plan = duckdb.query(
+f"""
+EXPLAIN ANALYZE
+FROM read_parquet("{url_table_logement}")
+SELECT *
+LIMIT 5
+"""
+) 
+```
+
+```{python}
+print(
+  plan.to_df()['explain_value'].iloc[0]
+)
+```
+
+</details>
+
+<details>
+
+<summary>
+Voir le plan : _"pas de colonnes, beaucoup de lignes"_
+</summary>
+
+```{python}
+plan = duckdb.sql(
+  f"""
+  EXPLAIN ANALYZE
+  SELECT IPONDI AS poids, AGED, VOIT FROM read_parquet("{url_table_individu}") LIMIT 10000
+  """
+)
+```
+
+```{python}
+print(
+  plan.to_df()['explain_value'].iloc[0]
+)
+```
+
+</details>
+
+La comparaison de ces plans d'exécution montre l'intérêt de faire un filtre sur les colonnes : les besoins computationnels sont drastiquement diminués. Le filtre sur les lignes n'arrive que dans un second temps, une fois les colonnes sélectionnées. 
+
+Pourquoi seulement un rapport de 1 à 4 entre le poids des deux fichiers ? C'est parce que nos requêtes comportent toute deux la variable `IPONDI` (les poids à utiliser pour extrapoler l'échantillon à la population) qui est à haute précision là où beaucoup d'autres colonnes comportent un nombre réduit de modalités et sont donc peu volumineuses.
+
+:::
+
+DuckDB propose également des fonctionnalités pour extraire des colonnes à travers des [expressions régulières](https://fr.wikipedia.org/wiki/Expression_r%C3%A9guli%C3%A8re). Cette approche est également possible avec le `tidyverse`
+
+
+
+```{python}
+duckdb.sql(
+  f"""
+    FROM read_parquet(\"{filename_table_individu}\")
+    SELECT IPONDI AS poids, COLUMNS('.*AGE.*')
+    LIMIT 10
+  """
+).to_df()
+```
+
+## Requêtes sur les lignes (`WHERE`)
+
+
+```{python}
+duckdb.sql(
+    f"""
+    FROM read_parquet("{filename_table_individu}")
+    SELECT IPONDI, AGED, DEPT
+    WHERE DEPT IN ('11', '31', '34')
+    LIMIT 10
+    """
+).to_df()
+```
+
+Les filtres sur les observations peuvent être faits à partir de critères sur plusieurs colonnes. Par exemple, pour ne conserver que les observations de la ville de Nice où la date d’emménagement est postérieure à 2020, la requête suivante peut être utilisée :
+
+
+```{python}
+duckdb.sql(
+    f"""
+    FROM read_parquet("{filename_table_logement}")
+    SELECT *
+    WHERE COMMUNE = '06088' AND AEMM > 2020
+    LIMIT 10
+    """
+).to_df()
+```
+
+# Statistiques agrégées
+
+## Exemples sans groupes
+
+La fonction `DISTINCT` appliquée à la variable `ARM` permet d’extraire la liste des codes arrondissements présents dans la base de données.
+
+```{python}
+query = f"""
+FROM read_parquet('{filename_table_logement}')
+SELECT DISTINCT ARM
+WHERE NOT ARM LIKE '%ZZZZZ%'
+ORDER BY ARM
+"""
+
+result = ", ".join(duckdb.sql(query).to_df()["ARM"])
+```
+
+Il est possible d’extraire des statistiques beaucoup plus raffinées par le biais d’une requête SQL plus complexe. Par exemple pour calculer le nombre d’habitants de Toulouse qui ont changé de logement en un an:
+
+
+```{python}
+query = f"""
+FROM read_parquet("{filename_table_logement}")
+SELECT CAST(SUM(IPONDL * CAST(INPER AS INT)) AS INT) 
+AS habitants_toulouse_demenagement
+WHERE COMMUNE = '31555' 
+AND IRANM NOT IN ('1', 'Z') 
+AND INPER != 'Y'
+"""
+
+duckdb.sql(query).to_df()
+```
+
+## Statistiques par groupe
+
+`SQL` et `dplyr` permettent d'aller loin dans la finesse des statistiques descriptives mises en oeuvre. 
+Cela sera illustré à l'aide de plusieurs exemples réflétant des statistiques pouvant être construites grâce à ces données détaillées. 
+
+### Exemple 1: pyramide des âges dans l'Aude, l'Hérault et le Gard
+
+Le premier exemple est un comptage sur trois départements. Il illustre la démarche suivante:
+
+1. On se restreint aux observations d'intérêt (ici 3 départements)
+2. On applique la fonction `summarise` pour calculer une statistique par groupe, en l'occurrence la somme des pondérations
+3. On retravaille les données
+
+Ensuite, une fois que nos données sont récupérées dans `R`, on peut faire la figure avec `ggplot`
+
+
+```{python}
+#| lst-label: lst-sud-pyramide
+#| lst-cap: "Pyramide des âges dans l'Aude, l'Hérault et le Gard"
+pyramide_ages = duckdb.sql(
+        f"""
+        FROM read_parquet("{filename_table_individu}")
+        SELECT AGED, DEPT AS departement, SUM(IPONDI) AS individus
+        WHERE DEPT IN ('11', '31', '34')
+        GROUP BY AGED, DEPT
+        ORDER BY DEPT, AGED
+        """
+    ).to_df()
+
+# Create the plot
+plot = (
+    ggplot(pyramide_ages, aes(x='AGED', y='individus'))
+    + geom_bar(aes(fill='departement'), stat="identity")
+    + geom_vline(xintercept=18, color="grey", linetype="dashed")
+    + facet_wrap('~departement', scales="free_y", nrow=3)
+    + theme_minimal()
+    + labs(y="Individus recensés", x="Âge")
+)
+
+plot
+```
+
+### Exemple 2: répartition des plus de 60 ans par département
+
+L'objectif de ce deuxième exemple est d'illustrer la construction d'une statistique un peu plus complexe et la manière de projeter celle-ci sur une carte.
+
+Pour avoir la répartition des plus de 60 ans par département, quelques lignes de `dplyr` suffisent:
+
+
+```{python}
+import pandas as pd
+import duckdb
+
+# Query to calculate total population and population over 60
+part_population_60_plus = duckdb.sql(
+    f"""
+    FROM read_parquet("{filename_table_individu}")
+    SELECT 
+        DEPT,
+        SUM(IPONDI) AS total_population,
+        SUM(CASE WHEN AGED > 60 THEN IPONDI ELSE 0 END) AS population_60_plus
+    GROUP BY DEPT
+    """
+).to_df()
+
+# Calculate percentage of population over 60
+part_population_60_plus['pourcentage_60_plus'] = (
+    part_population_60_plus['population_60_plus'] / part_population_60_plus['total_population'] * 100
+)
+
+# Display the result
+part_population_60_plus
+```
+
+Il ne reste plus qu'à projeter ceci sur une carte. Pour cela, un _join_ à notre fond de carte suffit. Comme les données sont agrégées et déjà dans `R`, il n'y a rien de spécifique à `duckdb` ici. 
+
+
+
+```{python}
+#| code-fold: true
+#| code-summary: Association de part_population_60_plus au fond de carte des départements
+# Joindre les données au fond de carte des départements
+
+departements_60_plus_gpd = (
+  departements
+    .merge(
+      part_population_60_plus,
+      left_on = "INSEE_DEP",
+      right_on = "DEPT"
+    )
+)
+```
+
+Finalement, il ne reste plus qu'à produire la carte:
+
+```{python}
+departements_60_plus_gpd['pourcentage_60_plus_d'] = pd.qcut(
+  departements_60_plus_gpd['pourcentage_60_plus'],
+  q=4
+)
+```
+
+```{python}
+(
+  ggplot(departements_60_plus_gpd) +
+    geom_map(aes(fill = "pourcentage_60_plus_d")) + 
+    scale_fill_brewer(palet te = "PuBuGn", direction = 1) + 
+    theme_void() + 
+    labs(
+        title = "Part des personnes de plus de 60 ans par département",
+        caption = "Source: Insee, Fichiers détails du recensement de la population",
+        fill = "Part (%)"
+    )
+)
+```
+
+
+Si on préfère représenter ceci sous forme de tableau, on peut utiliser le _package_ [`great tables`](https://posit-dev.github.io/great-tables/articles/intro.html). Cela nécessite quelques manipulations de données en amont.
+
+```{python}
+part_population_60_plus_dep = part_population_60_plus.merge(
+  departements.loc[:, ["INSEE_DEP", "LIBELLE_DEPARTEMENT"]],
+  left_on = "DEPT",
+  right_on = "INSEE_DEP"
+)
+part_population_60_plus_dep["departement"] = part_population_60_plus_dep["LIBELLE_DEPARTEMENT"] + " (" + part_population_60_plus_dep["DEPT"]  + ")"
+
+part_population_60_plus_dep = part_population_60_plus_dep.sort_values("pourcentage_60_plus", ascending=False).head(10)
+```
+
+
+```{python}
+from great_tables import *
+(
+  GT(
+    part_population_60_plus_dep.loc[
+      :, ['departement', 'total_population', 'population_60_plus', 'pourcentage_60_plus']
+    ]
+  )
+  .fmt_number(columns=[
+    "total_population", "population_60_plus"
+  ], compact=True)
+  .fmt_percent("pourcentage_60_plus", scale_values = False)
+  .fmt_nanoplot(columns="pourcentage_60_plus", plot_type="bar")
+)
+```
+
+### Exemple 3: part des résidences secondaires et des logements vacants 
+
+Il est tout à fait possible de faire des étapes antérieures de préparation de données, notamment de création de variables avec `mutate`.
+
+L'exemple suivant illustre la préparation de données avant la construction de statistiques descriptives de la manière suivante:
+
+1. Création d'une variable de département à partir du code commune
+2. Décompte des logements par département
+
+
+__Suite du tutoriel à venir__
