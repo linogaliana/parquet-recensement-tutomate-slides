@@ -8,4 +8,4 @@ requests
 seaborn
 shapely
 cartiflette
-prettytable
+great_tables
