@@ -35,6 +35,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Render website
         run: |
+          rp _quarto.yml
+          cp _quarto-complete.yml _quarto.yml
           export QUARTO_PROFILE=complete
           quarto render --to html --profile complete
       - name: Publish to GitHub Pages
