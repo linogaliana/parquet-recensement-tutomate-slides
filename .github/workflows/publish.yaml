@@ -37,9 +37,7 @@ jobs:
         run: |
           rm _quarto.yml
           cp _quarto-complete.yml _quarto.yml
-          quarto render --to html
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          render: false
