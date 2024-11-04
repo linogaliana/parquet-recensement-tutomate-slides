@@ -37,7 +37,6 @@ jobs:
         run: |
           rm _quarto.yml
           cp _quarto-complete.yml _quarto.yml
-          export QUARTO_PROFILE=complete
           quarto render --to html
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
