@@ -3,7 +3,7 @@ project:
   render:
     - index.qmd
     - /slides/index.qmd
-    - /tuto/python.qmd
+    - /tuto/r.qmd
 
 css: custom.css
 
