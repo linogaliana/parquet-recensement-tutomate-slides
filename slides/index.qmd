@@ -407,14 +407,16 @@ reu = db.query(
     + Environnements standardisés {{< fa brands r-project >}}, {{< fa brands python >}}
     + Accessible aux chercheurs.euses pour l'enseignement 😉
 
-* Exemples lançables
+<br>
+
+* Environnements préconfigurés lançables en 1 clic:
 
 ```{=html}
 <a href="https://github.com/linogaliana/parquet-recensement-tutomate" target="_blank" rel="noopener" data-original-href="https://github.com/linogaliana/parquet-recensement-tutomate"><img src="https://img.shields.io/static/v1?logo=github&amp;label=&amp;message=View%20on%20GitHub&amp;color=181717" alt="View on GitHub"></a>
 <a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?name=atelier-tutomate&version=2.1.14&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-python.sh»" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?name=atelier-tutomate&version=2.1.14&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-python.sh»"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_VSCode-blue?logo=visualstudiocode&amp;logoColor=blue" alt="Onyxia"></a>
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_R-blue?logo=rstudioide&amp;logoColor=blue" alt="Onyxia"></a>
 ```
 
-<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_R-blue?logo=rstudioide&amp;logoColor=blue" alt="Onyxia"></a>
 
 
 
@@ -431,7 +433,7 @@ reu = db.query(
 
 ::: {.callout-tip}
 
-Si vous avez un compte, n'hésitez pas à essayer les exemples présentés en _live_ !
+Si vous avez un [compte](https://datalab.sspcloud.fr/home), n'hésitez pas à essayer les exemples présentés en _live_ !
 
 :::
 

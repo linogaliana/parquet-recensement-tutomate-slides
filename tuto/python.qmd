@@ -8,6 +8,8 @@ format:
 description: "Tutoriel `Python`"
 image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/701px-Python-logo-notext.svg.png"
 priority: 3
+filters:
+  - "sspcloud/nice-vscode.lua"
 ---
 
 Ce tutoriel vise à offrir une approche complémentaire
@@ -16,6 +18,11 @@ publié sur [https://ssphub.netlify.app](https://ssphub.netlify.app/post/parquet
 pour accompagner la diffusion de celles-ci par l'Insee. 
 
 Il s'agit d'un tutoriel préparé pour l'atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/) à l'EHESS le 5 novembre 2024. Ce tutoriel est exclusivement en `R`. Les slides de la présentation sont disponibles ci-dessous:
+
+::: {.note}
+Pour retrouver une version `R` équivalente, [c'est ici](https://linogaliana.github.io/parquet-recensement-tutomate/).
+:::
+
 
 ::: {.cell .markdown}
 <details>
@@ -210,7 +217,7 @@ duckdb.sql(query).to_df()
 ```
 
 
-::: {#tip-optimisation-duckdb .callout-tip collapse="true"}
+::: {.tip collapse="true"}
 ## Comprendre l'optimisation permise par `Parquet` et `DuckDB`
 
 Pour réduire la volumétrie des données importées, il est possible de mettre en oeuvre deux stratégies:
