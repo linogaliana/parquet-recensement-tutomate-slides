@@ -1,3 +1,5 @@
+#!/bin/bash
+
 WORK_DIR="/home/onyxia/work"
 DOWNLOAD_URL="https://linogaliana.github.io/parquet-recensement-tutomate/tuto/python.ipynb"
 CHAPTER="tuto-parquet-python"
