@@ -8,8 +8,6 @@ format:
 description: "Tutoriel `Python`"
 image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/701px-Python-logo-notext.svg.png"
 priority: 3
-filters:
-  - "sspcloud/nice-vscode.lua"
 ---
 
 Ce tutoriel vise à offrir une approche complémentaire
