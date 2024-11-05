@@ -9,4 +9,5 @@ git clone --depth 1 https://github.com/linogaliana/parquet-recensement-tutomate.
 pip install -r "${DESTINATION_GIT}/requirements.txt"
 # rm -rf tuto
 
+echo $DOWNLOAD_URL
 curl -L $DOWNLOAD_URL -o "${WORK_DIR}/${CHAPTER}.ipynb"
