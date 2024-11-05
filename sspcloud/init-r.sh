@@ -15,7 +15,7 @@ Rscript -e "renv::restore('${PROJECT_DIR}')"
 install2.r here
 
 # On retire l'activation de renv
-rm .Rprofile
+rm ${GIT_REPO}/.Rprofile
 
 # Open the project
 echo \
