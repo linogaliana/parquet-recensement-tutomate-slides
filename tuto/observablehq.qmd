@@ -1,0 +1,12 @@
+---
+title: "Utilisation du format `Parquet` avec `Observable` illustré à partir de quelques exemples"
+author:
+    - Lino Galiana
+format: 
+   html:
+     df-print: paged
+description: "Tutoriel `Observable`"
+image: "https://global.discourse-cdn.com/flex030/uploads/observablehq/original/2X/8/84f6b1520dfdaac91865d591f19dfe15e578cdc6.jpeg"
+href: "https://observablehq.com/@linogaliana/atelier-parquet-tutomate-observable"
+priority: 4
+---
