@@ -397,6 +397,29 @@ reu = db.query(
 
 # Démonstrations
 
+## Reproductibilité des exemples {.smaller}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+* Plateforme de _data science_ développée par l'Insee
+    + Environnements standardisés {{< fa brands r-project >}}, {{< fa brands python >}}
+    + Accessible aux chercheurs.euses pour l'enseignement 😉
+
+* Exemples lançables
+
+
+
+:::
+
+::: {.column width="40%"}
+
+[![](https://raw.githubusercontent.com/linogaliana/draft-slides-pydata/master/onyxia-qrcode4.png){width=100%}](https://www.sspcloud.fr/formation)
+
+:::
+
+::::
 
 
 ## Idées

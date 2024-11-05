@@ -922,6 +922,10 @@ unlink("data", recursive = TRUE)
 
 # Conclusion
 
+Ce tutoriel a permis à partir de quelques exemples de comprendre l'intérêt du format `Parquet` pour l'exploitation de données structurées. Les principaux enseignements à garder en mémoire sont les suivants:
+
+* `duckdb` est un écosystème qui rend très simple l'utilisation de ce type de fichiers. Que ce soit par le biais de la librairie `duckdb` ou par l'intermédiaire du `tidyverse`, on bénéficie des avantages du monde de la base de données sans ses inconvénients.
+* `duckdb` est très performant en lecture mais pour tirer pleinement parti du format `Parquet`, il est utile de faire très tôt les filtres sur les lignes et les colonnes. La lecture d'un fichier volumineux (5Go en CSV) devient presque instantanée grâce au combo `Parquet` & `duckdb`. 
 
 ::: {.callout-note}
 Ce tutoriel était une introduction à l'utilisation du format `Parquet`. Il n'évoque pas, à l'heure actuelle, deux dimensions intéressantes de ce format :
