@@ -3,7 +3,8 @@ project:
   render:
     - index.qmd
     - /slides/index.qmd
-    - /tuto/r.qmd
+    - /tuto/python.qmd
+    - /tuto/observable.qmd
 
 css: custom.css
 
@@ -20,6 +21,8 @@ website:
         text: Slides
       - href: tuto/r.qmd
         text: Tutoriel R
+      - href: "https://observablehq.com/@linogaliana/atelier-parquet-tutomate-observable"
+        text: Tutoriel Observable
 
 format:
   html:

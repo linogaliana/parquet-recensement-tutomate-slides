@@ -5,8 +5,12 @@ project:
     - "/slides/index.qmd"
     - "/tuto/python.qmd"
     - "/tuto/r.qmd"
+    - "/tuto/observable.qmd"
 
 css: custom.css
+
+filters:
+  - "vscode.lua"
 
 website:
   title: "Atelier tutomate sur le format `Parquet`"
@@ -20,6 +24,8 @@ website:
         text: Tutoriel R
       - href: "tuto/python.qmd"
         text: Tutoriel Python
+      - href: "https://observablehq.com/@linogaliana/atelier-parquet-tutomate-observable"
+        text: Tutoriel Observable
 
 format:
   html:

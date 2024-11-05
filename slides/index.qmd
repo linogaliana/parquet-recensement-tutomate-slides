@@ -29,7 +29,8 @@ priority: 1
 
 1. Contexte
 2. Pourquoi le format `Parquet` ?
-3. 
+3. L'écosystème `Parquet`
+4. Démonstration
 
 # Contexte sur le recensement de la population 
 
