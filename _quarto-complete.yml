@@ -5,7 +5,7 @@ project:
     - "/slides/index.qmd"
     - "/tuto/python.qmd"
     - "/tuto/r.qmd"
-    - "/tuto/observable.qmd"
+    - "/tuto/observablehq.qmd"
 
 css: custom.css
 
