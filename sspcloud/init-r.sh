@@ -14,6 +14,9 @@ Rscript -e "renv::restore('${PROJECT_DIR}')"
 # Install dependencies
 install2.r here
 
+# On retire l'activation de renv
+rm .Rprofile
+
 # Open the project
 echo \
 "
@@ -21,7 +24,6 @@ setHook('rstudio.sessionInit', function(newSession) {
  if (newSession)
   {
     rstudioapi::navigateToFile('tp/${QUARTO_FILE}')
-    renv::restore()
   }
 }, action = 'append')
 
@@ -30,7 +32,6 @@ setHook('rstudio.sessionInit', function(newSession) {
   {
     message('Activation du projet RStudio')
     rstudioapi::openProject('${PROJECT_DIR}')
-    renv::restore()
   }
 }, action = 'append')
 " >> /home/onyxia/.Rprofile
