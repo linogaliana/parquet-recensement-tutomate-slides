@@ -9,7 +9,7 @@ date: "2024-11-05"
 date-format: long
 slide-number: true
 footer: |
-  Atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/)
+  Atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/) ([retour à la page principale de ce site](/index.qmd))
 lang: fr-FR
 chalkboard: # press the B key to toggle chalkboard
   theme: whiteboard
