@@ -57,13 +57,13 @@ Pour commencer, nous allons télécharger les fichiers depuis internet pour limi
 import requests
 import os
 from tqdm import tqdm
+from pathlib import Path
+
+Path("data").mkdir(parents=True, exist_ok=True)
 
 def download_file(url: str, filename: str) -> None:
     try:
-        # Envoyer une requête GET à l'URL
         response = requests.get(url, stream=True)
-        
-        # Vérifier si la requête a réussi
         response.raise_for_status()
         
         # Récupérer la taille totale du fichier depuis les headers (si disponible)
@@ -92,15 +92,15 @@ def download_file(url: str, filename: str) -> None:
         print(f"Le téléchargement a échoué: {e}")
 
 
-filename_table_logement = "RPlogement.parquet"
-filename_table_individu = "RPindividus.parquet"
+filename_table_logement = "data/RPlogement.parquet"
+filename_table_individu = "data/RPindividus.parquet"
 
 files_to_download = {
     "logements": {"url": "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-logements-ordinaires-en-2020-1/20231023-123618/fd-logemt-2020.parquet", "filename": filename_table_logement},
     "individus": {"url": "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet", "filename": filename_table_individu},
-    "documentation_logement": {"url": "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198", "filename": "RPindividus_doc.csv"},
-    "documentation_individus": {"url": "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1", "filename": "RPlogement_doc.csv"},
-    "table_bpe": {"url": "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet", "filename": "BPE_2023.parquet"}
+    "documentation_logement": {"url": "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198", "filename": "data/RPindividus_doc.csv"},
+    "documentation_individus": {"url": "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1", "filename": "data/RPlogement_doc.csv"},
+    "table_bpe": {"url": "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet", "filename": "data/BPE_2023.parquet"}
 }
 
 # Boucle pour télécharger les fichiers avec des noms personnalisés (s'ils ne sont pas déjà enregistrés)
@@ -181,8 +181,8 @@ Enfin, nous pouvons importer les dictionnaires des variables qui pourront nous s
 #| output: false
 import pandas as pd
 
-documentation_logement = pd.read_csv("RPlogement_doc.csv", sep = ";")
-documentation_individus = pd.read_csv("RPindividus_doc.csv", sep = ";")
+documentation_logement = pd.read_csv("./data/RPlogement_doc.csv", sep = ";")
+documentation_individus = pd.read_csv("./data/RPindividus_doc.csv", sep = ";")
 ```
 
 # Ouvrir un fichier `Parquet`
@@ -522,3 +522,12 @@ L'exemple suivant illustre la préparation de données avant la construction de 
 
 
 __Suite du tutoriel à venir__
+
+
+
+```{python}
+#| echo: false
+#| output: false
+import shutil
+shutil.rmtree("data")
+```

@@ -98,15 +98,21 @@ url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9
 url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
 url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
 
-filename_table_logement <- str_split_i(url_table_logement, "/", -1)
-filename_table_individu <- str_split_i(url_table_individu, "/", -1)
+filename_table_logement <- glue(
+  "/data/",
+  str_split_i(url_table_logement, "/", -1)
+)
+filename_table_individu <- glue(
+  "/data/",
+  str_split_i(url_table_individu, "/", -1)
+)
 
 # Télécharge les fichiers
 download_if_not_exists(url_table_logement, filename_table_logement)
 download_if_not_exists(url_table_individu, filename_table_individu)
-download_if_not_exists(url_doc_logement, "dictionnaire_variables_logemt_2020.csv")
-download_if_not_exists(url_doc_individu, "dictionnaire_variables_indcvi_2020.csv")
-download_if_not_exists(url_bpe, "BPE2023.parquet")
+download_if_not_exists(url_doc_logement, "data/dictionnaire_variables_logemt_2020.csv")
+download_if_not_exists(url_doc_individu, "data/dictionnaire_variables_indcvi_2020.csv")
+download_if_not_exists(url_bpe, "data/BPE2023.parquet")
 ```
 1. Ceci est nécessaire pour éviter une erreur si le téléchargement est un peu lent.
 
@@ -192,8 +198,8 @@ Enfin, nous pouvons importer les dictionnaires des variables qui pourront nous s
 
 ```{r}
 #| output: false
-documentation_logement <- readr::read_csv2("dictionnaire_variables_logemt_2020.csv")
-documentation_individus <- readr::read_csv2("dictionnaire_variables_indcvi_2020.csv")
+documentation_logement <- readr::read_csv2("data/dictionnaire_variables_logemt_2020.csv")
+documentation_individus <- readr::read_csv2("data/dictionnaire_variables_indcvi_2020.csv")
 ```
 
 
@@ -768,7 +774,7 @@ La requête est un petit peu plus complexe que précédemment, la voici:
 
 query <- glue(
   "WITH parquet_data AS (",
-    "FROM read_parquet('BPE2023.parquet')",
+    "FROM read_parquet('data/BPE2023.parquet')",
     "SELECT * ",
     "WHERE DEPCOM = '93001'",
     "      AND starts_with(TYPEQU, 'C')",
@@ -855,7 +861,7 @@ Pourquoi faire ceci plutôt qu'utiliser une fonction pré-implémentée de `stri
 ```{r}
 query <- glue(
   "WITH parquet_data AS (",
-  "   FROM read_parquet('BPE2023.parquet')",
+  "   FROM read_parquet('data/BPE2023.parquet')",
   "   SELECT *",
   "   WHERE",
   "       starts_with(TYPEQU, 'F1')",
@@ -909,11 +915,19 @@ Pour aller plus loin sur les filtres géographiques mis en oeuvre, il serait pra
 
 ```{r}
 #| echo: false
+#| output: false
 # Pour éviter de saturer l'espace disque de Github
-file.remove('BPE2023.parquet')
+unlink("data", recursive = TRUE)
 ```
 
 # Conclusion
 
 
+::: {.callout-note}
+Ce tutoriel était une introduction à l'utilisation du format `Parquet`. Il n'évoque pas, à l'heure actuelle, deux dimensions intéressantes de ce format :
+
+- La possibilité d'avoir des [`Parquet` partitionné](https://book.utilitr.org/03_Fiches_thematiques/Fiche_import_fichiers_parquet.html#lire-et-exploiter-un-fichier-parquet-partitionn%C3%A9) qui permettent d'accélérer les requêtes ne s'appuyant sur un sous-ensemble de lignes
+- Les excellentes performances de `Parquet` avec un système de stockage _cloud_ type `S3` (technologie derrière le `SSPCloud`)
+
+:::
 
