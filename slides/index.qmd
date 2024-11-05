@@ -425,6 +425,12 @@ reu = db.query(
 
 ::::
 
+::: {.callout-tip}
+
+Si vous avez un compte, n'hésitez pas à essayer les exemples présentés en _live_ !
+
+:::
+
 
 ## Idées
 

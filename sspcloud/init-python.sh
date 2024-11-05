@@ -2,4 +2,7 @@ git clone --depth 1 https://github.com/linogaliana/parquet-recensement-tutomate.
 pip install -r tuto/requirements.txt
 rm -rf tuto
 
-curl -o /home/onyxia/work/tuto-parquet-python.ipynb https://linogaliana.github.io/parquet-recensement-tutomate/tuto/python.ipynb
+WORK_DIR="/home/onyxia/work"
+DOWNLOAD_URL="https://linogaliana.github.io/parquet-recensement-tutomate/tuto/python.ipynb"
+CHAPTER="tuto-parquet-python.ipynb"
+curl -L $DOWNLOAD_URL -o "${WORK_DIR}/${CHAPTER}.ipynb"
