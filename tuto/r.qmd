@@ -99,14 +99,8 @@ url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9
 url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
 url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
 
-filename_table_logement <- glue(
-  "./data/",
-  str_split_i(url_table_logement, "/", -1)
-)
-filename_table_individu <- glue(
-  "./data/",
-  str_split_i(url_table_individu, "/", -1)
-)
+filename_table_logement <- "data/RPlogement.parquet"
+filename_table_individu <- "data/RPindividus.parquet"
 
 # Télécharge les fichiers
 download_if_not_exists(url_table_logement, filename_table_logement)
@@ -825,8 +819,18 @@ etab_enseignement_auber <- dbGetQuery(con, query)
 head(etab_enseignement_auber)
 ```
 
+```{r}
+nrow(etab_enseignement_auber)
+```
+
+
 Nous avons `r nrow(etab_enseignement_auber)` établissements d'enseignement recensés dans Aubervilliers. 
 Transformons en _dataframe_ géographique pour pouvoir les représenter sur une carte:
+
+```{r}
+etab_enseignement_auber
+```
+
 
 ```{r}
 etab_enseignement_auber <- etab_enseignement_auber %>%
@@ -850,6 +854,10 @@ leaflet(etab_enseignement_auber) %>%
 
 
 Pour ce fichier, la mise en oeuvre de filtres géographiques revient à faire un filtre classique.
+
+```{r}
+bpe2023
+```
 
 
 ::: {.panel-tabset}
