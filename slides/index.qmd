@@ -267,7 +267,7 @@ _[Documentation technique sur le recensement](https://www.insee.fr/fr/informatio
 :::
 
 ::: {.column width="30%"}
-![](img/parquet-table1.png)
+![](/img/parquet-table1.png)
 :::
 
 ::::
@@ -283,7 +283,7 @@ _[Documentation technique sur le recensement](https://www.insee.fr/fr/informatio
 
 ## `Parquet`: un format orienté colonne
 
-![](img/parquet-table2-enriched.png){fig-align="center"}
+![](/img/parquet-table2-enriched.png){fig-align="center"}
 
 - Plus pratique pour n'ouvrir qu'un sous-ensemble de variables ;
     + Pas besoin de scanner tout le fichier pour étudier quelques variables ;
