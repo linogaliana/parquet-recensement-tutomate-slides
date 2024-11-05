@@ -1,11 +1,15 @@
-REPO_URL=https://github.com/linogaliana/parquet-recensement-tutomate.git
-WORK_DIR=/home/onyxia/work
-FORMATION_DIR=${WORK_DIR}/parquet-recensement-tutomate
-QUARTO_FILE=tuto/r.qmd
+# Clone repository and give permissions to the onyxia user
+GIT_REPO=parquet-recensement-tutomate
+WORK_DIR="/home/onyxia/work"
+PROJECT_DIR="${WORK_DIR}/${GIT_REPO}"
+QUARTO_FILE="${PROJECT_DIR}/tuto/r.qmd"
 
-# Clone the repository
-git clone $REPO_URL $FORMATION_DIR
-chown -R onyxia:users $FORMATION_DIR
+git clone --depth 1 https://github.com/linogaliana/${GIT_REPO}.git
+chown -R onyxia:users ${GIT_REPO}/
+
+Rscript -e "install.packages('remotes')"
+Rscript -e "install.packages('renv')"
+Rscript -e "renv::restore('${PROJECT_DIR}')"
 
 # Install dependencies
 install2.r here
@@ -25,7 +29,7 @@ setHook('rstudio.sessionInit', function(newSession) {
   if (newSession && identical(getwd(), '${WORK_DIR}'))
   {
     message('Activation du projet RStudio')
-    rstudioapi::openProject('${FORMATION_DIR}')
+    rstudioapi::openProject('${PROJECT_DIR}')
     renv::restore()
   }
 }, action = 'append')
