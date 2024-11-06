@@ -230,7 +230,6 @@ table_individu %>%
 Cette fois, l'échantillonnage se fait avant l'exécution par `duckdb`. 
 
 
-
 :::
 
 
