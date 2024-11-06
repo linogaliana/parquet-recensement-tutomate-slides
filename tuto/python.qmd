@@ -10,6 +10,13 @@ image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-no
 priority: 3
 ---
 
+```{=html}
+<a href="https://github.com/linogaliana/parquet-recensement-tutomate" target="_blank" rel="noopener" data-original-href="https://github.com/linogaliana/parquet-recensement-tutomate"><img src="https://img.shields.io/static/v1?logo=github&amp;label=&amp;message=View%20on%20GitHub&amp;color=181717" alt="View on GitHub"></a>
+<a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?name=atelier-tutomate&version=2.1.14&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-python.sh»" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?name=atelier-tutomate&version=2.1.14&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-python.sh»"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_VSCode-blue?logo=visualstudiocode&amp;logoColor=blue" alt="Onyxia"></a>
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_R-blue?logo=rstudioide&amp;logoColor=blue" alt="Onyxia"></a>
+```
+
+
 Ce tutoriel vise à offrir une approche complémentaire
 au guide d'utilisation des données du recensement au format `Parquet`
 publié sur [https://ssphub.netlify.app](https://ssphub.netlify.app/post/parquetrp/)
