@@ -174,16 +174,6 @@ Même si `DuckDB` simplifie l'utilisation du SQL en proposant de nombreux verbes
 
 ![](/img/duckdb-delegation2.png){fig-align="center"}
 ```{r}
-toto = table_logement %>%
-  head(5)
-```
-
-```{r}
-class(toto)
-```
-
-
-```{r}
 #| message: false
 table_logement <- tbl(con, glue('read_parquet("{filename_table_logement}")'))
 table_individu <- tbl(con, glue('read_parquet("{filename_table_individu}")'))
@@ -197,6 +187,52 @@ table_individu %>% head(5)
 ```
 
 Le fait de passer par l'intermédiaire de `duckdb` et un fichier `Parquet` permet d'optimiser les besoins mémoire de `R`. En effet, il n'est pas nécessaire d'ouvrir un fichier dans son ensemble, le transformer en objet `R` pour n'utiliser qu'une partie des données. Nous verrons ultérieurement la manière dont les besoins mémoires sont minimisés grâce au combo `duckdb` & `Parquet`.
+
+Il est à noter que l'objet renvoyé par `R` n'est pas, à ce stade, un _dataframe_ classique. 
+Il s'agit d'un _dataframe lazy_, en attente d'exécution complète:
+
+```{r}
+class(
+  table_individu %>% head(5)
+)
+```
+
+Pour exécuter sur l'ensemble de la base, il faut faire un `collect`. Ceci déclenchera l'ensemble de la chaîne d'opérations préparée avec `duckdb`.  On peut voir les opérations antérieures comme un plan, qui attend d'être mis en oeuvre.
+
+
+```{r}
+class(
+  table_individu %>% head(5) %>% collect()
+)
+```
+
+::: {.callout-important}
+
+`collect` déclenche les calculs. Pour bénéficier des avantages de l'exécution déportée sur `duckdb`, il vaut mieux préparer bien son plan d'exécution. Cela signifie que les opérations gourmandes en calcul doivent être, dans la mesure du possible, avant le `collect`. 
+
+Par exemple, faire
+
+```{.r}
+# A ne pas reproduire chez soi
+table_individu %>%
+  collect() %>%
+  head(5)
+```
+
+est une mauvaise pratique. Cela ramène trop de données inutiles dans {{< fa brands r-project}}, ce qui risque de provoquer des problèmes de mémoire. Si on ne veut que les premières lignes de notre jeu de données, il faut faire
+
+```{.r}
+table_individu %>%
+  head(5) %>%
+  collect()
+```
+
+Cette fois, l'échantillonnage se fait avant l'exécution par `duckdb`. 
+
+
+
+:::
+
 
 Enfin, nous pouvons importer les dictionnaires des variables qui pourront nous servir ultérieurement:
 
