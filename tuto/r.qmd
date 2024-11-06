@@ -110,14 +110,8 @@ url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9
 url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
 url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
 
-filename_table_logement <- glue(
-  "./data/",
-  str_split_i(url_table_logement, "/", -1)
-)
-filename_table_individu <- glue(
-  "./data/",
-  str_split_i(url_table_individu, "/", -1)
-)
+filename_table_logement <- "data/RPlogement.parquet"
+filename_table_individu <- "data/RPindividus.parquet"
 
 # Télécharge les fichiers
 download_if_not_exists(url_table_logement, filename_table_logement)
@@ -170,12 +164,13 @@ con <- dbConnect(duckdb())
 Celle-ci peut être utilisée de plusieurs manières. En premier lieu, par le biais d'une requête SQL. `dbGetQuery` permet d'avoir le résultat sous forme de _dataframe_ puisque la requête est déléguée à l'utilitaire `duckdb` qui est embarqué dans les fichiers de la librairie
 
 
+
 ```{r}
 #| output: false
 out <- dbGetQuery(
   con,
   glue(  
-    'SELECT * FROM read_parquet("{filename_table_individu}") LIMIT 5'
+    'SELECT * FROM read_parquet("{filename_table_individu}")'
   )
 )
 out
@@ -189,6 +184,14 @@ La chaîne d'exécution ressemble ainsi à celle-ci:
 Même si `DuckDB` simplifie l'utilisation du SQL en proposant de nombreux verbes auxquels on est familier en `R` ou `Python`, SQL n'est néanmoins pas toujours le langage le plus pratique pour chaîner des opérations nombreuses. Pour ce type de besoin,  le `tidyverse` offre une grammaire riche et cohérente. Il est tout à fait possible d'interfacer une base `duckdb` au `tidyverse`. On pourra donc utiliser nos verbes préférés (`mutate`, `filter`, etc.) sur un objet `duckdb`: une phase préliminaire de traduction en SQL sera automatiquement mise en oeuvre:
 
 ![](/img/duckdb-delegation2.png){fig-align="center"}
+```{r}
+toto = table_logement %>%
+  head(5)
+```
+
+```{r}
+class(toto)
+```
 
 
 ```{r}
@@ -232,21 +235,29 @@ Comme cela est illustré dans @tip-optimisation-duckdb, la différence de volum�
 ```{r}
 table_individu %>%
   select(poids = IPONDI, AGED, VOIT) %>%
-  head(10)
+  head(5) %>%
+  collect()
 ```
 
 
 ## `DuckDB` exclusivement
 
 ```{r}
-query <- glue(
-  "FROM read_parquet(\"{filename_table_individu}\") ",
+glue(
   "SELECT IPONDI AS poids, AGED, VOIT ",
-  "LIMIT 10"
+  "FROM read_parquet(\"{filename_table_individu}\") "
+)
+```
+
+
+```{r}
+query <- glue(
+  "SELECT IPONDI AS poids, AGED, VOIT ",
+  "FROM read_parquet(\"{filename_table_individu}\") "
 )
 dbGetQuery(
   con,
-  query
+  query %>% head(10)
 )
 ```
 
@@ -288,6 +299,14 @@ et regardons le plan d'exécution et les informations données par `DuckDB`:
 <summary>
 Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
 </summary>
+
+```{r}
+glue(  
+    'EXPLAIN ANALYZE ',
+    'SELECT * FROM read_parquet("{url_table_logement}") LIMIT 5'
+  )
+```
+
 
 ```{r}
 plan <- dbGetQuery(
@@ -397,7 +416,7 @@ Les filtres sur les observations peuvent être faits à partir de critères sur 
 ```{r}
 #| lst-label: lst-nice-emmenagement
 #| lst-cap: "Ne conserver que les Niçois qui ont emménagé depuis 2021"
-table_logement %>% filter(COMMUNE == "06088", AEMM > 2020)
+table_logement %>% filter(COMMUNE == "06088", AEMM > 2020) %>% collect() %>% nrow(.)
 ```
 
 ## `DuckDB` exclusivement
@@ -496,6 +515,7 @@ Le premier exemple est un comptage sur trois départements. Il illustre la déma
 
 Ensuite, une fois que nos données sont récupérées dans `R`, on peut faire la figure avec `ggplot`
 
+
 ```{r}
 #| lst-label: lst-sud-pyramide
 #| lst-cap: "Pyramide des âges dans l'Aude, l'Hérault et le Gard"
@@ -504,7 +524,8 @@ pyramide_ages <- table_individu %>%
   filter(DEPT %in% c('11', '31', '34')) %>%
   group_by(AGED, departement = DEPT) %>%
   summarise(individus = sum(IPONDI), .groups = "drop") %>%
-  arrange(departement, AGED)
+  arrange(departement, AGED) %>%
+  collect()
 
 
 ggplot(pyramide_ages, aes(x = AGED, y = individus)) +
@@ -809,8 +830,18 @@ etab_enseignement_auber <- dbGetQuery(con, query)
 head(etab_enseignement_auber)
 ```
 
+```{r}
+nrow(etab_enseignement_auber)
+```
+
+
 Nous avons `r nrow(etab_enseignement_auber)` établissements d'enseignement recensés dans Aubervilliers. 
 Transformons en _dataframe_ géographique pour pouvoir les représenter sur une carte:
+
+```{r}
+etab_enseignement_auber
+```
+
 
 ```{r}
 etab_enseignement_auber <- etab_enseignement_auber %>%
@@ -834,6 +865,10 @@ leaflet(etab_enseignement_auber) %>%
 
 
 Pour ce fichier, la mise en oeuvre de filtres géographiques revient à faire un filtre classique.
+
+```{r}
+bpe2023
+```
 
 
 ::: {.panel-tabset}
