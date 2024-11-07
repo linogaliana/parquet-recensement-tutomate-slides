@@ -14,3 +14,7 @@ Un ensemble de ressources pour présenter les enjeux de l'utilisation du format 
 ::: {#sample-listings}
 :::
 
+_Replay_ de la présentation:
+
+{{< video https://www.youtube.com/embed/Zy3GKbTHJBU?si=mkxNvG7f6QO9NyiT >}}
+
