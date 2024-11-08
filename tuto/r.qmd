@@ -162,6 +162,7 @@ En principe, `duckdb` fonctionne à la manière d'une base de données. Autremen
 La base de données se crée tout simplement de la manière suivante:
 
 ```{r}
+#| label: create-connection-duckdb
 con <- dbConnect(duckdb()) 
 ```
 
@@ -170,11 +171,12 @@ Celle-ci peut être utilisée de plusieurs manières. En premier lieu, par le bi
 
 
 ```{r}
+#| label: show-dbquery-principle
 #| output: false
 out <- dbGetQuery(
   con,
   glue(  
-    'SELECT * FROM read_parquet("{filename_table_individu}")'
+    'SELECT * FROM read_parquet("{filename_table_individu}") LIMIT 5'
   )
 )
 out
@@ -199,6 +201,7 @@ bpe2023 <- tbl(con, glue('read_parquet("./data/BPE2023.parquet")'))
 L'équivalent `tidyverse` de la requête précédente est la fonction `head`
 
 ```{r}
+#| label: show-dbplyr-query-principle
 table_individu %>% head(5)
 ```
 
