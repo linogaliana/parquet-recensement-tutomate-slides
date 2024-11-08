@@ -8,6 +8,7 @@ format:
 description: "Tutoriel `Python`"
 image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/701px-Python-logo-notext.svg.png"
 priority: 3
+eval: false
 ---
 
 ```{=html}
@@ -16,6 +17,7 @@ priority: 3
 <a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_R-blue?logo=rstudioide&amp;logoColor=blue" alt="Onyxia"></a>
 ```
 
+__Ce tutoriel n'est pas encore fini, il sera progressivement enrichi__
 
 Ce tutoriel vise à offrir une approche complémentaire
 au guide d'utilisation des données du recensement au format `Parquet`
