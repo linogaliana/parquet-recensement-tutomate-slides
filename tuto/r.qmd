@@ -349,7 +349,7 @@ Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
 ```{r}
 glue(  
     'EXPLAIN ANALYZE ',
-    'SELECT * FROM read_parquet("{url_table_logement}") LIMIT 5'
+    'SELECT * FROM read_parquet("{url_bpe}") LIMIT 5'
   )
 ```
 
@@ -359,7 +359,7 @@ plan <- dbGetQuery(
   con,
   glue(  
     'EXPLAIN ANALYZE ',
-    'SELECT * FROM read_parquet("{url_table_logement}") LIMIT 5'
+    'SELECT * FROM read_parquet("{url_bpe}") LIMIT 5'
   )
 )
 ```
