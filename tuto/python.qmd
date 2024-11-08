@@ -8,7 +8,6 @@ format:
 description: "Tutoriel `Python`"
 image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/701px-Python-logo-notext.svg.png"
 priority: 3
-eval: false
 ---
 
 ```{=html}
@@ -117,7 +116,7 @@ files_to_download = {
     "individus": {"url": "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet", "filename": filename_table_individu},
     "documentation_logement": {"url": "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198", "filename": "data/RPindividus_doc.csv"},
     "documentation_individus": {"url": "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1", "filename": "data/RPlogement_doc.csv"},
-    "table_bpe": {"url": "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet", "filename": "data/BPE2023.parquet"}
+    "table_bpe": {"url": "https://minio.lab.sspcloud.fr/lgaliana/diffusion/BPE23.parquet", "filename": "data/BPE2023.parquet"}
 }
 
 # Boucle pour télécharger les fichiers avec des noms personnalisés (s'ils ne sont pas déjà enregistrés)
@@ -256,13 +255,12 @@ Voir le plan : _"beaucoup de colonnes, pas beaucoup de lignes"_
 </summary>
 
 ```{python}
-url_table_logement = files_to_download.get("logements").get("url")
-url_table_individu = files_to_download.get("individus").get("url")
+url_bpe = files_to_download.get("table_bpe").get("url")
 
 plan = duckdb.query(
 f"""
 EXPLAIN ANALYZE
-FROM read_parquet("{url_table_logement}")
+FROM read_parquet("{url_bpe}")
 SELECT *
 LIMIT 5
 """
@@ -287,7 +285,7 @@ Voir le plan : _"pas de colonnes, beaucoup de lignes"_
 plan = duckdb.sql(
   f"""
   EXPLAIN ANALYZE
-  SELECT IPONDI AS poids, AGED, VOIT FROM read_parquet("{url_table_individu}") LIMIT 10000
+  SELECT IPONDI AS poids, AGED, VOIT FROM read_parquet("{url_bpe}") LIMIT 10000
   """
 )
 ```
