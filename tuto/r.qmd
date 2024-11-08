@@ -190,6 +190,7 @@ Même si `DuckDB` simplifie l'utilisation du SQL en proposant de nombreux verbes
 ![](/img/duckdb-delegation2.png){fig-align="center"}
 ```{r}
 #| message: false
+#| label: create-connections
 table_logement <- tbl(con, glue('read_parquet("{filename_table_logement}")'))
 table_individu <- tbl(con, glue('read_parquet("{filename_table_individu}")'))
 bpe2023 <- tbl(con, glue('read_parquet("./data/BPE2023.parquet")'))
@@ -252,6 +253,7 @@ Enfin, nous pouvons importer les dictionnaires des variables qui pourront nous s
 
 ```{r}
 #| output: false
+#| label: import-documentation
 documentation_logement <- readr::read_csv2("data/dictionnaire_variables_logemt_2020.csv")
 documentation_individus <- readr::read_csv2("data/dictionnaire_variables_indcvi_2020.csv")
 ```
@@ -272,6 +274,7 @@ Comme cela est illustré dans @tip-optimisation-duckdb, la différence de volum�
 ## `DuckDB` via `tidyverse`
 
 ```{r}
+#| label: requete-select-dplyr
 table_individu %>%
   select(poids = IPONDI, AGED, VOIT) %>%
   head(5) %>%
@@ -282,6 +285,7 @@ table_individu %>%
 ## `DuckDB` exclusivement
 
 ```{r}
+#| label: requete-select-sql
 glue(
   "SELECT IPONDI AS poids, AGED, VOIT ",
   "FROM read_parquet(\"{filename_table_individu}\") "
