@@ -540,3 +540,7 @@ L'exemple suivant illustre la préparation de données avant la construction de 
 
 __Suite du tutoriel à venir__
 
+```{python}
+import shutil
+shutil.rmtree("data")
+```
