@@ -285,7 +285,7 @@ Voir le plan : _"pas de colonnes, beaucoup de lignes"_
 plan = duckdb.sql(
   f"""
   EXPLAIN ANALYZE
-  SELECT IPONDI AS poids, AGED, VOIT FROM read_parquet("{url_bpe}") LIMIT 10000
+  SELECT TYPEQU, LONGITUDE, LATITUDE FROM read_parquet("{url_bpe}") LIMIT 10000
   """
 )
 ```

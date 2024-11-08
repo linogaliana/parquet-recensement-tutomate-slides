@@ -374,8 +374,10 @@ print(plan)
 
 <details>
 
+
+
 <summary>
-Voir le plan : _"pas de colonnes, beaucoup de lignes"_
+Voir le plan : _"peu de colonnes, beaucoup de lignes"_
 </summary>
 
 ```{r}
@@ -383,7 +385,7 @@ plan <- dbGetQuery(
   con,
   glue(  
     'EXPLAIN ANALYZE ',
-    'SELECT IPONDI AS poids, AGED, VOIT FROM read_parquet("{url_table_individu}") LIMIT 10000'
+    'SELECT TYPEQU, LONGITUDE, LATITUDE FROM read_parquet("{url_bpe}") LIMIT 10000'
   )
 )
 ```
