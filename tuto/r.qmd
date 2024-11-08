@@ -90,6 +90,7 @@ Pour commencer, nous allons télécharger les fichiers depuis internet pour limi
 #| output: false
 #| code-fold: true
 #| code-summary: "Voir le code pour télécharger les données"
+#| label: download-sources
 
 options(timeout = max(300, getOption("timeout"))) #<1>
 
@@ -132,6 +133,7 @@ Celui-ci peut être simplement récupéré grâce au _package_ `cartiflette`[^ca
 #| output: false
 #| code-fold: true
 #| code-summary: "Voir le code pour récupérer ce fond de carte"
+#| label: download-cartiflette
 departements <- carti_download(
   values="France",
   crs=4326,
@@ -146,6 +148,7 @@ departements <- carti_download(
 ```{r}
 #| code-fold: true
 #| code-summary: "Voir le code pour faire cette carte"
+#| label: represent-cartiflette
 ggplot(departements) +
   geom_sf() +
   theme_void()
