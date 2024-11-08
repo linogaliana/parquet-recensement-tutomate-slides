@@ -108,7 +108,8 @@ url_table_logement <- "https://static.data.gouv.fr/resources/recensement-de-la-p
 url_table_individu <- "https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet"
 url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9674-578e04f03198"
 url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
-url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
+# url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
+url_bpe <- "https://minio.lab.sspcloud.fr/lgaliana/diffusion/BPE23.parquet" #pb temporaire github actions avec insee.fr
 
 filename_table_logement <- "data/RPlogement.parquet"
 filename_table_individu <- "data/RPindividus.parquet"
