@@ -111,6 +111,7 @@ url_doc_logement <- "https://www.data.gouv.fr/fr/datasets/r/c274705f-98db-4d9b-9
 url_doc_individu <- "https://www.data.gouv.fr/fr/datasets/r/1c6c6ab2-b766-41a4-90f0-043173d5e9d1"
 # url_bpe <- "https://www.insee.fr/fr/statistiques/fichier/8217525/BPE23.parquet"
 url_bpe <- "https://minio.lab.sspcloud.fr/lgaliana/diffusion/BPE23.parquet" #pb temporaire github actions avec insee.fr
+url_bpe_metadata <- "https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv"
 
 filename_table_logement <- "data/RPlogement.parquet"
 filename_table_individu <- "data/RPindividus.parquet"
@@ -121,6 +122,7 @@ download_if_not_exists(url_table_individu, filename_table_individu)
 download_if_not_exists(url_doc_logement, "./data/dictionnaire_variables_logemt_2020.csv")
 download_if_not_exists(url_doc_individu, "./data/dictionnaire_variables_indcvi_2020.csv")
 download_if_not_exists(url_bpe, "./data/BPE2023.parquet")
+download_if_not_exists(url_bpe_metadata, "./data/BPE2023_documentation.csv")
 ```
 1. Ceci est nécessaire pour éviter une erreur si le téléchargement est un peu lent.
 
@@ -861,7 +863,7 @@ query <- glue(
   ")",
   "SELECT parquet_data.*, csv_data.Libelle_TYPEQU",
   "FROM parquet_data",
-  "JOIN read_csv_auto('https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv') AS csv_data",
+  "JOIN read_csv_auto('data/BPE2023_documentation.csv') AS csv_data",
   "     ON parquet_data.TYPEQU = csv_data.TYPEQU",
   .sep = "\n"
 )
@@ -926,7 +928,7 @@ bpe2023
 #| lst-cap: "Les établissements sporifs à Saint-Denis (93)"
 
 metadata_bpe <- readr::read_csv2(
-  "https://www.insee.fr/fr/metadonnees/source/fichier/BPE23_table_passage.csv"
+  "./data/BPE2023_documentation.csv"
 )
 
 equipements_sportifs_saint_denis <- bpe2023 %>%
