@@ -59,9 +59,9 @@ A partir de la base permanent des équipements (BPE):
 
 # Librairies utilisées
 
-Ce tutoriel utilisera plusieurs librairies {{< fa brands r-project >}}. Celles-ci peuvent être importées ainsi[^renv]
+Ce tutoriel utilisera plusieurs librairies `R`. Celles-ci peuvent être importées ainsi[^renv]
 
-[^renv]: Si vous avez clôné le dépôt disponible sur [`Github`](https://github.com/linogaliana/parquet-recensement-tutomate) {{< fa brands github >}}, un environnement virtuel `renv` vous permet de recréer la même configuration logicielle que celle utilisée pour générer cette page. Pour cela, il suffit de faire `renv::restore()`. 
+[^renv]: Si vous avez clôné le dépôt disponible sur [`Github`](https://github.com/linogaliana/parquet-recensement-tutomate) `R`, un environnement virtuel `renv` vous permet de recréer la même configuration logicielle que celle utilisée pour générer cette page. Pour cela, il suffit de faire `renv::restore()`. 
 
 
 ```{r}
@@ -240,7 +240,7 @@ table_individu %>%
   head(5)
 ```
 
-est une mauvaise pratique. Cela ramène trop de données inutiles dans {{< fa brands r-project}}, ce qui risque de provoquer des problèmes de mémoire. Si on ne veut que les premières lignes de notre jeu de données, il faut faire
+est une mauvaise pratique. Cela ramène trop de données inutiles dans `R`, ce qui risque de provoquer des problèmes de mémoire. Si on ne veut que les premières lignes de notre jeu de données, il faut faire
 
 ```{.r}
 table_individu %>%
