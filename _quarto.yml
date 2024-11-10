@@ -2,9 +2,10 @@ project:
   type: website
   render:
     - index.qmd
-    - /slides/index.qmd
-    - /tuto/python.qmd
-    - /tuto/observablehq.qmd
+    - "/slides/index.qmd"
+    - "/tuto/python.qmd"
+    - "/tuto/r.qmd"
+    - "/tuto/observablehq.qmd"
 
 css: custom.css
 
@@ -19,8 +20,10 @@ website:
         text: Home
       - href: slides/index.qmd
         text: Slides
-      - href: tuto/r.qmd
+      - href: "tuto/r.qmd"
         text: Tutoriel R
+      - href: "tuto/python.qmd"
+        text: Tutoriel Python
       - href: "https://observablehq.com/@linogaliana/atelier-parquet-tutomate-observable"
         text: Tutoriel Observable
 

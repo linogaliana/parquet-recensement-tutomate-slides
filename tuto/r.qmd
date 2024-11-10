@@ -227,7 +227,7 @@ class(
 )
 ```
 
-::: {.callout-important}
+::: {.important}
 
 `collect` déclenche les calculs. Pour bénéficier des avantages de l'exécution déportée sur `duckdb`, il vaut mieux préparer bien son plan d'exécution. Cela signifie que les opérations gourmandes en calcul doivent être, dans la mesure du possible, avant le `collect`. 
 
