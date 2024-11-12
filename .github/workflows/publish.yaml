@@ -14,31 +14,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install system dependencies
-        run: |
-          sudo apt-get install libudunits2-dev \
-            libgdal-dev \
-            libgeos-dev \
-            libproj-dev
-      - name: Install R Dependencies
-        uses: r-lib/actions/setup-renv@v2
-        with:
-          cache-version: 1
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12' 
-          cache: 'pip' # caching pip dependencies          
-      - run: pip install -r requirements.txt
-      - name: Set up quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: 1.5.57
-      - name: Render website
-        run: |
-          quarto render --to html
-          quarto render tuto/python.qmd --to ipynb
       - name: Publish to GitHub Pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          render: "false"
