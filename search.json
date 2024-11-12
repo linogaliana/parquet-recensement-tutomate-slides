@@ -1,0 +1,156 @@
+[
+  {
+    "objectID": "index.html#plan",
+    "href": "index.html#plan",
+    "title": "Le format de données Parquet",
+    "section": "Plan",
+    "text": "Plan\n\nContexte\nPourquoi le format Parquet ?\nL’écosystème Parquet\nDémonstration"
+  },
+  {
+    "objectID": "index.html#le-recensement-de-la-population",
+    "href": "index.html#le-recensement-de-la-population",
+    "title": "Le format de données Parquet",
+    "section": "Le recensement de la population",
+    "text": "Le recensement de la population\n\nMission historique de l’Insee depuis 1946\n\nL’Insee organise, les communes réalisent la collecte\n\n\n\n\nUne source d’utilité publique :\n\nPopulations légales: dotations de l’État aux communes, organisation des scrutins, équipements publics, etc.\nRecherche: caractéristiques socio-démographiques, mobilités…\n\n\n\n\n\n\n\n\nEnquêtes annuelles de recensement (EAR) depuis 2004\n\n\n\nPour une commune de moins de 10 000 habitants:\n\nCollecte exhaustive une fois tous les 5 ans.\n\nPour une commune de plus de 10 000 habitants:\n\nChaque année, 8% des logements sont recensés ;\nLe résultat du recensement est calculé à partir des 5 dernières années (=40% logements)\n\n\nDocumentation technique sur le recensement"
+  },
+  {
+    "objectID": "index.html#une-diffusion-sous-plusieurs-formes",
+    "href": "index.html#une-diffusion-sous-plusieurs-formes",
+    "title": "Le format de données Parquet",
+    "section": "Une diffusion sous plusieurs formes",
+    "text": "Une diffusion sous plusieurs formes\n\nDiffusion sur insee.fr sous plusieurs formes:\n\nPages “dynamiques” sur insee.fr\nExports d’agrégats depuis statistiques-locales.insee.fr/\nDes données, des cartes, des publications, etc..\n\n\n\n\nMais beaucoup de gestes manuels pour obtenir un seul agrégat\n\n\n\n\nUne information parfois difficile à trouver sur le site de l’Insee"
+  },
+  {
+    "objectID": "index.html#une-diffusion-sous-plusieurs-formes-1",
+    "href": "index.html#une-diffusion-sous-plusieurs-formes-1",
+    "title": "Le format de données Parquet",
+    "section": "Une diffusion sous plusieurs formes",
+    "text": "Une diffusion sous plusieurs formes\n\nLes fichiers agrégés\n\n\n\nStructure type: une ligne par commune ou IRIS\n\n\n\nTaille de chaque fichier relativement raisonnable\n\nCSV généralement de quelques Mo, jusqu’à 150 Mo"
+  },
+  {
+    "objectID": "index.html#une-diffusion-sous-plusieurs-formes-2",
+    "href": "index.html#une-diffusion-sous-plusieurs-formes-2",
+    "title": "Le format de données Parquet",
+    "section": "Une diffusion sous plusieurs formes",
+    "text": "Une diffusion sous plusieurs formes\n\nLes micro-données anonymisées\n\n\nStructure type: une ligne par observation\n\nUn logement, un individu…\n\n\n\n\nPermet de construire d’autres croisements que ceux proposés sur insee.fr\n\n\n\n\n\n\n\n\n\nUn format destiné à des utilisateurs avancés\n\n\n\nUne source riche mais des précautions d’emploi à respecter:\n\nPondérations à prendre en compte\nInterprétation des petits effectifs…\n\nDemande une certaine expertise"
+  },
+  {
+    "objectID": "index.html#défi",
+    "href": "index.html#défi",
+    "title": "Le format de données Parquet",
+    "section": "Défi",
+    "text": "Défi\n\nCe sont des fichiers très volumineux\n\nJusqu’à 100 variables et 25 millions de lignes\nFichier CSV jusqu’à 5 Go\n\n\n\n\nPour l’Insee : complexes à produire et valider avant diffusion\n\n\n\n\nPour l’utilisateur.trice : complexes à télécharger, stocker et exploiter"
+  },
+  {
+    "objectID": "index.html#solution-historique",
+    "href": "index.html#solution-historique",
+    "title": "Le format de données Parquet",
+    "section": "Solution historique",
+    "text": "Solution historique\n\nDiffusion zippée (CSV) ou format DBase (format propriétaire)\n\nDécoupage en fichiers par grandes zones de régions"
+  },
+  {
+    "objectID": "index.html#une-source-idéale-pour-innover-dans-la-diffusion",
+    "href": "index.html#une-source-idéale-pour-innover-dans-la-diffusion",
+    "title": "Le format de données Parquet",
+    "section": "Une source idéale pour innover dans la diffusion",
+    "text": "Une source idéale pour innover dans la diffusion\n\nMontée en puissance du format Parquet pour les usages internes à l’Insee:\n\nPourquoi ne pas offrir le même confort à l’externe ?\n\n\n\n\nUne demande d’utilisateurs.trices averti.e.s\n\nPar exemple Eric Mauvière"
+  },
+  {
+    "objectID": "index.html#une-source-idéale-pour-innover-dans-la-diffusion-1",
+    "href": "index.html#une-source-idéale-pour-innover-dans-la-diffusion-1",
+    "title": "Le format de données Parquet",
+    "section": "Une source idéale pour innover dans la diffusion",
+    "text": "Une source idéale pour innover dans la diffusion\n\nPublication en octobre 2023 des données et d’un guide d’utilisation"
+  },
+  {
+    "objectID": "index.html#une-source-idéale-pour-innover-dans-la-diffusion-2",
+    "href": "index.html#une-source-idéale-pour-innover-dans-la-diffusion-2",
+    "title": "Le format de données Parquet",
+    "section": "Une source idéale pour innover dans la diffusion",
+    "text": "Une source idéale pour innover dans la diffusion\n\nUn accueil enthousiaste des utilisateurs.trices"
+  },
+  {
+    "objectID": "index.html#une-source-idéale-pour-innover-dans-la-diffusion-3",
+    "href": "index.html#une-source-idéale-pour-innover-dans-la-diffusion-3",
+    "title": "Le format de données Parquet",
+    "section": "Une source idéale pour innover dans la diffusion",
+    "text": "Une source idéale pour innover dans la diffusion\n\nD’autres institutions l’utilisent maintenant pour leur diffusion\n\n\n\n\n\nStatistiques sur longue période des crimes et délis"
+  },
+  {
+    "objectID": "index.html#parquet-cest-quoi",
+    "href": "index.html#parquet-cest-quoi",
+    "title": "Le format de données Parquet",
+    "section": "Parquet : c’est quoi ?",
+    "text": "Parquet : c’est quoi ?\n\nUn format de données adapté…\n\nAux données volumineuses ;\nAux données complexes (exemple: 01004 pour le code commune d’Ambérieu-en-Bugey)\n\n\n\n\nUn format de données opensource bien intégré:\n\nA l’écosystème R, Python et Observable"
+  },
+  {
+    "objectID": "index.html#parquet-pourquoi",
+    "href": "index.html#parquet-pourquoi",
+    "title": "Le format de données Parquet",
+    "section": "Parquet : pourquoi ?",
+    "text": "Parquet : pourquoi ?\n\nFormat léger, très compressé:\n\nEntre 5 et 20 fois plus léger qu’un CSV\nPas de perte d’efficacité en lecture\n\n\n\n\n\n\n\n\n\n\nExemple: recensement de la population\n\n\n\n20 millions de lignes, 88 colonnes\n\nCSV: &gt; 5Go\nParquet: 508Mo\n\n\n\n\n\n\n\n\n\n\n\n\nExemple: statistiques de la délinquance\n\n\n\n3.5 millions de lignes:\n\nCSV: 400Mo\nParquet: 11Mo"
+  },
+  {
+    "objectID": "index.html#le-csv-en-apparence-pratique",
+    "href": "index.html#le-csv-en-apparence-pratique",
+    "title": "Le format de données Parquet",
+    "section": "Le CSV: en apparence pratique",
+    "text": "Le CSV: en apparence pratique\n\n\n\n\nFacile à lire, facile à ouvrir, mais\n\n\n\n\n\n\n\n\n\n\nProblème: il faut scanner tout le fichier pour avoir une seule colonne\n\n\n\nLent en lecture, pas compressé\nProblème pour deviner le type d’une variable\nMême si on ne veut que certaines colonnes, il faut lire tout le fichier"
+  },
+  {
+    "objectID": "index.html#parquet-un-format-orienté-colonne",
+    "href": "index.html#parquet-un-format-orienté-colonne",
+    "title": "Le format de données Parquet",
+    "section": "Parquet: un format orienté colonne",
+    "text": "Parquet: un format orienté colonne\n\n\nPlus pratique pour n’ouvrir qu’un sous-ensemble de variables ;\n\nPas besoin de scanner tout le fichier pour étudier quelques variables ;"
+  },
+  {
+    "objectID": "index.html#parquet-quels-avantages",
+    "href": "index.html#parquet-quels-avantages",
+    "title": "Le format de données Parquet",
+    "section": "Parquet : quels avantages ?",
+    "text": "Parquet : quels avantages ?\n\n\nFormat libre, open source, et indépendant du langage ;\n\n\n\nPlus de confort pour les utilisateurs:\n\nDes requêtes plus rapides et efficaces (seulement les données nécessaires sont lues)\nDes données conformes à la mise à disposition par le producteur (plus de problème de codes communes…)"
+  },
+  {
+    "objectID": "index.html#parquet-quels-usages",
+    "href": "index.html#parquet-quels-usages",
+    "title": "Le format de données Parquet",
+    "section": "Parquet : quels usages ?",
+    "text": "Parquet : quels usages ?\n\nFormat privilégié pour la mise à disposition de données internes à l’Insee:\n\nMoins d’asymétries entre utilisateurs et producteurs.\n\n\n\n\n\n\n\n\nPremières diffusions à l’externe\n\n\n\nBureaux de votes du répertoire électoral unique (REU):\nRecensement de la population (RP)\nPlus récemment, la base permanente des équipements (BPE)"
+  },
+  {
+    "objectID": "index.html#parquet-quels-usages-1",
+    "href": "index.html#parquet-quels-usages-1",
+    "title": "Le format de données Parquet",
+    "section": "Parquet : quels usages ?",
+    "text": "Parquet : quels usages ?\n\nviewof source = Inputs.radio([\n  \"Recensement\", \"Répertoire électoral unique\"\n], {value: \"Recensement\"})\n\n\n\n\n\n\n\n\nInputs.table(data)\n\n\n\n\n\n\n\ndata = (source == \"Recensement\") ? rp : reu\n\n\n\n\n\n\n\ndb = DuckDBClient.of({})\n\nrp = db.query(\n  \"SELECT AGED, CATL, SEXE, CANTVILLE, IPONDI FROM read_parquet('https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet') LIMIT 5\"\n)\nreu = db.query(\n  \"SELECT geo_adresse, id_brut_bv_reu FROM read_parquet('https://static.data.gouv.fr/resources/bureaux-de-vote-et-adresses-de-leurs-electeurs/20230626-135723/table-adresses-reu.parquet') LIMIT 5\"\n)"
+  },
+  {
+    "objectID": "index.html#pourquoi-duckdb",
+    "href": "index.html#pourquoi-duckdb",
+    "title": "Le format de données Parquet",
+    "section": "Pourquoi DuckDB ?",
+    "text": "Pourquoi DuckDB ?\n\nParquet ne résout pas tout:\n\nL’espace disque est optimisé\nLes données décompressées doivent passer en RAM\n\n\n❓️ Comment analyser ces données sur un PC avec 8 GB de RAM ?"
+  },
+  {
+    "objectID": "index.html#pourquoi-duckdb-1",
+    "href": "index.html#pourquoi-duckdb-1",
+    "title": "Le format de données Parquet",
+    "section": "Pourquoi DuckDB ?",
+    "text": "Pourquoi DuckDB ?"
+  },
+  {
+    "objectID": "index.html#pourquoi-duckdb-2",
+    "href": "index.html#pourquoi-duckdb-2",
+    "title": "Le format de données Parquet",
+    "section": "Pourquoi DuckDB ?",
+    "text": "Pourquoi DuckDB ?\n\n\n\nDuckDB est un utilitaire open source\n\nUn logiciel en ligne de commande tout simple (20Mo)…\nDes librairies ,  et Observable pour simplifier l’usage\nRequêtes SQL mais aussi intégration tidyverse pour \n\n\n\n\n\n\n\n\n\nDuckDB est très efficace:\n\nMoteur SQL enrichi avec des fonctions très pratiques pour l’analyse\nOptimisations automatiques\nVisualisations sans exécuter sur toute la base\n\n\n\n\n💡 Les avantages du monde des bases de données sans ses inconvénients"
+  },
+  {
+    "objectID": "index.html#reproductibilité-des-exemples",
+    "href": "index.html#reproductibilité-des-exemples",
+    "title": "Le format de données Parquet",
+    "section": "Reproductibilité des exemples",
+    "text": "Reproductibilité des exemples\n\n\n\nPlateforme de data science développée par l’Insee\n\nEnvironnements standardisés , \nAccessible aux chercheurs.euses pour l’enseignement 😉\n\n\n\n\nEnvironnements préconfigurés lançables en 1 clic:\n\n\n\n\n\n\n\n\n\n\n\n\n\nAstuce\n\n\nSi vous avez un compte, n’hésitez pas à essayer les exemples présentés en live !\n\n\n\n\n\n\nAtelier tuto@mate (retour à la page principale de ce site)"
+  }
+]
