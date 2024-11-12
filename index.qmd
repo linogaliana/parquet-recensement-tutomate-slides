@@ -1,20 +1,442 @@
 ---
-title: "Atelier tuto@mate sur le format Parquet"
-listing:
-  id: sample-listings
-  contents:
-    - "tuto/*.qmd"
-    - "slides/index.qmd"
-  sort: "priority"
-  type: grid
+title: "Le format de données `Parquet`"
+subtitle: |
+  Une découverte à travers l'exemple des données du recensement
+author:
+    - Lino Galiana
+description: "Slides présentant les enjeux de l'utilisation du format `Parquet` et l'écosystème associé"
+date: "2024-11-05"
+date-format: long
+slide-number: true
+footer: |
+  Atelier [`tuto@mate`](https://mate-shs.cnrs.fr/actions/tutomate/tuto62_parquet_galiana/) ([retour à la page principale de ce site](/index.qmd))
+lang: fr-FR
+chalkboard: # press the B key to toggle chalkboard
+  theme: whiteboard
+format:
+  onyxia-revealjs:
+    output-file: index.html
+controls: true
+css: custom.css
+from: markdown+emoji
+image: "/img/librairies2.png"
+priority: 1
 ---
 
-Un ensemble de ressources pour présenter les enjeux de l'utilisation du format `Parquet` illustré à partir des données du recensement. 
+# Introduction
 
-::: {#sample-listings}
+## Plan
+
+1. Contexte
+2. Pourquoi le format `Parquet` ?
+3. L'écosystème `Parquet`
+4. Démonstration
+
+# Contexte sur le recensement de la population 
+
+## Le recensement de la population {.smaller}
+
+* [__Mission historique__]{.orange} de l'Insee depuis 1946
+    + L'Insee organise, les communes réalisent la collecte
+
+. . .
+
+
+* Une source d'__[utilité publique](https://www.le-recensement-et-moi.fr/cest-utile/)__ :
+    + Populations légales: dotations de l'État aux communes, organisation des scrutins, équipements publics, etc.
+    + Recherche: caractéristiques socio-démographiques, mobilités...
+
+
+::: {.callout-note}
+## Enquêtes annuelles de recensement (EAR) depuis 2004
+
+* Pour une commune de __[moins de 10 000 habitants]{.blue2}__:
+    + Collecte exhaustive une fois tous les 5 ans.
+* Pour une commune de __[plus de 10 000 habitants]{.blue2}__:
+    + Chaque année, 8% des logements sont recensés ;
+    + Le résultat du recensement est calculé à partir des 5 dernières années (=40% logements)
+
+_[Documentation technique sur le recensement](https://www.insee.fr/fr/information/2383410)_
+
 :::
 
-_Replay_ de la présentation:
 
-{{< video https://www.youtube.com/embed/Zy3GKbTHJBU?si=mkxNvG7f6QO9NyiT >}}
+## Une diffusion sous plusieurs formes
+
+* Diffusion sur [insee.fr](https://www.insee.fr/fr/information/7619431) sous plusieurs formes:
+  * Pages _"dynamiques"_ sur [insee.fr](https://www.insee.fr/fr/information/7619431)
+  * Exports d'agrégats depuis [statistiques-locales.insee.fr/](https://statistiques-locales.insee.fr/)
+  * Des données, des cartes, des publications, etc..
+
+. . .
+
+* Mais [**beaucoup de gestes manuels**]{.orange} pour obtenir un seul agrégat
+
+. . .
+
+* Une [**information parfois difficile à trouver**]{.orange} sur le site de l'Insee
+
+
+## Une diffusion sous plusieurs formes
+
+<h3>Les fichiers agrégés</h3>
+<br>
+
+- Structure type: une ligne [**par commune ou IRIS**]{.orange}
+
+. . .
+
+- Taille de chaque fichier relativement raisonnable
+  - CSV généralement de quelques Mo, jusqu'à **150** Mo
+  
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/telechargement_inseefr.png?ref_type=heads){fig-align="center"}
+
+
+## Une diffusion sous plusieurs formes
+
+<h3>Les micro-données anonymisées</h3>
+
+- Structure type: une ligne [**par observation**]{.orange}
+    + Un logement, un individu...
+
+. . .
+
+- Permet de construire d'autres croisements que ceux proposés sur [insee.fr](https://www.insee.fr/fr/accueil)
+
+. . .
+
+::: {.callout-warning}
+# Un format destiné à des [**utilisateurs avancés**]{.blue2}
+
+- Une source riche mais des [__précautions d'emploi__]{.orange} à respecter:
+  - Pondérations à prendre en compte
+  - Interprétation des petits effectifs...
+- Demande une certaine expertise
+:::
+
+## Défi
+
+- Ce sont des fichiers [__très volumineux__]{.orange}
+  - Jusqu'à 100 variables et [__25 millions__]{.blue2} de lignes
+  - Fichier CSV [**jusqu'à 5 Go**]{.blue2}
+
+. . .
+
+- **Pour l'Insee :** complexes à produire et valider avant diffusion 
+
+. . .
+
+- **Pour l'utilisateur.trice :** complexes à télécharger, stocker et exploiter
+
+## Solution historique
+
+- __[Diffusion zippée (CSV)]{.orange}__ ou format DBase (format propriétaire)
+    + Découpage en fichiers par grandes zones de régions
+
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/decoupage_csv.png?ref_type=heads){fig-align="center"}
+
+
+## Une source idéale pour innover dans la diffusion {transition="slide" transition-speed="slow"}
+
+- Montée en puissance du format `Parquet` pour les usages internes à l'Insee:
+    + Pourquoi ne pas offrir le même confort à l'externe ? 
+
+. . .
+
+- Une demande d'utilisateurs.trices averti.e.s
+    + Par exemple [Eric Mauvière](https://www.icem7.fr/cartographie/parquet-devrait-remplacer-le-format-csv/)
+
+
+## Une source idéale pour innover dans la diffusion {transition="slide" transition-speed="slow"}
+
+
+- Publication en octobre 2023 des données et d'[un guide d'utilisation](https://ssphub.netlify.app/post/parquetrp/)
+
+
+
+![](https://ssphub.netlify.app/post/parquetRP/ducks.png){fig-align="center"}
+
+
+## Une source idéale pour innover dans la diffusion {transition="fade" transition-speed="fast"}
+
+- Un accueil enthousiaste des utilisateurs.trices
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/retour_utilisateur_1.png){width=700px}
+:::
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/retour_utilisateur_2.png){width=700px}
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/img3.png){width=700px}
+:::
+
+::: {.column width="50%"}
+![](https://git.lab.sspcloud.fr/ssplab/parquet_insee_contact/-/raw/master/img/img4.png){width=700px}
+:::
+
+::::
+
+## Une source idéale pour innover dans la diffusion {transition="fade" transition-speed="fast"}
+
+- D'autres institutions l'utilisent maintenant pour leur diffusion
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](https://raw.githubusercontent.com/linogaliana/prez-parquet-ocde-2024/main/img/loquet.png)
+:::
+
+::: {.column width="50%"}
+[Statistiques sur longue période des crimes et délis](https://www.linkedin.com/feed/update/urn:li:activity:7163227953928089601/)
+:::
+
+::::
+
+# Pourquoi le format `Parquet` ?
+
+## Parquet : c'est quoi ?
+
+- Un [**format de données**]{.orange} adapté...
+    - Aux données volumineuses ;
+    - Aux données complexes (exemple: <b><ins>01</ins>004</b> pour le code commune d'Ambérieu-en-Bugey)
+
+. . .
+
+- Un format de données _opensource_ bien intégré:
+    - A l'écosystème `R`, `Python` et `Observable`
+
+
+## Parquet : pourquoi ?
+
+- Format léger, [**très compressé**]{.orange}:
+    - Entre 5 et 20 fois plus léger qu'un CSV
+    - Pas de perte d'efficacité en lecture
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::::: {.callout-note}
+## Exemple: recensement de la population
+
+- 20 millions de lignes, 88 colonnes
+    - CSV: > 5Go
+    - Parquet: 508Mo
+
+:::::
+
+:::
+
+::: {.column width="50%"}
+
+::::: {.callout-note}
+## Exemple: statistiques de la délinquance
+
+- 3.5 millions de lignes: 
+    - CSV: 400Mo
+    - Parquet: 11Mo
+
+:::::
+
+
+:::
+
+
+::::
+
+## Le `CSV`: en apparence pratique
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+<br><br>
+
+- Facile à lire, facile à ouvrir, __mais__
+
+:::
+
+::: {.column width="30%"}
+![](/img/parquet-table1.png)
+:::
+
+::::
+
+:::::: {.callout-caution}
+## Problème: il faut scanner tout le fichier pour avoir une seule colonne
+
+- Lent en lecture, pas compressé
+- Problème pour deviner le type d'une variable
+- Même si on ne veut que certaines colonnes, il faut lire tout le fichier
+::::::
+
+
+## `Parquet`: un format orienté colonne
+
+![](/img/parquet-table2-enriched.png){fig-align="center"}
+
+- Plus pratique pour n'ouvrir qu'un sous-ensemble de variables ;
+    + Pas besoin de scanner tout le fichier pour étudier quelques variables ;
+
+
+## `Parquet` : quels avantages ?
+<br>
+
+
+- Format libre, _open source_, et indépendant du langage ;
+
+. . .
+
+- [__Plus de confort__]{.orange} pour les utilisateurs:
+    + Des requêtes plus rapides et efficaces (seulement les données nécessaires sont lues)
+    + Des données conformes à la mise à disposition par le producteur (plus de problème de codes communes...)
+
+
+## `Parquet` : quels usages ?
+
+- Format privilégié pour la mise à disposition de données internes à l'Insee:
+    + Moins d'asymétries entre utilisateurs et producteurs.
+
+::: {.callout-note}
+## Premières diffusions à l'externe
+
+- Bureaux de votes du __[répertoire électoral unique (REU)]{.blue2}__:
+- [**Recensement de la population (RP)**]{.blue2} 
+- Plus récemment, la [__[base permanente des équipements (BPE)](https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537)__]{.blue2}
+
+:::
+
+## `Parquet` : quels usages ?
+
+
+```{ojs}
+viewof source = Inputs.radio([
+  "Recensement", "Répertoire électoral unique"
+], {value: "Recensement"})
+```
+
+<br>
+
+```{ojs}
+Inputs.table(data)
+```
+
+```{ojs}
+data = (source == "Recensement") ? rp : reu
+```
+
+```{ojs}
+db = DuckDBClient.of({})
+
+rp = db.query(
+  "SELECT AGED, CATL, SEXE, CANTVILLE, IPONDI FROM read_parquet('https://static.data.gouv.fr/resources/recensement-de-la-population-fichiers-detail-individus-localises-au-canton-ou-ville-2020-1/20231023-122841/fd-indcvi-2020.parquet') LIMIT 5"
+)
+reu = db.query(
+  "SELECT geo_adresse, id_brut_bv_reu FROM read_parquet('https://static.data.gouv.fr/resources/bureaux-de-vote-et-adresses-de-leurs-electeurs/20230626-135723/table-adresses-reu.parquet') LIMIT 5"
+)
+```
+
+## Pourquoi `DuckDB` ?
+
+* `Parquet` ne résout pas tout:
+  + L’espace disque est optimisé
+  + Les données décompressées doivent passer en RAM
+
+
+❓️ _Comment analyser ces données sur un PC avec 8 GB de RAM ?_
+
+## Pourquoi `DuckDB` ?
+
+![](/img/librairies2.png){fig-align="center"}
+
+
+## Pourquoi `DuckDB` ? {.smaller}
+
+:::: {.columns}
+
+::: {.column width="83%"}
+
+* `DuckDB` est un utilitaire _open source_
+    + Un logiciel en ligne de commande tout simple (20Mo)...
+    + Des librairies {{< fa brands r-project >}}, {{< fa brands python >}} et `Observable` pour simplifier l'usage
+    + Requêtes SQL mais aussi intégration `tidyverse` pour {{< fa brands r-project >}}
+
+:::
+
+::: {.column width="2%"}
+:::
+
+
+::: {.column width="15%"}
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/DuckDB_logo.svg/1200px-DuckDB_logo.svg.png)
+
+:::
+
+::::
+
+. . .
+
+* `DuckDB` est très efficace:
+    + Moteur SQL enrichi avec des fonctions très pratiques pour l'analyse
+    + Optimisations automatiques
+    + Visualisations sans exécuter sur toute la base
+
+. . .
+
+💡 Les __[avantages du monde des bases de données sans ses inconvénients]{.orange}__
+
+# Démonstrations
+
+## Reproductibilité des exemples {.smaller}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+* Plateforme de _data science_ développée par l'Insee
+    + Environnements standardisés {{< fa brands r-project >}}, {{< fa brands python >}}
+    + Accessible aux chercheurs.euses pour l'enseignement 😉
+
+<br>
+
+* Environnements préconfigurés lançables en 1 clic:
+
+```{=html}
+<a href="https://github.com/linogaliana/parquet-recensement-tutomate" target="_blank" rel="noopener" data-original-href="https://github.com/linogaliana/parquet-recensement-tutomate"><img src="https://img.shields.io/static/v1?logo=github&amp;label=&amp;message=View%20on%20GitHub&amp;color=181717" alt="View on GitHub"></a>
+<a href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?name=atelier-tutomate&version=2.1.14&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-python.sh»" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/vscode-python?name=atelier-tutomate&version=2.1.14&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-python.sh»"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_VSCode-blue?logo=visualstudiocode&amp;logoColor=blue" alt="Onyxia"></a>
+<a href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true" target="_blank" rel="noopener" data-original-href="https://datalab.sspcloud.fr/launcher/ide/rstudio?name=atelier-tutomate-r&version=2.1.10&autoLaunch=true&init.personalInit=«https%3A%2F%2Fraw.githubusercontent.com%2Flinogaliana%2Fparquet-recensement-tutomate%2Frefs%2Fheads%2Fmain%2Fsspcloud%2Finit-r.sh»&networking.user.enabled=true"><img src="https://img.shields.io/badge/SSP%20Cloud-Lancer_avec_R-blue?logo=rstudioide&amp;logoColor=blue" alt="Onyxia"></a>
+```
+
+
+
+
+
+:::
+
+::: {.column width="40%"}
+
+[![](https://raw.githubusercontent.com/linogaliana/draft-slides-pydata/master/onyxia-qrcode4.png){width=100%}](https://www.sspcloud.fr/formation)
+
+:::
+
+::::
+
+::: {.callout-tip}
+
+Si vous avez un [compte](https://datalab.sspcloud.fr/home), n'hésitez pas à essayer les exemples présentés en _live_ !
+
+:::
+
+
 
