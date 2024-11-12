@@ -16,6 +16,7 @@ chalkboard: # press the B key to toggle chalkboard
 format:
   onyxia-revealjs:
     output-file: index.html
+    output-dir: _site
 controls: true
 css: custom.css
 from: markdown+emoji
